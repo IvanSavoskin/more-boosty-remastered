@@ -24,11 +24,11 @@ const processAudioPlayers = () => {
  * Process video players in root
  */
 const processVideoPlayers = () => {
-  const videoPlayers = root.querySelectorAll('vk-video-player:not([data-complete=true])')
+  const playerShadowRootContainers = root.querySelectorAll('vk-video-player .shadow-root-container:not([data-complete=true])')
 
-  for (const player of videoPlayers) {
-    domHelpers.injectVkPlayerChanges(player, options)
-    player.dataset.complete = true
+  for (const playerShadowRootContainer of playerShadowRootContainers) {
+    domHelpers.injectVkPlayerChanges(playerShadowRootContainer, options)
+    playerShadowRootContainer.dataset.complete = true
   }
 }
 
