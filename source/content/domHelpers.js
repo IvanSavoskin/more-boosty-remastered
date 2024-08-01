@@ -9,15 +9,19 @@ let body
 
 /**
  * Prepares to inject VK player changes using one-time event listener
- * @param {Element} element `vk-video-player` node
+ * @param {Element} element `.shadow-root-container` node
  * @param {OptionsSync.UserOptions} options Extension options
  */
 export const injectVkPlayerChanges = (element, options) => {
   const playerWrapper = element.shadowRoot.querySelector('div.player-wrapper div.container')
 
-  playerWrapper.addEventListener('click', (event) => {
-    playerChanges.prepareVideoPlayer(event, options)
-  }, { once: true })
+  playerWrapper.addEventListener(
+    'click',
+    (event) => {
+      playerChanges.prepareVideoPlayer(event, options)
+    },
+    { once: true }
+  );
 }
 
 /**

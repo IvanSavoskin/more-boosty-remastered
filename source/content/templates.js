@@ -114,10 +114,12 @@ export const videoDownloadModal = (links) => `
 </div>
 `
 
+export const controls = () => '<div class="MB_controls" style="display: flex; column-gap: 8px; padding: 8px 0 8px 8px;" />'
+
 export const pipButton = () => `
-  <div class="container controls-element-indent-left controls-element-indent-right v-1r8g71r MB_pip" style="cursor: pointer">
+  <div class="MB_pip" style="cursor: pointer">
       <div role="button" tabindex="0" title="${t('content_pip')}">
-          <svg class="icon v-daygaf" xmlns="http://www.w3.org/2000/svg">
+          <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
               <g fill="#fff" fill-rule="evenodd">
                 <path class="_enter" d="M18 11 10 11 10 17 18 17 18 11 18 11ZM22 19 22 4.98C22 3.88 21.1 3 20 3L2 3C.9 3 0 3.88 0 4.98L0 19C0 20.1.9 21 2 21L20 21C21.1 21 22 20.1 22 19L22 19ZM20 19.02 2 19.02 2 4.97 20 4.97 20 19.02 20 19.02Z">
               </g>
@@ -127,9 +129,9 @@ export const pipButton = () => `
 `
 
 export const videoDownloadButton = () => `
-  <div class="container controls-element-indent-right v-1r8g71r MB_download" style="cursor: pointer">
+  <div class="MB_download" style="cursor: pointer">
       <div role="button" tabindex="0" title="${t('content_download')}">
-          <svg class="icon v-daygaf" xmlns="http://www.w3.org/2000/svg">
+          <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
               <g fill="#fff" fill-rule="evenodd">
                 <path class="_enter" d="M6 21H18A1 1 0 0018 19H6A1 1 0 006 21M19 10H15V3H9V10H5C7.3333 12.3333 9.6667 14.6667 12 17L19 10Z" />
               </g>
@@ -139,31 +141,33 @@ export const videoDownloadButton = () => `
 `
 
 export const videoSpeedController = (initialPlaybackRate) => `
-  <div class="container controls-element v-1r8g71r MB_speed_decrease" style="cursor: pointer">
-    <div role="button" tabindex="0" title="${t('player_speed_decrease')}">
-      <svg class="icon v-daygaf" xmlns="http://www.w3.org/2000/svg">
-        <g fill="#fff" fill-rule="evenodd">
-          <path class="_enter" d="M20 12a1 1 0 01-1 1H5a1 1 0 110-2h14a1 1 0 011 1z" />
-        </g>
-      </svg>
+  <div class="MB_speed" style="display: flex; align-items: center">
+    <div class="MB_speed_decrease" style="cursor: pointer">
+      <div role="button" tabindex="0" title="${t('player_speed_decrease')}">
+        <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
+          <g fill="#fff" fill-rule="evenodd">
+            <path class="_enter" d="M20 12a1 1 0 01-1 1H5a1 1 0 110-2h14a1 1 0 011 1z" />
+          </g>
+        </svg>
+      </div>
     </div>
-  </div>
 
-  <div class="container controls-element v-1r8g71r MB_current_playback_rate" style="cursor: pointer;">
-    <div role="button" tabindex="0" title="${t('player_speed_reset')}" style="width: 40px; text-align: center;">
-        <span>
-          x${initialPlaybackRate}
-        </span>
+    <div class="MB_current_playback_rate" style="cursor: pointer;">
+      <div role="button" tabindex="0" title="${t('player_speed_reset')}" style="width: 40px; text-align: center;">
+          <span>
+            x${initialPlaybackRate}
+          </span>
+      </div>
     </div>
-  </div>
 
-  <div class="container controls-element-indent-right v-1r8g71r MB_speed_increase" style="cursor: pointer">
-    <div role="button" tabindex="0" title="${t('player_speed_increase')}">
-      <svg class="icon v-daygaf" xmlns="http://www.w3.org/2000/svg">
-        <g fill="#fff" fill-rule="evenodd">
-          <path class="_enter" d="M20 12a1 1 0 01-1 1h-6v6A1 1 0 0112 20a1 1 0 01-1-1v-6h-6a1 1 0 110-2h6v-6A1 1 0 0112 4a1 1 0 011 1v6h6a1 1 0 011 1z" />
-        </g>
-      </svg>
+    <div class="MB_speed_increase" style="cursor: pointer">
+      <div role="button" tabindex="0" title="${t('player_speed_increase')}">
+        <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
+          <g fill="#fff" fill-rule="evenodd">
+            <path class="_enter" d="M20 12a1 1 0 01-1 1h-6v6A1 1 0 0112 20a1 1 0 01-1-1v-6h-6a1 1 0 110-2h6v-6A1 1 0 0112 4a1 1 0 011 1v6h6a1 1 0 011 1z" />
+          </g>
+        </svg>
+      </div>
     </div>
   </div>
 `

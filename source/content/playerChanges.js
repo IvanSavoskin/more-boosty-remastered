@@ -106,29 +106,28 @@ const injectAudioControls = (playerWrapper, playbackRate) => {
  * @param {Number} playbackRate
  */
 const injectVideoControls = (playerWrapper, canBeDownloaded, playbackRate) => {
-  const controls = playerWrapper.querySelector('div.controls')
+  const controls = playerWrapper.querySelector('div.controls div.controls-right')
+
+  controls.lastElementChild.insertAdjacentHTML('beforeBegin', templates.controls())
+
+  const additionalControls = controls.querySelector('div.MB_controls')
 
   // Add PiP button (for supported browsers)
   if (document.pictureInPictureEnabled) {
-    controls.lastElementChild.previousElementSibling.insertAdjacentHTML('beforeBegin', templates.pipButton())
+    additionalControls.insertAdjacentHTML('beforeend', templates.pipButton())
     playerWrapper.querySelector('div.MB_pip').addEventListener('click', preparePip)
   }
 
   // Add Download button
   if (canBeDownloaded) {
-    controls.lastElementChild.previousElementSibling.insertAdjacentHTML('beforeBegin', templates.videoDownloadButton())
+    additionalControls.insertAdjacentHTML('beforeend', templates.videoDownloadButton())
     playerWrapper.querySelector('div.MB_download').addEventListener('click', () => prepareVideoDownload(playerWrapper))
   }
 
   // Add and initialize speed controller
-  controls.lastElementChild.previousElementSibling.insertAdjacentHTML('beforebegin', templates.videoSpeedController(playbackRate))
+  additionalControls.insertAdjacentHTML('beforeend', templates.videoSpeedController(playbackRate))
   const player = playerWrapper.querySelector('video')
   playbackSpeedController(playerWrapper, player, playbackRate)
-
-  // Remove indent from the fullscreen button
-  controls.lastElementChild.previousElementSibling
-    ?.classList.remove('controls-element-indent-right')
-    ?.classList.add('controls-element')
 }
 
 /**
