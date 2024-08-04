@@ -1,0 +1,39 @@
+{
+    "extends": "stylelint-config-sass-guidelines",
+    "plugins": ["stylelint-order"],
+    "rules": {
+        "max-nesting-depth": 5,
+        "selector-max-compound-selectors": 5,
+        "selector-max-id": 1,
+        "property-no-unknown": [true, {
+            "ignoreSelectors": ":export"
+        }],
+        "property-no-vendor-prefix": [true, {
+            "ignoreProperties": "box-flex"
+        }],
+        "order/order": [
+            [
+                "custom-properties",
+                "dollar-variables",
+                {
+                    "type": "at-rule",
+                    "name": "extend"
+                },
+                {
+                    "type": "at-rule",
+                    "name": "include",
+                    "hasBlock": false
+                },
+                "declarations",
+                {
+                    "type": "at-rule",
+                    "name": "include",
+                    "hasBlock": true
+                },
+                "rules"
+            ]
+        ],
+        "order/properties-alphabetical-order": true,
+        "scss/load-no-partial-leading-underscore": null
+    }
+}

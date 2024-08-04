@@ -1,0 +1,104 @@
+@keyframes append-animate {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fade-animate {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.mb-active {
+  // Main layout
+  [class*=Layout_content_] {
+    transition: 0.2s;
+    width: 95% !important;
+  }
+
+  [class*=Layout_grid_] {
+    justify-content: space-between !important;
+  }
+
+  // Columns overrides
+  [class*=Layout_threeColsLeft_] {
+    min-width: 255px;
+  }
+
+  [class*=Layout_threeColsCenter_] {
+    width: 100% !important;
+  }
+
+  [class*=Layout_threeColsRight_] {
+    min-width: 255px;
+  }
+
+  // Post
+  [class*=Post_root_] {
+    width: 100% !important;
+  }
+
+  // Audio in Media tab
+  [class*=MediaAlbumPostFeedItem_root_] {
+    width: 100% !important;
+  }
+
+  // Locked post content
+  [class*=PostSubscriptionBlock_container_] {
+    width: 100% !important;
+  }
+
+  // Teaser overlay
+  [class*=TeaserOverlay_container_] {
+    width: 100% !important;
+  }
+}
+
+// Changelog modal animations
+.append-animate {
+  animation: append-animate 0.15s ease;
+}
+
+.fade-animate {
+  animation: fade-animate 0.15s ease;
+}
+
+// Stream page
+.mb-stream {
+  #topMenu {
+    position: fixed !important;
+    transition: top 0.2s;
+
+    &:not(.mb-scrolled) {
+      top: -75px !important;
+    }
+  }
+
+  #topMenu.mb-scrolled {
+    top: 0 !important;
+  }
+
+  [class*=StreamPage_block_] {
+    height: 100% !important;
+  }
+
+  [class*=StreamChatToggler_root_] {
+    top: 0 !important;
+  }
+
+  [class*=StreamPage_streamVideo_] {
+    height: 100vh !important;
+    max-height: 100vh !important;
+  }
+}

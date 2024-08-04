@@ -1,3 +1,7 @@
-node_modules
-distribution
-.parcel-cache
+npm-debug.log
+node_modules/
+dist/
+tmp/
+*.zip
+*.iml
+.idea/

@@ -1,0 +1,186 @@
+{
+    "extends": [
+        "airbnb",
+        "airbnb-typescript",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:unicorn/recommended",
+        "plugin:prettier/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true,
+            "jsx": true
+        },
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+    },
+    "env": {
+        "es6": true,
+        "browser": true
+    },
+    "plugins": [
+        "@typescript-eslint",
+        "unicorn",
+        "simple-import-sort",
+        "import"
+    ],
+    "rules": {
+        "prettier/prettier": [
+            "error",
+            {
+                "printWidth": 140,
+                "tabWidth": 4,
+                "trailingComma": "none"
+            },
+            {
+                "usePrettierrc": false
+            }
+        ],
+        "max-len": "off",
+        "curly": [
+            "error",
+            "all"
+        ],
+        "import/prefer-default-export": "off",
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "ts": "never",
+                "tsx": "never"
+            }
+        ],
+        "import/no-extraneous-dependencies": "off",
+        "unicorn/filename-case": "off",
+        "no-use-before-define": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "unicorn/prevent-abbreviations": "off",
+        "class-methods-use-this": "off",
+        "@typescript-eslint/ban-ts-comment": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "no-plusplus": "off",
+        "unicorn/no-null": "off",
+        "no-underscore-dangle": "off",
+        "unicorn/no-useless-undefined": "off",
+        "@typescript-eslint/indent": "off",
+        "@typescript-eslint/quotes": "off",
+        "@typescript-eslint/comma-dangle": "off",
+        "@typescript-eslint/no-use-before-define": "off",
+        "naming-convention": "off",
+        "@typescript-eslint/naming-convention": [
+            "error",
+            {
+                "selector": "variable",
+                "format": [
+                    "camelCase",
+                    "UPPER_CASE",
+                    "PascalCase"
+                ],
+                "leadingUnderscore": "allow",
+                "trailingUnderscore": "allow"
+            },
+            {
+                "selector": "function",
+                "format": [
+                    "PascalCase",
+                    "camelCase"
+                ],
+                "leadingUnderscore": "allow",
+                "trailingUnderscore": "allow"
+            },
+            {
+                "selector": "import",
+                "format": ["PascalCase", "camelCase"]
+            },
+            {
+                "selector": "enumMember",
+                "format": [
+                    "UPPER_CASE"
+                ]
+            },
+            {
+                "selector": "property",
+                "format": null
+            },
+            {
+                "selector": "typeLike",
+                "format": [
+                    "PascalCase"
+                ]
+            },
+            {
+                "selector": "accessor",
+                "format": [
+                    "PascalCase"
+                ]
+            },
+            {
+                "selector": "default",
+                "format": [
+                    "camelCase"
+                ],
+                "leadingUnderscore": "allow",
+                "trailingUnderscore": "allow"
+            }
+        ],
+        "no-restricted-syntax": "off",
+        "no-await-in-loop": "off",
+        "default-case": [
+            "error",
+            {
+                "commentPattern": "^skip\\sdefault$"
+            }
+        ],
+        "consistent-return": "off",
+        "jsx-a11y/anchor-is-valid": "off",
+        "unicorn/prefer-node-protocol": "off",
+        "no-param-reassign": [
+            "error",
+            {
+                "props": false
+            }
+        ],
+        "operator-linebreak": "off",
+        "jsx-props-no-spreading": "off",
+        "unicorn/no-unreadable-array-destructuring": "off",
+        "unicorn/prefer-export-from": "off",
+        "unicorn/prefer-module": "off",
+        "unicorn/prefer-top-level-await": "off",
+        "import/no-import-module-exports": "off",
+        "no-nested-ternary": "error",
+        "import/order": "off",
+        "simple-import-sort/imports": [
+            "error",
+            {
+                "groups": [
+                    ["^\\u0000"],
+                    ["^(\\w|@reduxjs\/toolkit)"],
+                    ["^@noones"],
+                    ["^@\\w"],
+                    ["^"],
+                    ["^\\."]
+                ]
+            }
+        ],
+        "simple-import-sort/exports": "error",
+        "import/first": "error",
+        "import/newline-after-import": "error",
+        "import/no-duplicates": "error",
+        "no-continue": "off",
+        "jsx-a11y/label-has-associated-control": [
+            "error",
+            {
+                "required": {
+                    "some": ["nesting", "id"]
+                }
+            }
+        ],
+        "no-console": "off"
+    },
+    "settings": {
+        "import/resolver": {
+            "typescript": {}
+        }
+    }
+}
