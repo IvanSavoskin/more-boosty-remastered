@@ -1,6 +1,6 @@
 {
   "name": "more-boosty-remastered",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Improved and redesigned More Boosty browser extension which improves interface and functions of crowdfunding platform Boosty.",
   "scripts": {
     "dev": "webpack --watch --progress --mode=development",

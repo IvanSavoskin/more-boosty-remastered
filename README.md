@@ -66,7 +66,7 @@
 
 Проверка стилей с помощью Stylelint запускается командой
 
-### Development build
+### Сборка для разработки
 Запустите dev сборку с помощью команды `npm run dev`.
 
 После сборки будет создана папка `/dist` со сборкой расширения,
@@ -76,14 +76,14 @@
 
 Во время сборки также добавляется source map, позволяющие использовать Chrome Dev Tools
 
-### Production build
+### Промышленная сборка
 Запустите prod сборку с помощью команды `npm run prod`.
 
 Перед сборкой автоматически запускается проверка кода с помощью ESLint и StyleLint.
 
 Собранный проект сохраняется в папке `/dist`.
 
-### Load extension to Chrome
+### Загрузить расширение в Chrome
 
 Загрузить каталог `dist` на странице расширения Chrome ([инструкция](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked))
 

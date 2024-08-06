@@ -1,5 +1,6 @@
 import { blog, dialog } from "@api/boostyApi";
 import { readFromCache, removeExpiredItemsFromCache, removeFromCache, writeToCache, writeToCacheWithTimeout } from "@coreUtils/cache";
+import { changelog } from "@coreUtils/changelog";
 import { filterVideoUrls, parseVideoId } from "@coreUtils/videoUtils";
 import { ContentMetadata, Data, DialogData, VideoData } from "@models/boosty/types";
 import { BackgroundMessageType, ContentMessageType, ContentOptionsMessageType, MessageTarget } from "@models/messages/enums";
@@ -276,37 +277,60 @@ chrome.runtime.onInstalled.addListener((details) => {
         return;
     }
 
-    if (details.reason === chrome.runtime.OnInstalledReason.UPDATE && chrome.runtime.getManifest().version !== details.previousVersion) {
+    const currentVersion = chrome.runtime.getManifest().version;
+
+    if (details.reason === chrome.runtime.OnInstalledReason.UPDATE && currentVersion !== details.previousVersion) {
         let notificationID: string | undefined;
-        chrome.notifications.create(
-            {
-                type: "basic",
-                iconUrl: chrome.runtime.getURL("static/assets/icon.png"),
-                title: "",
-                message: chrome.i18n.getMessage("extension_has_been_updated"),
-                contextMessage: `v${chrome.runtime.getManifest().version}`,
-                buttons: [
-                    {
-                        title: chrome.i18n.getMessage("changelog")
-                    }
-                ],
-                requireInteraction: true,
-                silent: true
-            },
-            (id) => {
-                notificationID = id;
-            }
-        );
 
-        chrome.notifications.onButtonClicked.addListener((_notificationId, buttonIndex) => {
-            if (_notificationId === notificationID && buttonIndex === 0) {
+        const t = (name: string) => chrome.i18n.getMessage(name);
+        const uiLang = chrome.i18n.getUILanguage();
+
+        const currentVersionReleaseNotes = changelog[currentVersion];
+
+        if (currentVersionReleaseNotes) {
+            chrome.notifications.create(
+                {
+                    type: "basic",
+                    iconUrl: chrome.runtime.getURL("static/assets/icon.png"),
+                    title: uiLang === "ru" ? currentVersionReleaseNotes.title.ru : currentVersionReleaseNotes.title.en,
+                    message:
+                        uiLang === "ru"
+                            ? currentVersionReleaseNotes.message.ru.join(", ")
+                            : currentVersionReleaseNotes.message.en.join(", "),
+                    buttons: [
+                        {
+                            title: t("changelog")
+                        },
+                        {
+                            title: t("git_hub")
+                        }
+                    ]
+                },
+                (id) => {
+                    notificationID = id;
+                }
+            );
+
+            chrome.notifications.onClicked.addListener(() => {
                 chrome.tabs.create({ url: "https://boosty.to/#mb-update" });
-            }
+            });
 
-            if (notificationID !== undefined) {
-                chrome.notifications.clear(notificationID);
-            }
-        });
+            chrome.notifications.onButtonClicked.addListener((_notificationId, buttonIndex) => {
+                if (_notificationId === notificationID && buttonIndex === 0) {
+                    chrome.tabs.create({ url: "https://boosty.to/#mb-update" });
+                }
+
+                if (_notificationId === notificationID && buttonIndex === 1) {
+                    chrome.tabs.create({ url: currentVersionReleaseNotes.link });
+                }
+
+                if (notificationID !== undefined) {
+                    chrome.notifications.clear(notificationID);
+                }
+            });
+        } else {
+            console.debug(`Release notes for version "${currentVersion}" not found`);
+        }
     }
 });
 

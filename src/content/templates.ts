@@ -1,14 +1,12 @@
 import safeHTML from "html-template-tag";
 
-import { PlayerUrl } from "@models/video/types";
-
 // Changelog JSON
-import { changelog } from "./changelog";
+import { changelog } from "@coreUtils/changelog";
+import { PlayerUrl } from "@models/video/types";
 
 // Chrome aliases
 const t = (name: string) => chrome.i18n.getMessage(name);
-const { name } = chrome.runtime.getManifest();
-const { version } = chrome.runtime.getManifest();
+const { name, version } = chrome.runtime.getManifest();
 
 // Checking browser language
 let uiLang = chrome.i18n.getUILanguage();
@@ -64,16 +62,10 @@ export const changelogModal = () => `
                   ${generateChangelogText("latest", uiLang as "ru" | "en")}
               </div>
 
-              ${
-                  changelog.previous
-                      ? `
-                          <div>
-                              <h3>📒 ${t("changelog_previous_version")}</h3>
-                              <i>${generateChangelogText("previous", uiLang as "ru" | "en")}</i>
-                          </div>
-                      `
-                      : ""
-              }
+              <div>
+                  <h3>📒 ${t("changelog_previous_version")}</h3>
+                  <i>${generateChangelogText("previous", uiLang as "ru" | "en")}</i>
+              </div>
           </div>
 
           <div class="ChangePhone_buttons_vP_uE Buttons_root_X0BDd">
@@ -234,15 +226,22 @@ const noChangelog = "<ul><li>🤷</li></ul>";
  * @returns {string} Changelog text
  */
 function generateChangelogText(type: "latest" | "previous", lang: "ru" | "en"): string {
-    if (changelog[type] === undefined) {
+    const index = type === "latest" ? -1 : -2;
+    const changelogEntries = Object.entries(changelog);
+    const changelogEntry = changelogEntries.at(index);
+
+    if (changelogEntry === undefined) {
         return noChangelog;
     }
-    if (changelog[type][lang] === undefined) {
+
+    const changelogMessages = changelogEntry[1].message[lang];
+
+    if (changelogMessages === undefined) {
         return noChangelog;
     }
 
     let text = "<ul>";
-    for (const change of changelog[type][lang]) {
+    for (const change of changelogMessages) {
         text += safeHTML`<li>${change}</li>`;
     }
     text += "</ul> ";
