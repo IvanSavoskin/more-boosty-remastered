@@ -1,6 +1,6 @@
-# Privacy Policy for More Boosty
+# Privacy Policy for More Boosty Remastered
 
-No data or personal information is collected by More Boosty.
+No data or personal information is collected by More Boosty Remastered.
 
 ##### Contact
 
