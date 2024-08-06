@@ -1,10 +1,6 @@
 env:
   DIRECTORY: dist
 
-# FILE GENERATED WITH: npx ghat fregante/ghatemplates/webext
-# SOURCE: https://github.com/fregante/ghatemplates
-# OPTIONS: {"exclude":["on.schedule"]}
-
 name: Release
 on:
   workflow_dispatch:
@@ -34,10 +30,10 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/v${{input.version}}>',
+              ref: 'refs/tags/v${{ inputs.version }}>',
               sha: context.sha
             })
-      - if: ${{ input.version }}
+      - if: ${{ inputs.version }}
         name: Create release
         uses: actions/github-script@v6
         with:
@@ -45,7 +41,7 @@ jobs:
           script: >
             await github.request(`POST /repos/${{ github.repository
             }}/releases`, {
-              tag_name: "v${{ input.version }}",
+              tag_name: "v${{ inputs.version }}",
               generate_release_notes: true
             });
   Submit:
@@ -67,7 +63,7 @@ jobs:
       - run: npm run prod --if-present
       - name: Update extension’s meta
         run: >-
-          npx dot-json@1 $DIRECTORY/manifest.json version ${{inputs.version}}
+          npx dot-json@1 $DIRECTORY/manifest.json version ${{ inputs.version }}
       - name: Submit
         run: |
           case ${{ matrix.command }} in
