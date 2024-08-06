@@ -1,0 +1,51 @@
+{
+  "name": "More Boosty Remaster",
+  "version": "0.0.0",
+  "description": "Improved and redesigned More Boosty browser extension which improves interface and functions of crowdfunding platform Boosty.",
+  "manifest_version": 3,
+  "minimum_chrome_version": "100",
+  "default_locale": "en",
+  "icons": {
+    "128": "icons/icon.png",
+    "24": "icons/icon24.png"
+  },
+  "permissions": [
+    "storage",
+    "notifications",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://*.boosty.to/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://boosty.to/*"
+      ],
+      "js": [
+        "js/content.js"
+      ],
+      "css": [
+        "css/content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "options_ui": {
+    "page": "options.html"
+  },
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "static/assets/*",
+        "static/css/*"
+      ],
+      "matches": [
+        "https://boosty.to/*"
+      ]
+    }
+  ]
+}

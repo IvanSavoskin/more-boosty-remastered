@@ -1,0 +1,34 @@
+{
+    "ts-node": {
+        "compilerOptions": {
+            "target": "es6",
+            "module": "commonjs"
+        }
+    },
+    "compilerOptions": {
+        "strict": true,
+        "target": "es6",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "isolatedModules": true,
+        "rootDir": "src",
+        "outDir": "./dist/",
+        "noEmitOnError": true,
+        "typeRoots": ["node_modules/@types", "./custom_typing"],
+        "baseUrl": "src",
+        "paths": {
+            "@api/*": ["api/*"],
+            "@static/*": ["static/*"],
+            "@coreUtils/*": ["utils/*"],
+            "@models/*": ["models/*"]
+        }
+    },
+    "include": [
+        "./src/**/*",
+        "./webpack.config.ts",
+        "./custom_typing/**/*"
+    ],
+    "exclude": ["public", "./node_modules"]
+}

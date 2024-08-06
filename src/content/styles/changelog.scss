@@ -1,0 +1,25 @@
+.mb-changelog-button {
+  margin-left: 10px;
+
+  .mb-icon {
+    filter: grayscale(100%);
+    height: 20px;
+    transition: 0.2s;
+  }
+
+  &:hover {
+    .mb-icon {
+      filter: grayscale(0%);
+      transition: 0.2s;
+    }
+  }
+}
+
+// Changelog modal
+.mb-changelog-modal {
+  [class*=ContainedButton_colorDefault_] {
+    &:visited {
+      color: #fff !important;
+    }
+  }
+}

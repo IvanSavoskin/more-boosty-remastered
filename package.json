@@ -1,47 +1,92 @@
 {
-  "private": true,
+  "name": "more-boosty-remastered",
+  "version": "1.0.0",
+  "description": "Improved and redesigned More Boosty browser extension which improves interface and functions of crowdfunding platform Boosty.",
   "scripts": {
-    "clean": "shx rm -rf distribution .parcel-cache",
-    "build": "npm run clean && parcel build source/manifest.json --no-content-hash --no-source-maps --dist-dir distribution --no-cache --detailed-report 0",
-    "watch": "npm run clean && parcel watch source/manifest.json --host localhost --dist-dir distribution --no-cache"
+    "dev": "webpack --watch --progress --mode=development",
+    "prod": "npm run lint && npm run build:prod",
+    "build:prod": "webpack --progress --mode=production",
+    "build:dev": "webpack --progress --mode=development",
+    "lint": "npm run eslint && npm run stylelint",
+    "eslint": "eslint --ext .ts,.tsx,.js src --color",
+    "stylelint": "stylelint \"src/**/*.scss\"",
+    "lint:fix": "npm run eslint:fix && npm run stylelint:fix",
+    "eslint:fix": "eslint --ext .ts,.tsx,.js src --color --fix",
+    "stylelint:fix": "stylelint \"src/**/*.scss\" --fix",
+    "husky": "husky"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{css,scss}": [
+      "stylelint --fix",
+      "git add"
+    ]
   },
   "browserslist": [
     "last 1 Chrome version",
     "last 1 Firefox version"
   ],
-  "standard": {
-    "globals": [
-      "chrome",
-      "location",
-      "MutationObserver"
-    ]
-  },
   "dependencies": {
+    "axios": "1.7.3",
     "html-template-tag": "^4.0.1",
-    "minstyle.io": "^2.0.2",
-    "webext-base-css": "^1.4.3",
-    "webext-options-sync": "^4.2.1"
+    "luxon": "3.5.0",
+    "minstyle.io": "2.0.2",
+    "ts-enum-util": "4.1.0"
   },
   "devDependencies": {
-    "@parcel/config-webextension": "~2.8.3",
-    "@parcel/transformer-sass": "~2.8.3",
-    "parcel": "~2.8.3",
-    "shx": "^0.3.4",
-    "standard": "*"
+    "@types/chrome": "0.0.269",
+    "@types/luxon": "3.4.2",
+    "@typescript-eslint/eslint-plugin": "7.18.0",
+    "@typescript-eslint/parser": "7.18.0",
+    "autoprefixer": "10.4.20",
+    "buffer": "^6.0.3",
+    "clean-webpack-plugin": "4.0.0",
+    "copy-webpack-plugin": "12.0.2",
+    "css-loader": "7.1.2",
+    "cssnano": "7.0.4",
+    "eslint": "8.57.0",
+    "eslint-config-airbnb": "19.0.4",
+    "eslint-config-airbnb-typescript": "18.0.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-import-resolver-typescript": "3.6.1",
+    "eslint-plugin-import": "2.29.1",
+    "eslint-plugin-jsx-a11y": "6.9.0",
+    "eslint-plugin-prettier": "5.2.1",
+    "eslint-plugin-simple-import-sort": "12.1.1",
+    "eslint-plugin-unicorn": "55.0.0",
+    "fork-ts-checker-webpack-plugin": "9.0.2",
+    "glob": "11.0.0",
+    "html-webpack-plugin": "5.6.0",
+    "husky": "9.1.4",
+    "mini-css-extract-plugin": "2.9.0",
+    "postcss-loader": "8.1.1",
+    "prettier": "3.3.3",
+    "sass": "1.77.8",
+    "sass-loader": "16.0.0",
+    "style-loader": "4.0.0",
+    "stylelint": "16.8.1",
+    "stylelint-config-sass-guidelines": "12.0.0",
+    "stylelint-order": "6.0.4",
+    "stylelint-scss": "6.5.0",
+    "ts-loader": "9.5.1",
+    "ts-node": "10.9.2",
+    "typescript": "5.5.4",
+    "webpack": "5.93.0",
+    "webpack-cli": "5.1.4",
+    "webpack-merge": "6.0.1"
   },
   "webExt": {
-    "sourceDir": "distribution",
+    "sourceDir": "dist",
     "run": {
       "startUrl": [
-        "https://github.com/cjmaxik/more-boosty"
+        "https://github.com/IvanSavoskin/more-boosty-remaster"
       ]
     }
-  },
-  "@parcel/bundler-default-bug": "https://github.com/parcel-bundler/parcel/issues/8071",
-  "@parcel/bundler-default": {
-    "minBundles": 10000000
   }
 }
