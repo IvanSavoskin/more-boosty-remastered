@@ -57,11 +57,11 @@
     "message": "Исходный код"
   },
   "content_about": {
-    "message": "О расширении More Boosty"
+    "message": "О расширении More Boosty Remastered"
   },
   "content_options_link": {
-    "message": "Параметры More Boosty",
-    "description": "`More Boosty` - название расширения. Не переводить! `Параметры` - перевод понятия Options для настроек расширений в Chrome."
+    "message": "Параметры More Boosty Remastered",
+    "description": "`More Boosty Remastered` - название расширения. Не переводить! `Параметры` - перевод понятия Options для настроек расширений в Chrome."
   },
   "content_pip": {
     "message": "Картинка в картинке"
@@ -78,11 +78,8 @@
   "changelog_previous_version": {
     "message": "В предыдущих обновлениях:"
   },
-  "changelog_track_of_the_update": {
-    "message": "Музыкальный трек обновления:"
-  },
   "extension_has_been_updated": {
-    "message": "More Boosty обновился!"
+    "message": "More Boosty Remastered обновился!"
   },
   "download_video_modal_title": {
     "message": "Выбери качество видео"
@@ -95,5 +92,8 @@
   },
   "player_speed_increase": {
     "message": "Ускорить воспроизведение"
+  },
+  "git_hub": {
+    "message": "GitHub"
   }
 }

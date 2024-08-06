@@ -1,9 +1,15 @@
 export interface ChangelogElement {
-    ru: string[];
-    en: string[];
+    title: {
+        ru: string;
+        en: string;
+    };
+    message: {
+        ru: string[];
+        en: string[];
+    };
+    link: string;
 }
 
 export interface Changelog {
-    latest?: ChangelogElement;
-    previous?: ChangelogElement;
+    [version: string]: ChangelogElement;
 }

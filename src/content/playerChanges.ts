@@ -618,6 +618,7 @@ function playbackSpeedController(controlsWrapper: HTMLElement, player: HTMLAudio
             event.preventDefault();
 
             player.playbackRate = player.playbackRate - 0.25 > 0.25 ? player.playbackRate - 0.25 : 0.25;
+            console.debug("Playback decreased", player.playbackRate, player);
             changePlaybackRate(player.playbackRate);
         });
     } else {
@@ -632,7 +633,7 @@ function playbackSpeedController(controlsWrapper: HTMLElement, player: HTMLAudio
             event.preventDefault();
 
             player.playbackRate = player.playbackRate + 0.25 < 4 ? player.playbackRate + 0.25 : 4;
-            console.log("Playback increased", player.playbackRate);
+            console.debug("Playback increased", player.playbackRate, player);
             changePlaybackRate(player.playbackRate);
         });
     } else {
@@ -645,6 +646,7 @@ function playbackSpeedController(controlsWrapper: HTMLElement, player: HTMLAudio
     if (playbackRateElement) {
         playbackRateElement.addEventListener("click", (event) => {
             event.preventDefault();
+            console.debug("Playback rate reset", player.playbackRate === 1 ? previousPlaybackRate : 1, player);
 
             if (player.playbackRate === 1) {
                 changePlaybackRate(previousPlaybackRate);

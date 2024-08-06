@@ -57,11 +57,11 @@
     "message": "Source code"
   },
   "content_about": {
-    "message": "About More Boosty"
+    "message": "About More Boosty Remastered"
   },
   "content_options_link": {
-    "message": "More Boosty options",
-    "description": "`More Boosty` is the extension name, do not translate! `Options` is the term for extension settings in Chrome."
+    "message": "More Boosty Remastered options",
+    "description": "`More Boosty Remastered` is the extension name, do not translate! `Options` is the term for extension settings in Chrome."
   },
   "content_pip": {
     "message": "Picture-in-picture"
@@ -70,7 +70,7 @@
     "message": "Download video"
   },
   "changelog": {
-    "message": "Changelog"
+    "message": "Release notes"
   },
   "changelog_latest_version": {
     "message": "New stuff in this update:"
@@ -78,11 +78,8 @@
   "changelog_previous_version": {
     "message": "Previously:"
   },
-  "changelog_track_of_the_update": {
-    "message": "Music track of this update:"
-  },
   "extension_has_been_updated": {
-    "message": "More Boosty has been updated!"
+    "message": "More Boosty Remastered has been updated!"
   },
   "download_video_modal_title": {
     "message": "Select a video quality"
@@ -119,5 +116,8 @@
   },
   "player_speed_increase": {
     "message": "Increase playback speed"
+  },
+  "git_hub": {
+    "message": "GitHub"
   }
 }

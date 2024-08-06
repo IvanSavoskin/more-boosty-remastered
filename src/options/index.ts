@@ -58,54 +58,59 @@ function saveOptions(_options: UserOptions) {
 /**
  * Options
  */
-function optionsConfigure(_options: UserOptions) {
+function optionsConfigure() {
     const optionsForm = document.querySelector("#options-form") as HTMLFormElement | null;
 
     if (!optionsForm) {
         console.error('Options not configured: Option form by selector "#options-form" not found');
-        return null;
+        return;
     }
 
-    optionsForm.forceVideoQuality.checked = _options.forceVideoQuality;
-    optionsForm.fullLayout.checked = _options.fullLayout;
-    optionsForm.theaterMode.checked = _options.theaterMode;
-    optionsForm.saveLastTimestamp.checked = _options.saveLastTimestamp;
-    optionsForm.videoQuality.value = _options.videoQuality;
+    if (!options) {
+        console.error("Options not configured: Options not loaded");
+        return;
+    }
+
+    optionsForm.forceVideoQuality.checked = options.forceVideoQuality;
+    optionsForm.fullLayout.checked = options.fullLayout;
+    optionsForm.theaterMode.checked = options.theaterMode;
+    optionsForm.saveLastTimestamp.checked = options.saveLastTimestamp;
+    optionsForm.videoQuality.value = options.videoQuality;
 
     optionsForm.forceVideoQuality.addEventListener("change", (event: Event) => {
         const isForceVideoQualityChecked = (event.target as HTMLInputElement).checked;
         saveOptions({
-            ..._options,
+            ...options,
             forceVideoQuality: isForceVideoQualityChecked
-        });
+        } as UserOptions);
     });
     optionsForm.fullLayout.addEventListener("change", (event: Event) => {
         const isFullLayoutChecked = (event.target as HTMLInputElement).checked;
         saveOptions({
-            ..._options,
+            ...options,
             fullLayout: isFullLayoutChecked
-        });
+        } as UserOptions);
     });
     optionsForm.theaterMode.addEventListener("change", (event: Event) => {
         const isTheaterModeChecked = (event.target as HTMLInputElement).checked;
         saveOptions({
-            ..._options,
+            ...options,
             theaterMode: isTheaterModeChecked
-        });
+        } as UserOptions);
     });
     optionsForm.saveLastTimestamp.addEventListener("change", (event: Event) => {
         const isSaveLastTimestampChecked = (event.target as HTMLInputElement).checked;
         saveOptions({
-            ..._options,
+            ...options,
             saveLastTimestamp: isSaveLastTimestampChecked
-        });
+        } as UserOptions);
     });
     optionsForm.videoQuality.addEventListener("change", (event: Event) => {
         const videoQualityOptionValue = (event.target as HTMLSelectElement).value;
         saveOptions({
-            ..._options,
+            ...options,
             videoQuality: $enum(VideoQualityEnum).asValueOrDefault(videoQualityOptionValue, VideoQualityEnum.Q_1080P)
-        });
+        } as UserOptions);
     });
 }
 
@@ -152,7 +157,7 @@ const init = async () => {
 
     console.debug("Options from cache", options);
 
-    optionsConfigure(options);
+    optionsConfigure();
     generateVideoQualityOptions(options);
 };
 
