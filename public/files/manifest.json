@@ -1,6 +1,7 @@
 {
   "name": "More Boosty Remastered",
   "version": "0.0.0",
+  "version_name": "0.0.0",
   "description": "Improved and redesigned More Boosty browser extension which improves interface and functions of crowdfunding platform Boosty.",
   "manifest_version": 3,
   "minimum_chrome_version": "100",
