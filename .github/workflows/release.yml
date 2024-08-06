@@ -1,5 +1,5 @@
 env:
-  DIRECTORY: distribution
+  DIRECTORY: dist
 
 # FILE GENERATED WITH: npx ghat fregante/ghatemplates/webext
 # SOURCE: https://github.com/fregante/ghatemplates
@@ -7,12 +7,14 @@ env:
 
 name: Release
 on:
-  workflow_dispatch: null
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version. Example: 1.0.0'
+        required: true
+        type: string
 jobs:
   Version:
-    outputs:
-      created: ${{ steps.daily-version.outputs.created }}
-      version: ${{ steps.daily-version.outputs.version }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -20,15 +22,22 @@ jobs:
           fetch-depth: 20
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
           cache: npm
       - name: install
         run: npm ci || npm install
-      # - run: npm test
-      - uses: fregante/daily-version-action@v2
-        name: Create tag if necessary
-        id: daily-version
-      - if: steps.daily-version.outputs.created
+      - name: Create tag
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/v${{input.version}}>',
+              sha: context.sha
+            })
+      - if: ${{ input.version }}
         name: Create release
         uses: actions/github-script@v6
         with:
@@ -36,40 +45,34 @@ jobs:
           script: >
             await github.request(`POST /repos/${{ github.repository
             }}/releases`, {
-              tag_name: "${{ steps.daily-version.outputs.version }}",
+              tag_name: "v${{ input.version }}",
               generate_release_notes: true
             });
   Submit:
-    needs: Version
-    if: github.event_name == 'workflow_dispatch' || needs.Version.outputs.created
+    if: github.event_name == 'workflow_dispatch'
     strategy:
       fail-fast: false
       matrix:
         command:
-          # - firefox
           - chrome
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
           cache: npm
       - name: install
         run: npm ci || npm install
-      - run: npm run build --if-present
+      - run: npm run prod --if-present
       - name: Update extension’s meta
         run: >-
-          npx dot-json@1 $DIRECTORY/manifest.json version ${{
-          needs.Version.outputs.version }}
+          npx dot-json@1 $DIRECTORY/manifest.json version ${{inputs.version}}
       - name: Submit
         run: |
           case ${{ matrix.command }} in
             chrome)
               cd $DIRECTORY && npx chrome-webstore-upload-cli@2 upload --auto-publish
-              ;;
-            firefox)
-              cd $DIRECTORY && npx web-ext-submit@7
               ;;
           esac
         env:
@@ -77,5 +80,3 @@ jobs:
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
-          # WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
-          # WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}
