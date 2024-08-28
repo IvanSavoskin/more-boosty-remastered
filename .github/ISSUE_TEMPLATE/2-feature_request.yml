@@ -1,0 +1,58 @@
+name: Feature request
+title: "[Feature request]: "
+description: Suggest an idea for this project
+labels:
+  - "community enhancement"
+assignees:
+  - IvanSavoskin
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Tell about your request
+      description: A clear and concise description of what you want to happen or the change you would like to see
+    validations:
+      required: false
+  - type: textarea
+    id: problem
+    attributes:
+      label: Tell about the problem you're trying to solve. What are you trying to do, and why is this necessary?
+      description: A clear and concise description of what the problem is
+      placeholder: |
+        Ex. I'm always frustrated when [...]
+    validations:
+      required: false
+  - type: textarea
+    id: workaround
+    attributes:
+      label: Are you currently working around the issue?
+      description: A clear and concise description of any alternative solutions or features you've considered or are using today.
+  - type: input
+    id: version
+    attributes:
+      label: Current version
+      description: Data from extension button from Boosty header
+      placeholder: |
+        1.0.0
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: What browser are you using?
+      multiple: false
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Add any other context or screenshots about the feature request here.
+    validations:
+      required: false
