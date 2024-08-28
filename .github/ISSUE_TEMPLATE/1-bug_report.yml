@@ -44,7 +44,7 @@ body:
   - type: dropdown
     id: browsers
     attributes:
-      label: What browsers are you seeing the problem on?
+      label: What browser are you using?
       multiple: false
       options:
         - Firefox
@@ -52,6 +52,8 @@ body:
         - Safari
         - Microsoft Edge
         - Other
+    validations:
+      required: true
   - type: textarea
     id: additional
     attributes:
