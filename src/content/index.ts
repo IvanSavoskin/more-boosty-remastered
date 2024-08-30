@@ -19,8 +19,6 @@ let options: UserOptions | null = null;
  * Process audio players
  */
 function processAudioPlayers() {
-    console.group("Process audio players");
-
     const audioPlayers = document.querySelectorAll("div[class*=AudioBlock_root_]:not([data-complete=true])") as NodeListOf<HTMLElement>;
 
     for (const player of audioPlayers) {
@@ -32,16 +30,12 @@ function processAudioPlayers() {
         injectAudioPlayerChanges(player, options as UserOptions);
         player.dataset.complete = "true";
     }
-
-    console.groupEnd();
 }
 
 /**
  * Process video players in root
  */
 function processVideoPlayers() {
-    console.group("Process video players");
-
     const playerShadowRootContainers = document.querySelectorAll(
         "vk-video-player .shadow-root-container:not([data-complete=true])"
     ) as NodeListOf<HTMLElement>;
@@ -50,8 +44,6 @@ function processVideoPlayers() {
         injectVkPlayerChanges(playerShadowRootContainer, options as UserOptions);
         playerShadowRootContainer.dataset.complete = "true";
     }
-
-    console.groupEnd();
 }
 
 /**

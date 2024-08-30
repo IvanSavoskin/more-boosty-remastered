@@ -92,11 +92,11 @@ const prepareChangelogModal = () => {
 
     appElement.insertAdjacentHTML("beforeend", changelogModal());
 
-    const changelogModalElement = document.querySelector("div#mb-changelog_modal");
-    const changelogCloseElement = document.querySelector("span#mb-changelog_close");
+    const changelogModalElement = document.querySelector("div#mb-changelog-modal");
+    const changelogCloseElement = document.querySelector("span#mb-changelog-close");
 
     if (!changelogModalElement) {
-        console.error('Error when injecting changelog modal: Changelog modal by selector "div.mb-changelog_modal" not found');
+        console.error('Error when injecting changelog modal: Changelog modal by selector "div.mb-changelog-modal" not found');
         return;
     }
 
@@ -106,7 +106,7 @@ const prepareChangelogModal = () => {
             changelogModalElement.remove();
         });
     } else {
-        console.warn('Error when injecting changelog modal: Changelog close button by selector "span.mb-changelog_close" not found');
+        console.warn('Error when injecting changelog modal: Changelog close button by selector "span.mb-changelog-close" not found');
     }
 
     const optionsButton = changelogModalElement.querySelector("a#mb-options-button");

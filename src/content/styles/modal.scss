@@ -1,0 +1,125 @@
+.mb-modal-container {
+  backface-visibility: hidden;
+  bottom: 0;
+  left: 0;
+  opacity: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition: opacity 0.15s ease;
+  z-index: 99999999;
+}
+
+.mb-modal-content-container {
+  border-radius: 8px;
+  margin: 0 auto 200px;
+  max-width: 100%;
+  min-height: 250px;
+  padding: 20px 30px;
+  position: relative;
+  top: 100px;
+  width: 650px;
+}
+
+.mb-modal-close-icon-container {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  height: 25px;
+  justify-content: center;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  width: 25px;
+  z-index: 2;
+}
+
+.mb-modal-close-icon {
+  height: 20px;
+  width: 20px;
+}
+
+.mb-modal-content-title,
+%mb-modal-content-title {
+  font-size: 20px;
+  margin: 0 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.mb-modal-content {
+  display: flex;
+  flex-direction: column;
+  line-height: 22px;
+  row-gap: 10px;
+}
+
+.mb-modal-button {
+  border: 1px solid;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  height: 40px;
+  line-height: 20px;
+  min-width: 150px;
+  outline: none;
+  overflow: hidden;
+  padding: 10px 20px;
+  position: relative;
+  text-align: center;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.light-theme .mb-modal-container {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.dark-theme .mb-modal-container {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.light-theme .mb-modal-content-container {
+  background-color: #fff;
+  color: #242b2c;
+}
+
+.dark-theme .mb-modal-content-container {
+  background-color: #262626;
+  color: #f1f1f1;
+}
+
+.light-theme .mb-modal-close-icon {
+  fill: #1f3042;
+}
+
+.dark-theme .mb-modal-close-icon {
+  fill: #f1f1f1;
+}
+
+.light-theme .mb-modal-button {
+  background-color: #fff;
+  border-color: #eaeaea;
+  color: #242b2c;
+
+  &:hover {
+    border-color: #ccc;
+    color: #f15f2c;
+  }
+}
+
+.dark-theme .mb-modal-button {
+  background-color: #303030;
+  border-color: #303030;
+  color: #f1f1f1;
+
+  &:hover {
+    background-color: #4a4a4a;
+    color: #f1f1f1;
+  }
+}

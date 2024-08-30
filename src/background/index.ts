@@ -102,7 +102,7 @@ chrome.runtime.onMessage.addListener((message: BackgroundMessage, _, sendRespons
             return true;
         }
         case BackgroundMessageType.SAVE_OPTIONS: {
-            console.debug(`Save options ${message.data.options}`);
+            console.debug("Save options", message.data.options);
 
             saveOptionsToCache(message.data.options);
             break;
