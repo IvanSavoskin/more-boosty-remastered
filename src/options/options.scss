@@ -1,13 +1,109 @@
-@import url('~minstyle.io/dist/css/minstyle.io.min.css');
-
 html {
-  min-width: 680px;
+  min-width: 700px;
 }
 
 body {
-  padding-top: 1em;
+  background-color: #25282c;
+  color: #f1f1f1;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  margin: 0;
 }
 
-.ms-footer.ms-small {
-  padding: 0.5rem;
+.container {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px 40px;
+  row-gap: 15px;
+  width: 100%;
+
+  @media (min-width: 992px) {
+    max-width: 960px;
+  }
+
+  @media (min-width: 768px) {
+    max-width: 720px;
+  }
+
+  @media (min-width: 576px) {
+    max-width: 540px;
+  }
+}
+
+.options-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 25px;
+
+  label {
+    font-weight: 500;
+  }
+}
+
+.form-field {
+  display: flex;
+  justify-content: space-between;
+
+  &-description {
+    color: #bebebeff;
+    text-align: right;
+  }
+}
+
+.select-form-field {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.form-select {
+  appearance: none;
+  background: url('data:image/svg+xml,%3Csvg aria-hidden=%27true%27 focusable=%27false%27 data-prefix=%27fas%27 data-icon=%27sort-down%27 class=%27svg-inline--fa fa-sort-down fa-w-10%27 role=%27img%27 xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 320 512%27%3E%3Cpath fill=%27currentColor%27 d=%27M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z%27%3E%3C/path%3E%3C/svg%3E') no-repeat right 0.5rem center / 1rem 1rem;
+  background-color: #25282c;
+  border: 2px solid #373a3f;
+  border-radius: 8px;
+  color: #f1f1f1;
+  cursor: pointer;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  height: 40px;
+  padding: 0 13px;
+  width: 100%;
+}
+
+.footer-container {
+  align-items: center;
+  column-gap: 7px;
+  display: flex;
+  justify-content: center;
+  padding: 15px 10px;
+}
+
+.changelog-link {
+  color: #f15f2c;
+  text-decoration: none;
+
+  &:hover {
+    border-bottom: 1px solid rgba(241, 95, 44, 0.2);
+    text-decoration: none;
+  }
+
+  &:visited {
+    color: #f15f2c;
+  }
+}
+
+.source-link {
+  color: #f1f1f1;
+  text-decoration: none;
+
+  &:hover {
+    border-bottom: 1px solid rgba(241, 95, 44, 0.2);
+  }
+
+  &:visited {
+    color: #f1f1f1;
+  }
 }
