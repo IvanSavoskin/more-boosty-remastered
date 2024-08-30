@@ -1,0 +1,63 @@
+name: Bug report
+title: "[Bug]: "
+description: Create a report to help us improve!
+labels:
+  - bug
+  - triage
+assignees:
+  - IvanSavoskin
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Please give a clear and concise description of the bug
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduce
+      description: Steps to reproduce the bug
+      placeholder: |
+        1. Go to ...
+        2. Click on ...
+        3. See error ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What is the expected behavior?
+      placeholder: |
+        E.g. "The video should download when you click the button"
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Data from extension button from Boosty header
+      placeholder: |
+        1.0.0
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: What browser are you using?
+      multiple: false
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Info
+      description: Additional info you want to provide such as logs, etc.
+    validations:
+      required: false
