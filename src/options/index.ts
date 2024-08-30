@@ -2,7 +2,7 @@ import "./options.scss";
 
 import { $enum } from "ts-enum-util";
 
-import { sendMessage } from "@coreUtils/messagesUtils";
+import sendMessage from "@coreUtils/messagesUtils";
 import { BackgroundMessageType, MessageTarget } from "@models/messages/enums";
 import { OptionsInfoMessage, RequestOptionBackgroundMessage, SaveOptionBackgroundMessage } from "@models/messages/types";
 import { UserOptions } from "@models/options/types";

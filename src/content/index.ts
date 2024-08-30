@@ -1,6 +1,6 @@
 import "./styles/content.scss";
 
-import { sendMessage } from "@coreUtils/messagesUtils";
+import sendMessage from "@coreUtils/messagesUtils";
 import { BackgroundMessageType, MessageTarget } from "@models/messages/enums";
 import { OptionsInfoMessage, RequestOptionBackgroundMessage } from "@models/messages/types";
 import { UserOptions } from "@models/options/types";

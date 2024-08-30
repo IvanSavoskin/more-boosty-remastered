@@ -1,4 +1,4 @@
-import { sendMessage } from "@coreUtils/messagesUtils";
+import sendMessage from "@coreUtils/messagesUtils";
 import { parseVideoId } from "@coreUtils/videoUtils";
 import { BlogContentMetadata, ContentMetadata, ContentMetadataWithUnknown } from "@models/boosty/types";
 import { BackgroundMessageType, MessageTarget } from "@models/messages/enums";

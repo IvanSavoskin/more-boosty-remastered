@@ -1,6 +1,6 @@
 import { blog, dialog } from "@api/boostyApi";
 import { readFromCache, removeExpiredItemsFromCache, removeFromCache, writeToCache, writeToCacheWithTimeout } from "@coreUtils/cache";
-import { changelog } from "@coreUtils/changelog";
+import changelog from "@coreUtils/changelog";
 import { filterVideoUrls, parseVideoId } from "@coreUtils/videoUtils";
 import { ContentMetadata, Data, DialogData, VideoData } from "@models/boosty/types";
 import { BackgroundMessageType, ContentMessageType, ContentOptionsMessageType, MessageTarget } from "@models/messages/enums";

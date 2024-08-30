@@ -1,7 +1,7 @@
 import safeHTML from "html-template-tag";
 
 // Changelog JSON
-import { changelog } from "@coreUtils/changelog";
+import changelog from "@coreUtils/changelog";
 import { PlayerUrl } from "@models/video/types";
 
 // Chrome aliases
