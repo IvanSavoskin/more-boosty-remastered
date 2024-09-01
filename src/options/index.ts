@@ -71,9 +71,12 @@ function optionsConfigure() {
         return;
     }
 
+    console.log(optionsForm);
+
     optionsForm.forceVideoQuality.checked = options.forceVideoQuality;
     optionsForm.fullLayout.checked = options.fullLayout;
     optionsForm.theaterMode.checked = options.theaterMode;
+    optionsForm.darkTheme.checked = options.darkTheme;
     optionsForm.saveLastTimestamp.checked = options.saveLastTimestamp;
     optionsForm.videoQuality.value = options.videoQuality;
 
@@ -96,6 +99,13 @@ function optionsConfigure() {
         saveOptions({
             ...options,
             theaterMode: isTheaterModeChecked
+        } as UserOptions);
+    });
+    optionsForm.darkTheme.addEventListener("change", (event: Event) => {
+        const isDarkThemeChecked = (event.target as HTMLInputElement).checked;
+        saveOptions({
+            ...options,
+            darkTheme: isDarkThemeChecked
         } as UserOptions);
     });
     optionsForm.saveLastTimestamp.addEventListener("change", (event: Event) => {

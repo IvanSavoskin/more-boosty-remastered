@@ -71,6 +71,32 @@ export const changelogModal = () => `
   </div>
 `;
 
+export const themeSwitcher = () => `
+<button 
+  class="mb-theme-switcher" 
+  id="mb-theme-switcher" 
+  title="Switch light & dark theme"
+>
+  <svg class="mb-theme-switcher-icon" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+  <mask class="mb-theme-switcher-icon-moon" id="moon-mask">
+        <rect x="0" y="0" width="100%" height="100%" fill="white"></rect>
+        <circle cx="24" cy="10" r="6" fill="black"></circle>
+    </mask>
+    <circle class="mb-theme-switcher-icon-sun" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor"></circle>
+    <g class="mb-theme-switcher-icon-sun-beams" stroke="currentColor">
+        <line x1="12" y1="1" x2="12" y2="3" />
+        <line x1="12" y1="21" x2="12" y2="23" />
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+        <line x1="1" y1="12" x2="3" y2="12" />
+        <line x1="21" y1="12" x2="23" y2="12" />
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    </g>
+  </svg>
+</button>
+`;
+
 export const videoDownloadModal = (links: PlayerUrl[]) => `
 <div class="mb-modal-container fade-animate" id="mb-video-download-modal">
   <div class="mb-modal-content-container">
@@ -111,7 +137,7 @@ export const videoDownloadButton = () => `
   <div id="mb-video-download-button" style="cursor: pointer">
       <div role="button" tabindex="0" title="${t("content_download")}">
           <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
-              <g fill="#fff" fill-rule="evenodd">
+              <g fill="currentColor" fill-rule="evenodd">
                 <path class="_enter" d="M6 21H18A1 1 0 0018 19H6A1 1 0 006 21M19 10H15V3H9V10H5C7.3333 12.3333 9.6667 14.6667 12 17L19 10Z" />
               </g>
           </svg>
@@ -124,7 +150,7 @@ export const videoSpeedController = (initialPlaybackRate: number) => `
     <div id="mb-speed-decrease" style="background-color: initial !important; cursor: pointer !important; padding: 0;">
       <div role="button" tabindex="0" title="${t("player_speed_decrease")}">
         <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
-          <g fill="#fff" fill-rule="evenodd">
+          <g fill="currentColor" fill-rule="evenodd">
             <path class="_enter" d="M20 12a1 1 0 01-1 1H5a1 1 0 110-2h14a1 1 0 011 1z" />
           </g>
         </svg>
@@ -142,7 +168,7 @@ export const videoSpeedController = (initialPlaybackRate: number) => `
     <div id="mb-speed-increase" style="background-color: initial !important; cursor: pointer !important; padding: 0;">
       <div role="button" tabindex="0" title="${t("player_speed_increase")}">
         <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
-          <g fill="#fff" fill-rule="evenodd">
+          <g fill="currentColor" fill-rule="evenodd">
             <path class="_enter" d="M20 12a1 1 0 01-1 1h-6v6A1 1 0 0112 20a1 1 0 01-1-1v-6h-6a1 1 0 110-2h6v-6A1 1 0 0112 4a1 1 0 011 1v6h6a1 1 0 011 1z" />
           </g>
         </svg>
@@ -157,7 +183,7 @@ export const audioControls = (url: string, initialPlaybackRate: number) => `
       <div id="mb-speed-decrease" style="cursor: pointer !important;">
         <div role="button" tabindex="0" title="${t("player_speed_decrease")}">
           <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
-            <g fill="#000" fill-rule="evenodd">
+            <g fill="currentColor" fill-rule="evenodd">
               <path class="_enter" d="M20 12a1 1 0 01-1 1H5a1 1 0 110-2h14a1 1 0 011 1z" />
             </g>
             </svg>
@@ -175,7 +201,7 @@ export const audioControls = (url: string, initialPlaybackRate: number) => `
       <div id="mb-speed-increase" style="cursor: pointer !important;">
         <div role="button" tabindex="0" title="${t("player_speed_increase")}">
           <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
-            <g fill="#000" fill-rule="evenodd">
+            <g fill="currentColor" fill-rule="evenodd">
               <path class="_enter" d="M20 12a1 1 0 01-1 1h-6v6A1 1 0 0112 20a1 1 0 01-1-1v-6h-6a1 1 0 110-2h6v-6A1 1 0 0112 4a1 1 0 011 1v6h6a1 1 0 011 1z" />
             </g>
           </svg>
@@ -186,7 +212,7 @@ export const audioControls = (url: string, initialPlaybackRate: number) => `
     <div id="mb-audio-download-button" style="cursor: pointer" data-url="${url}">
       <div role="button" tabindex="0" title="${t("content_download")}">
         <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
-          <g fill="#000" fill-rule="evenodd">
+          <g fill="currentColor" fill-rule="evenodd">
             <path class="_enter" d="M6 21H18A1 1 0 0018 19H6A1 1 0 006 21M19 10H15V3H9V10H5C7.3333 12.3333 9.6667 14.6667 12 17L19 10Z" />
           </g>
         </svg>
@@ -212,7 +238,7 @@ export const audioTimestampIndicator = (position: number) => `
       display: block;
       position: absolute;
       z-index: 99999;
-      height: 8px;
+      height: 6px;
       width: 3px;
       background-color: rgb(174,54,12);
       left: ${position}%;

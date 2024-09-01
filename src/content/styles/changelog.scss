@@ -1,4 +1,5 @@
 @use 'modal' as *;
+@use 'themeVariables' as themeVariables;
 
 // Changelog button
 .mb-changelog-button {
@@ -46,6 +47,10 @@
   @media (max-width: 1140px) {
     width: 54px;
   }
+
+  &:hover .mb-changelog-button-version {
+    color: themeVariables.$highlight-color !important;
+  }
 }
 
 .mb-changelog-button-version {
@@ -57,23 +62,27 @@
 }
 
 .light-theme .mb-changelog-button-content-container {
-  background-color: #fff;
-  border-color: #eaeaea;
-  color: #242b2c;
+  background-color: themeVariables.$light-base-background-color;
+  border-color: themeVariables.$light-base-border-color;
+  color: themeVariables.$light-main-text-color;
 }
 
 .light-theme .mb-changelog-button-version {
-  color: #242b2c;
+  color: themeVariables.$light-main-text-color;
 }
 
 .dark-theme .mb-changelog-button-content-container {
-  background-color: #303030;
-  border-color: #303030;
-  color: #f1f1f1;
+  background-color: themeVariables.$dark-light-background-color;
+  border-color: themeVariables.$dark-light-background-color;
+  color: themeVariables.$dark-main-text-color;
+
+  &:hover {
+    background-color: themeVariables.$dark-hover-background-color;
+  }
 }
 
 .dark-theme .mb-changelog-button-version {
-  color: #f1f1f1;
+  color: themeVariables.$dark-main-text-color;
 }
 
 // Changelog modal

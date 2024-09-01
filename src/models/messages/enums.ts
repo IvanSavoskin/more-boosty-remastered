@@ -12,13 +12,16 @@ export enum BackgroundMessageType {
     REQUEST_PLAYBACK_RATE = "requestPlaybackRate",
     SAVE_PLAYBACK_RATE = "savePlaybackRate",
     REQUEST_OPTIONS = "requestOptions",
-    SAVE_OPTIONS = "saveOptions"
+    SAVE_OPTIONS = "saveOptions",
+    REQUEST_THEME = "requestTheme",
+    TOGGLE_THEME = "toggleTheme"
 }
 
 export enum ContentMessageType {
     TIMESTAMP_INFO = "timestampInfo",
     CONTENT_DATA_INFO = "contentDataInfo",
-    PLAYBACK_RATE_INFO = "playbackRateInfo"
+    PLAYBACK_RATE_INFO = "playbackRateInfo",
+    THEME_INFO = "themeInfo"
 }
 
 export enum ContentOptionsMessageType {

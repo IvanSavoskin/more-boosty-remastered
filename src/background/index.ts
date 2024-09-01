@@ -9,9 +9,11 @@ import {
     ContentDataInfoContentMessage,
     OptionsInfoMessage,
     PlaybackRateInfoContentMessage,
+    ThemeInfoContentMessage,
     TimestampInfoContentMessage
 } from "@models/messages/types";
 import { UserOptions } from "@models/options/types";
+import ThemeEnum from "@models/theme/enums";
 import { VideoQualityEnum } from "@models/video/enums";
 import { VideoInfo } from "@models/video/types";
 
@@ -20,7 +22,8 @@ const INITIAL_OPTIONS = {
     fullLayout: false,
     forceVideoQuality: false,
     saveLastTimestamp: false,
-    theaterMode: false
+    theaterMode: false,
+    darkTheme: true
 };
 
 chrome.runtime.onMessage.addListener((message: BackgroundMessage, _, sendResponse) => {
@@ -105,6 +108,32 @@ chrome.runtime.onMessage.addListener((message: BackgroundMessage, _, sendRespons
             console.debug("Save options", message.data.options);
 
             saveOptionsToCache(message.data.options);
+            break;
+        }
+        case BackgroundMessageType.REQUEST_THEME: {
+            console.debug("Send theme");
+
+            getThemeFromCache().then((data) =>
+                sendResponse({
+                    target: [MessageTarget.CONTENT],
+                    type: ContentMessageType.THEME_INFO,
+                    data: { theme: data ?? ThemeEnum.LIGHT_THEME }
+                } as ThemeInfoContentMessage)
+            );
+
+            return true;
+        }
+        case BackgroundMessageType.TOGGLE_THEME: {
+            console.debug(`Toggle theme`);
+
+            getThemeFromCache().then((data) => {
+                const newTheme = data === ThemeEnum.DARK_THEME ? ThemeEnum.LIGHT_THEME : ThemeEnum.DARK_THEME;
+
+                console.debug(`New theme ${newTheme}`);
+
+                saveThemeToCache(data === ThemeEnum.LIGHT_THEME ? ThemeEnum.DARK_THEME : ThemeEnum.LIGHT_THEME);
+            });
+
             break;
         }
         default: {
@@ -231,6 +260,25 @@ async function getPlaybackRateFromCache(): Promise<number | null | undefined> {
  */
 async function savePlaybackRateToCache(playbackRate: number) {
     await writeToCacheWithTimeout("playbackRate", playbackRate);
+}
+
+/**
+ * Get theme from cache
+ *
+ * @returns {Promise<ThemeEnum|null|undefined>} Playback rate from cache
+ */
+async function getThemeFromCache(): Promise<ThemeEnum | null | undefined> {
+    const data = await readFromCache<ThemeEnum>("theme");
+    return data?.data;
+}
+
+/**
+ * Save the current theme to cache
+ *
+ * @param {ThemeEnum} theme Current playback rate
+ */
+async function saveThemeToCache(theme: ThemeEnum) {
+    await writeToCache("theme", theme);
 }
 
 /**

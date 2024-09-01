@@ -1,3 +1,5 @@
+@use 'themeVariables' as themeVariables;
+
 .mb-modal-container {
   backface-visibility: hidden;
   bottom: 0;
@@ -85,41 +87,41 @@
 }
 
 .light-theme .mb-modal-content-container {
-  background-color: #fff;
-  color: #242b2c;
+  background-color: themeVariables.$light-base-background-color;
+  color: themeVariables.$light-main-text-color;
 }
 
 .dark-theme .mb-modal-content-container {
-  background-color: #262626;
-  color: #f1f1f1;
+  background-color: themeVariables.$dark-base-background-color;
+  color: themeVariables.$dark-main-text-color;
 }
 
 .light-theme .mb-modal-close-icon {
-  fill: #1f3042;
+  fill: themeVariables.$light-main-text-color;
 }
 
 .dark-theme .mb-modal-close-icon {
-  fill: #f1f1f1;
+  fill: themeVariables.$dark-main-text-color;
 }
 
 .light-theme .mb-modal-button {
-  background-color: #fff;
-  border-color: #eaeaea;
-  color: #242b2c;
+  background-color: themeVariables.$light-base-background-color;
+  border-color: themeVariables.$light-base-border-color;
+  color: themeVariables.$light-main-text-color;
 
   &:hover {
-    border-color: #ccc;
-    color: #f15f2c;
+    border-color: themeVariables.$light-hover-border-color;
+    color: themeVariables.$highlight-color;
   }
 }
 
 .dark-theme .mb-modal-button {
-  background-color: #303030;
-  border-color: #303030;
-  color: #f1f1f1;
+  background-color: themeVariables.$dark-light-background-color;
+  border-color: themeVariables.$dark-light-background-color;
+  color: themeVariables.$dark-main-text-color;
 
   &:hover {
-    background-color: #4a4a4a;
-    color: #f1f1f1;
+    background-color: themeVariables.$dark-hover-background-color;
+    color: themeVariables.$dark-main-text-color;
   }
 }

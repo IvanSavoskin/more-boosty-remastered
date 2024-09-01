@@ -60,8 +60,7 @@ body {
 
 .form-select {
   appearance: none;
-  background: url('data:image/svg+xml,%3Csvg aria-hidden=%27true%27 focusable=%27false%27 data-prefix=%27fas%27 data-icon=%27sort-down%27 class=%27svg-inline--fa fa-sort-down fa-w-10%27 role=%27img%27 xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 320 512%27%3E%3Cpath fill=%27currentColor%27 d=%27M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z%27%3E%3C/path%3E%3C/svg%3E') no-repeat right 0.5rem center / 1rem 1rem;
-  background-color: #25282c;
+  background: #25282c url('data:image/svg+xml,%3Csvg aria-hidden=%27true%27 focusable=%27false%27 data-prefix=%27fas%27 data-icon=%27sort-down%27 class=%27svg-inline--fa fa-sort-down fa-w-10%27 role=%27img%27 xmlns=%27http://www.w3.org/2000/svg%27 width=%2715px%27 viewBox=%270 0 320 512%27%3E%3Cpath fill=%27currentColor%27 d=%27M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z%27%3E%3C/path%3E%3C/svg%3E') no-repeat right 10px top 1px;
   border: 2px solid #373a3f;
   border-radius: 8px;
   color: #f1f1f1;

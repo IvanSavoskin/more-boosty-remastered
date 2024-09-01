@@ -745,7 +745,7 @@ async function changePlaybackRate(playbackRate: number) {
         }
     }
 
-    const audioDisplays = document.querySelectorAll(".mb-current-playback-rate span");
+    const audioDisplays = document.querySelectorAll("#mb-current-playback-rate span");
     for (const display of audioDisplays) {
         if (display) {
             displaysList.push(display);
@@ -760,7 +760,7 @@ async function changePlaybackRate(playbackRate: number) {
             playersList.push(video);
         }
 
-        const display = player.shadowRoot?.querySelector(".mb-current-playback-rate span");
+        const display = player.shadowRoot?.querySelector("#mb-current-playback-rate span");
         if (display) {
             displaysList.push(display);
         }

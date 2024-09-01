@@ -2,14 +2,21 @@ import "./styles/content.scss";
 
 import sendMessage from "@coreUtils/messagesUtils";
 import { BackgroundMessageType, MessageTarget } from "@models/messages/enums";
-import { OptionsInfoMessage, RequestOptionBackgroundMessage } from "@models/messages/types";
+import {
+    OptionsInfoMessage,
+    RequestOptionBackgroundMessage,
+    RequestThemeBackgroundMessage,
+    ThemeInfoContentMessage
+} from "@models/messages/types";
 import { UserOptions } from "@models/options/types";
+import ThemeEnum from "@models/theme/enums";
 
 import {
     injectAudioPlayerChanges,
+    injectExtensionIconInTopMenu,
     injectFullLayout,
-    injectIconInTopMenu,
     injectStreamPageChanges,
+    injectThemeSwitcherInTopMenu,
     injectVkPlayerChanges
 } from "./domHelpers";
 
@@ -50,17 +57,17 @@ function processVideoPlayers() {
  * Inject extension icon to the top left menu
  *
  * @param {HTMLElement} body Body element
- * @returns {boolean} Is menu injected
+ * @returns {boolean} Is extension icon injected
  */
-function injectExtensionIcon(body: HTMLElement) {
+function injectExtensionIcon(body: HTMLElement): boolean {
     const topMenuLeft = body.querySelector("div[class*=TopMenu_left_]") as HTMLElement | null;
 
     if (!topMenuLeft) {
-        console.warn('Error injecting extension icon: Top menu by selector "div[class*=TopMenu_left_]" not found');
+        console.warn('Error injecting extension icon: Left top menu by selector "div[class*=TopMenu_left_]" not found');
         return false;
     }
 
-    injectIconInTopMenu(topMenuLeft);
+    injectExtensionIconInTopMenu(topMenuLeft);
 
     if (window.location.hash?.includes("mb-update")) {
         window.location.href = "#";
@@ -104,6 +111,95 @@ function processTheaterMode(body: HTMLElement, isActive?: boolean) {
 }
 
 /**
+ * Inject theme switcher to the top right menu
+ *
+ * @param {HTMLElement} body Body element
+ * @returns {boolean} Is theme switcher injected
+ */
+function injectThemeSwitcher(body: HTMLElement): boolean {
+    const topRightLeft = body.querySelector("div[class*=TopMenu_right_]") as HTMLElement | null;
+
+    if (!topRightLeft) {
+        console.warn('Error injecting theme switcher: Right top menu by selector "div[class*=TopMenu_right_]" not found');
+        return false;
+    }
+
+    injectThemeSwitcherInTopMenu(topRightLeft);
+
+    sendMessage<RequestThemeBackgroundMessage, ThemeInfoContentMessage>({
+        target: [MessageTarget.BACKGROUND],
+        type: BackgroundMessageType.REQUEST_THEME
+    }).then((response) => {
+        if (response) {
+            const { theme } = response.data;
+
+            if (theme === ThemeEnum.DARK_THEME) {
+                document.body.classList.add(ThemeEnum.DARK_THEME);
+                document.body.classList.remove(ThemeEnum.LIGHT_THEME);
+            }
+
+            console.debug(`Start theme ${theme} is set`);
+        }
+    });
+
+    return true;
+}
+
+/**
+ * Inject theme to the local payment widget
+ */
+function injectThemeToLocalPaymentWidget() {
+    console.debug("Injecting dark theme in local payment widget");
+    sendMessage<RequestThemeBackgroundMessage, ThemeInfoContentMessage>({
+        target: [MessageTarget.BACKGROUND],
+        type: BackgroundMessageType.REQUEST_THEME
+    }).then((response) => {
+        if (response) {
+            const { theme } = response.data;
+
+            const iframeElement = document.querySelector("iframe.Bank131PaymentWidget_frame_JPtYs") as HTMLIFrameElement | null;
+
+            if (!iframeElement) {
+                console.warn(
+                    `Error injecting dark theme to local payment widget container: Local payment widget iframe by selector "iframe.Bank131PaymentWidget_frame_JPtYs" not found`
+                );
+                return;
+            }
+
+            iframeElement.addEventListener("load", () => injectThemeToLocalPaymentWidgetIframe(iframeElement, theme), true);
+        }
+    });
+}
+
+/**
+ * Inject theme to the local payment widget
+ *
+ * @param {HTMLIFrameElement} iframe Local payment widget iframe
+ * @param {ThemeEnum} theme Current theme
+ */
+function injectThemeToLocalPaymentWidgetIframe(iframe: HTMLIFrameElement, theme: ThemeEnum) {
+    console.debug("Local payment widget iframe loaded", iframe);
+
+    const appElement = iframe.contentWindow?.document.querySelector(".App_app_Hc7fD");
+
+    if (!appElement) {
+        console.debug(
+            `Error injecting dark theme to local payment widget container: Local payment widget container by selector ".App_app_Hc7fD" not found`,
+            iframe.contentWindow?.document
+        );
+        return;
+    }
+
+    console.log(appElement);
+
+    if (theme === ThemeEnum.DARK_THEME && !appElement.classList.contains(ThemeEnum.DARK_THEME)) {
+        appElement.classList.add(ThemeEnum.DARK_THEME);
+        appElement.classList.remove(ThemeEnum.LIGHT_THEME);
+    }
+    console.debug(`Local payment widget theme ${theme} is set`);
+}
+
+/**
  * Main function
  */
 async function main() {
@@ -129,6 +225,7 @@ async function main() {
 
     // 1. Permanent changes
     const isExtensionIconInjected = injectExtensionIcon(body);
+    const isThemeSwitcherInjected = injectThemeSwitcher(body);
     injectFullLayout(options, body);
     processAudioPlayers();
     processVideoPlayers();
@@ -142,9 +239,20 @@ async function main() {
 
             // Checks for streamer page
             for (const mutation of mutations) {
-                if (!isExtensionIconInjected && (mutation.target as HTMLElement).id === "root") {
-                    console.debug("Deffered injectExtensionIcon()");
+                const target = mutation.target as HTMLElement;
+
+                if (!isExtensionIconInjected && target.id === "root") {
+                    console.debug("Deffered inject extension icon");
                     injectExtensionIcon(body);
+                }
+
+                if (!isThemeSwitcherInjected && target.id === "root") {
+                    console.debug("Deffered inject theme switcher");
+                    injectThemeSwitcher(body);
+                }
+
+                if (target.classList.contains("Bank131PaymentWidget_root_lQcDH")) {
+                    injectThemeToLocalPaymentWidget();
                 }
 
                 for (const node of mutation.addedNodes) {
@@ -170,6 +278,6 @@ async function main() {
     });
 }
 
-console.log("💈 Content script loaded for", chrome.runtime.getManifest().name);
+console.info(`💈 Content script loaded for ${chrome.runtime.getManifest().name} (v${chrome.runtime.getManifest().version})`);
 
 main();

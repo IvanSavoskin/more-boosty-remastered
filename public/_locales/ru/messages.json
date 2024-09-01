@@ -32,6 +32,12 @@
   "options_theater_mode_desc": {
     "message": "скролл вниз для отображения верхнего меню"
   },
+  "options_dark_theme": {
+    "message": "Переключатель тем β"
+  },
+  "options_dark_theme_desc": {
+    "message": "вы можете установить темную тему в верхнем меню (в бета)"
+  },
   "options_save_last_timestamp": {
     "message": "Запоминать, где остановились в аудио/видео"
   },
