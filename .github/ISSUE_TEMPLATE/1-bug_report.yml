@@ -44,13 +44,14 @@ body:
   - type: dropdown
     id: browsers
     attributes:
-      label: What browser are you using?
+      label: Browser
+      description: What browser are you using?
       multiple: false
       options:
-        - Firefox
         - Chrome
         - Safari
         - Microsoft Edge
+        - Firefox
         - Other
     validations:
       required: true
