@@ -1,4 +1,4 @@
-@use 'themeVariables' as themeVariables;
+@use '../../styles/themeVariables' as themeVariables;
 
 .mb-modal-container {
   backface-visibility: hidden;
@@ -110,7 +110,6 @@
   color: themeVariables.$light-main-text-color;
 
   &:hover {
-    border-color: themeVariables.$light-hover-border-color;
     color: themeVariables.$highlight-color;
   }
 }
@@ -122,6 +121,6 @@
 
   &:hover {
     background-color: themeVariables.$dark-hover-background-color;
-    color: themeVariables.$dark-main-text-color;
+    color: themeVariables.$highlight-color;
   }
 }

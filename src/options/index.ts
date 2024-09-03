@@ -1,24 +1,23 @@
-import "./options.scss";
+import "./styles/options.scss";
 
 import { $enum } from "ts-enum-util";
 
 import sendMessage from "@coreUtils/messagesUtils";
 import { BackgroundMessageType, MessageTarget } from "@models/messages/enums";
-import { OptionsInfoMessage, RequestOptionBackgroundMessage, SaveOptionBackgroundMessage } from "@models/messages/types";
+import {
+    OptionsInfoMessage,
+    RequestOptionsBackgroundMessage,
+    SaveOptionsBackgroundMessage,
+    SaveSyncOptionBackgroundMessage,
+    SyncOptionsBackgroundMessage
+} from "@models/messages/types";
 import { UserOptions } from "@models/options/types";
 import { VideoQualityEnum } from "@models/video/enums";
 
 let options: UserOptions | undefined;
 
 /**
- * Dark mode
- */
-if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-    document.documentElement.dataset.theme = "dark";
-}
-
-/**
- * Locales
+ * Localize options page
  */
 for (const element of document.querySelectorAll<HTMLElement>("[data-locale]")) {
     const text = element.dataset.locale ? chrome.i18n.getMessage(element.dataset.locale) : undefined;
@@ -28,12 +27,17 @@ for (const element of document.querySelectorAll<HTMLElement>("[data-locale]")) {
     element.textContent = text;
 }
 
+/**
+ * Create new Chrome tab with given {@link url}
+ *
+ * @param {string} url Url to open in new tab
+ */
 function createChromeTab(url: string) {
     chrome.tabs.create({ url });
 }
 
 /**
- * Links
+ * Add listeners for options page bottom links
  */
 const links = document.querySelectorAll<HTMLElement>(".open-url");
 for (const element of links) {
@@ -46,9 +50,14 @@ for (const element of links) {
     });
 }
 
+/**
+ * Send message to background for save extension options to cache
+ *
+ * @param {UserOptions} _options Options to save
+ */
 function saveOptions(_options: UserOptions) {
     options = _options;
-    sendMessage<SaveOptionBackgroundMessage>({
+    sendMessage<SaveOptionsBackgroundMessage>({
         type: BackgroundMessageType.SAVE_OPTIONS,
         target: [MessageTarget.BACKGROUND],
         data: { options }
@@ -56,7 +65,36 @@ function saveOptions(_options: UserOptions) {
 }
 
 /**
- * Options
+ * Update options values in form from message
+ *
+ * @param {(void|OptionsInfoMessage)} message Options info message
+ */
+function updateOptionsFromMessage(message: void | OptionsInfoMessage) {
+    if (!message) {
+        console.error("Options form not updated: Incorrect options info message. Need to reload page", message);
+        return;
+    }
+
+    const { options: _options } = message.data;
+
+    const optionsForm = document.querySelector("#options-form") as HTMLFormElement | null;
+
+    if (!optionsForm) {
+        console.warn('Options form not updated: Options form by selector "#options-form" not found. Need to reload page');
+        return;
+    }
+
+    optionsForm.forceVideoQuality.checked = _options.forceVideoQuality;
+    optionsForm.fullLayout.checked = _options.fullLayout;
+    optionsForm.theaterMode.checked = _options.theaterMode;
+    optionsForm.darkTheme.checked = _options.darkTheme;
+    optionsForm.sync.checked = _options.sync;
+    optionsForm.saveLastTimestamp.checked = _options.saveLastTimestamp;
+    optionsForm.videoQuality.value = _options.videoQuality;
+}
+
+/**
+ * Configure options form
  */
 function optionsConfigure() {
     const optionsForm = document.querySelector("#options-form") as HTMLFormElement | null;
@@ -71,12 +109,11 @@ function optionsConfigure() {
         return;
     }
 
-    console.log(optionsForm);
-
     optionsForm.forceVideoQuality.checked = options.forceVideoQuality;
     optionsForm.fullLayout.checked = options.fullLayout;
     optionsForm.theaterMode.checked = options.theaterMode;
     optionsForm.darkTheme.checked = options.darkTheme;
+    optionsForm.sync.checked = options.sync;
     optionsForm.saveLastTimestamp.checked = options.saveLastTimestamp;
     optionsForm.videoQuality.value = options.videoQuality;
 
@@ -108,6 +145,17 @@ function optionsConfigure() {
             darkTheme: isDarkThemeChecked
         } as UserOptions);
     });
+    optionsForm.sync.addEventListener("change", (event: Event) => {
+        const isSyncChecked = (event.target as HTMLInputElement).checked;
+
+        options = { ...options, sync: isSyncChecked } as UserOptions;
+
+        sendMessage<SaveSyncOptionBackgroundMessage, OptionsInfoMessage>({
+            type: BackgroundMessageType.SAVE_SYNC_OPTION,
+            target: [MessageTarget.BACKGROUND],
+            data: { sync: isSyncChecked }
+        }).then(updateOptionsFromMessage);
+    });
     optionsForm.saveLastTimestamp.addEventListener("change", (event: Event) => {
         const isSaveLastTimestampChecked = (event.target as HTMLInputElement).checked;
         saveOptions({
@@ -125,36 +173,66 @@ function optionsConfigure() {
 }
 
 /**
- * Video quality stuff
+ * Generate video quality options for force video quality select
+ *
+ * @param {UserOptions} _options Current extension options
  */
 function generateVideoQualityOptions(_options: UserOptions) {
     const videoQualityOptions = document.querySelector<HTMLSelectElement>("#videoQuality");
     const forceVideoQuality = document.querySelector<HTMLInputElement>("input[name=forceVideoQuality]");
 
-    if (videoQualityOptions && forceVideoQuality) {
-        videoQualityOptions.disabled = !_options.forceVideoQuality;
-
-        for (const quality of $enum(VideoQualityEnum).getValues()) {
-            const option = document.createElement("option");
-            option.value = quality;
-            option.textContent = quality;
-            videoQualityOptions.append(option);
-        }
-
-        videoQualityOptions.value = _options.videoQuality;
-
-        forceVideoQuality.addEventListener("change", (event: Event) => {
-            videoQualityOptions.disabled = !(event.currentTarget as HTMLInputElement).checked;
-        });
+    if (!videoQualityOptions) {
+        console.error('Video quality select not configured: Video quality select by selector "#videoQuality" not found');
+        return;
     }
+
+    if (!forceVideoQuality) {
+        console.error(
+            'Video quality select not configured: Force video quality checkbox by selector "input[name=forceVideoQuality]" not found'
+        );
+        return;
+    }
+
+    videoQualityOptions.disabled = !_options.forceVideoQuality;
+
+    for (const quality of $enum(VideoQualityEnum).getValues()) {
+        const option = document.createElement("option");
+        option.value = quality;
+        option.textContent = quality;
+        videoQualityOptions.append(option);
+    }
+
+    videoQualityOptions.value = _options.videoQuality;
+
+    forceVideoQuality.addEventListener("change", (event: Event) => {
+        videoQualityOptions.disabled = !(event.currentTarget as HTMLInputElement).checked;
+    });
 }
 
 /**
- * Main function
- * @async
+ * Configure cache sync button
  */
-const init = async () => {
-    const cachedOptions = await sendMessage<RequestOptionBackgroundMessage, OptionsInfoMessage>({
+function configureCacheSyncButton() {
+    const cacheSyncButton = document.querySelector<HTMLButtonElement>("#cache-sync-button");
+
+    if (!cacheSyncButton) {
+        console.error('Cache sync button not configured: Cache sync button by selector "#cache-sync-button" not found');
+        return;
+    }
+
+    cacheSyncButton.addEventListener("click", () => {
+        sendMessage<SyncOptionsBackgroundMessage, OptionsInfoMessage>({
+            type: BackgroundMessageType.SYNC_OPTIONS,
+            target: [MessageTarget.BACKGROUND]
+        }).then(updateOptionsFromMessage);
+    });
+}
+
+/**
+ * Init options page function
+ */
+async function init() {
+    const cachedOptions = await sendMessage<RequestOptionsBackgroundMessage, OptionsInfoMessage>({
         type: BackgroundMessageType.REQUEST_OPTIONS,
         target: [MessageTarget.BACKGROUND]
     });
@@ -169,6 +247,7 @@ const init = async () => {
 
     optionsConfigure();
     generateVideoQualityOptions(options);
-};
+    configureCacheSyncButton();
+}
 
 init();

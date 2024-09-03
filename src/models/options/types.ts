@@ -7,4 +7,5 @@ export interface UserOptions {
     saveLastTimestamp: boolean;
     theaterMode: boolean;
     darkTheme: boolean;
+    sync: boolean;
 }

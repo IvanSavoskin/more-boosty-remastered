@@ -48,6 +48,25 @@
 
                 <div class="form-field">
                     <label>
+                        <input type="checkbox" name="sync">
+                        <span data-locale="options_sync" for="sync">
+                            Synchronization
+                        </span>
+                    </label>
+                    <span data-locale="options_sync_desc" class="form-field-description">
+                        settings are synchronized between browsers
+                    </span>
+                </div>
+
+                <div class="form-field">
+                    <button id="cache-sync-button" type="button" data-locale="sync_button" class="sync-button">Synchronize</button>
+                    <span data-locale="sync_button_desc" class="form-field-description">
+                        synchronize local and sync caches
+                    </span>
+                </div>
+
+                <div class="form-field">
+                    <label>
                         <input type="checkbox" name="saveLastTimestamp">
                         <span data-locale="options_save_last_timestamp" for="saveLastTimestamp">
                             Save where you left off video/audio

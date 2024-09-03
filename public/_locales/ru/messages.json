@@ -38,6 +38,18 @@
   "options_dark_theme_desc": {
     "message": "вы можете установить темную тему в верхнем меню (в бета)"
   },
+  "options_sync": {
+    "message": "Синхронизация"
+  },
+  "options_sync_desc": {
+    "message": "Настройки синхронизируются между браузерами"
+  },
+  "sync_button": {
+    "message": "Синхронизировать"
+  },
+  "sync_button_desc": {
+    "message": "синхронизировать local и sync кэши"
+  },
   "options_save_last_timestamp": {
     "message": "Запоминать, где остановились в аудио/видео"
   },

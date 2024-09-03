@@ -44,15 +44,21 @@ export interface SavePlaybackRateBackgroundMessage extends Message {
     data: { playbackRate: number };
 }
 
-export interface RequestOptionBackgroundMessage extends Message {
+export interface RequestOptionsBackgroundMessage extends Message {
     type: BackgroundMessageType.REQUEST_OPTIONS;
     target: [MessageTarget.BACKGROUND];
 }
 
-export interface SaveOptionBackgroundMessage extends Message {
+export interface SaveOptionsBackgroundMessage extends Message {
     type: BackgroundMessageType.SAVE_OPTIONS;
     target: [MessageTarget.BACKGROUND];
     data: { options: UserOptions };
+}
+
+export interface SaveSyncOptionBackgroundMessage extends Message {
+    type: BackgroundMessageType.SAVE_SYNC_OPTION;
+    target: [MessageTarget.BACKGROUND];
+    data: { sync: boolean };
 }
 
 export interface RequestThemeBackgroundMessage extends Message {
@@ -65,6 +71,11 @@ export interface ToggleThemeBackgroundMessage extends Message {
     target: [MessageTarget.BACKGROUND];
 }
 
+export interface SyncOptionsBackgroundMessage extends Message {
+    type: BackgroundMessageType.SYNC_OPTIONS;
+    target: [MessageTarget.BACKGROUND];
+}
+
 export type BackgroundMessage =
     | OpenOptionsPageBackgroundMessage
     | RequestTimestampBackgroundMessage
@@ -72,10 +83,12 @@ export type BackgroundMessage =
     | RequestContentDataBackgroundMessage
     | RequestPlaybackRateBackgroundMessage
     | SavePlaybackRateBackgroundMessage
-    | RequestOptionBackgroundMessage
-    | SaveOptionBackgroundMessage
+    | RequestOptionsBackgroundMessage
+    | SaveSyncOptionBackgroundMessage
+    | SaveOptionsBackgroundMessage
     | RequestThemeBackgroundMessage
-    | ToggleThemeBackgroundMessage;
+    | ToggleThemeBackgroundMessage
+    | SyncOptionsBackgroundMessage;
 
 export interface TimestampInfoContentMessage extends Message {
     type: ContentMessageType.TIMESTAMP_INFO;

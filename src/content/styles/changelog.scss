@@ -1,5 +1,5 @@
 @use 'modal' as *;
-@use 'themeVariables' as themeVariables;
+@use '../../styles/themeVariables' as themeVariables;
 
 // Changelog button
 .mb-changelog-button {

@@ -13,8 +13,10 @@ export enum BackgroundMessageType {
     SAVE_PLAYBACK_RATE = "savePlaybackRate",
     REQUEST_OPTIONS = "requestOptions",
     SAVE_OPTIONS = "saveOptions",
+    SAVE_SYNC_OPTION = "saveSyncOption",
     REQUEST_THEME = "requestTheme",
-    TOGGLE_THEME = "toggleTheme"
+    TOGGLE_THEME = "toggleTheme",
+    SYNC_OPTIONS = "syncOptions"
 }
 
 export enum ContentMessageType {

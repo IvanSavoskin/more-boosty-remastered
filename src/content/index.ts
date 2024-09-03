@@ -4,7 +4,7 @@ import sendMessage from "@coreUtils/messagesUtils";
 import { BackgroundMessageType, MessageTarget } from "@models/messages/enums";
 import {
     OptionsInfoMessage,
-    RequestOptionBackgroundMessage,
+    RequestOptionsBackgroundMessage,
     RequestThemeBackgroundMessage,
     ThemeInfoContentMessage
 } from "@models/messages/types";
@@ -117,6 +117,10 @@ function processTheaterMode(body: HTMLElement, isActive?: boolean) {
  * @returns {boolean} Is theme switcher injected
  */
 function injectThemeSwitcher(body: HTMLElement): boolean {
+    if (!options?.darkTheme) {
+        return false;
+    }
+
     const topRightLeft = body.querySelector("div[class*=TopMenu_right_]") as HTMLElement | null;
 
     if (!topRightLeft) {
@@ -149,6 +153,10 @@ function injectThemeSwitcher(body: HTMLElement): boolean {
  * Inject theme to the local payment widget
  */
 function injectThemeToLocalPaymentWidget() {
+    if (!options?.darkTheme) {
+        return false;
+    }
+
     console.debug("Injecting dark theme in local payment widget");
     sendMessage<RequestThemeBackgroundMessage, ThemeInfoContentMessage>({
         target: [MessageTarget.BACKGROUND],
@@ -210,7 +218,7 @@ async function main() {
         return;
     }
 
-    const cachedOptions = await sendMessage<RequestOptionBackgroundMessage, OptionsInfoMessage>({
+    const cachedOptions = await sendMessage<RequestOptionsBackgroundMessage, OptionsInfoMessage>({
         type: BackgroundMessageType.REQUEST_OPTIONS,
         target: [MessageTarget.BACKGROUND]
     });

@@ -1,0 +1,197 @@
+@use '../../styles/themeVariables' as themeVariables;
+
+html {
+  min-width: 720px;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: themeVariables.$light-secondary-text-color;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: themeVariables.$dark-secondary-text-color;
+  }
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+body {
+  background: themeVariables.$light-base-background-color;
+  color: themeVariables.$light-main-text-color;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  margin: 0;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: themeVariables.$dark-base-background-color;
+    color: themeVariables.$dark-main-text-color;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px 40px;
+  row-gap: 15px;
+  width: 100%;
+
+  @media (min-width: 992px) {
+    max-width: 960px;
+  }
+
+  @media (min-width: 768px) {
+    max-width: 720px;
+  }
+
+  @media (min-width: 576px) {
+    max-width: 540px;
+  }
+}
+
+.options-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 25px;
+
+  label {
+    font-weight: 500;
+  }
+}
+
+.form-field {
+  display: flex;
+  justify-content: space-between;
+
+  &-description {
+    color: themeVariables.$light-secondary-text-color;
+    text-align: right;
+
+    @media (prefers-color-scheme: dark) {
+      color: themeVariables.$dark-secondary-text-color;
+    }
+  }
+}
+
+.select-form-field {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.form-select {
+  appearance: none;
+  background: themeVariables.$light-base-background-color url('data:image/svg+xml,%3Csvg aria-hidden=%27true%27 focusable=%27false%27 data-prefix=%27fas%27 data-icon=%27sort-down%27 class=%27svg-inline--fa fa-sort-down fa-w-10%27 role=%27img%27 xmlns=%27http://www.w3.org/2000/svg%27 width=%2715px%27 viewBox=%270 0 320 512%27%3E%3Cpath fill=%27currentColor%27 d=%27M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z%27%3E%3C/path%3E%3C/svg%3E') no-repeat right 10px top 1px;
+  border: 1px solid themeVariables.$light-base-border-color;
+  border-radius: 8px;
+  color: themeVariables.$light-main-text-color;
+  cursor: pointer;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  height: 40px;
+  padding: 0 13px;
+  width: 100%;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: themeVariables.$dark-base-background-color;
+    border-color: themeVariables.$dark-base-border-color;
+    color: themeVariables.$dark-main-text-color;
+  }
+}
+
+.sync-button {
+  background-color: themeVariables.$light-base-background-color;
+  border: 1px solid themeVariables.$light-base-border-color;
+  border-radius: 8px;
+  color: themeVariables.$light-main-text-color;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  height: 40px;
+  line-height: 20px;
+  min-width: 150px;
+  outline: none;
+  overflow: hidden;
+  padding: 10px 20px;
+  position: relative;
+  text-align: center;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  white-space: nowrap;
+
+  &:hover {
+    color: themeVariables.$highlight-color;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    background-color: themeVariables.$dark-light-background-color;
+    border-color: themeVariables.$dark-light-background-color;
+    color: themeVariables.$dark-main-text-color;
+
+    &:hover {
+      background-color: themeVariables.$dark-hover-background-color;
+      color: themeVariables.$highlight-color;
+    }
+  }
+}
+
+.footer-container {
+  align-items: center;
+  column-gap: 7px;
+  display: flex;
+  justify-content: center;
+  padding: 15px 10px;
+}
+
+.changelog-link {
+  color: themeVariables.$highlight-color;
+  line-height: 17px;
+  text-decoration: none;
+
+  &:hover {
+    border-bottom: 1px solid rgba(241, 95, 44, 0.2);
+    text-decoration: none;
+  }
+
+  &:visited {
+    color: themeVariables.$highlight-color;
+  }
+}
+
+.source-link {
+  color: themeVariables.$light-main-text-color;
+  line-height: 17px;
+  text-decoration: none;
+
+  &:hover {
+    border-bottom: 1px solid rgba(241, 95, 44, 0.2);
+  }
+
+  &:visited {
+    color: themeVariables.$light-main-text-color;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    color: themeVariables.$dark-main-text-color;
+
+    &:visited {
+      color: themeVariables.$dark-main-text-color;
+    }
+  }
+}

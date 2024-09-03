@@ -38,6 +38,18 @@
   "options_dark_theme_desc": {
     "message": "you can set a dark theme in top menu (in beta)"
   },
+  "options_sync": {
+    "message": "Synchronization"
+  },
+  "options_sync_desc": {
+    "message": "settings are synchronized between browsers"
+  },
+  "sync_button": {
+    "message": "Synchronize"
+  },
+  "sync_button_desc": {
+    "message": "synchronize local and sync caches"
+  },
   "options_save_last_timestamp": {
     "message": "Save where you left off video/audio"
   },
