@@ -1,4 +1,4 @@
-import { sendMessage } from "@coreUtils/messagesUtils";
+import sendMessage from "@coreUtils/messagesUtils";
 import { parseVideoId } from "@coreUtils/videoUtils";
 import { BlogContentMetadata, ContentMetadata, ContentMetadataWithUnknown } from "@models/boosty/types";
 import { BackgroundMessageType, MessageTarget } from "@models/messages/enums";
@@ -18,12 +18,13 @@ import { PlayerUrl, VideoInfo } from "@models/video/types";
 
 import {
     audioControls,
-    controls,
+    audioTimestampIndicator,
     pipButton,
-    timestampIndicator,
+    videoControls,
     videoDownloadButton,
     videoDownloadModal,
-    videoSpeedController
+    videoSpeedController,
+    videoTimestampIndicator
 } from "./templates";
 
 // Content cache for videos
@@ -119,22 +120,40 @@ function injectAudioControls(playerWrapper: HTMLElement, playbackRate: number) {
     const audioUrl = audio?.src;
     const audioPlayerTitleElement = playerWrapper.querySelector("div[class*=AudioPlayer_title]");
 
-    if (audioUrl && audioPlayerTitleElement) {
-        const audioControlsElement = audioControls(audioUrl, playbackRate);
-        // Add speed control and download buttons to player title
-        audioPlayerTitleElement.insertAdjacentHTML("afterend", audioControlsElement);
+    if (!audioUrl) {
+        console.error("Error injecting audio controls: Audio url not exist", audio);
 
-        // Initialize playback speed controller
-        playbackSpeedController(playerWrapper, audio, playbackRate);
+        return;
+    }
 
-        const link = playerWrapper.querySelector(".mb-download");
+    if (!audioPlayerTitleElement) {
+        console.error(
+            'Error injecting audio controls: Audio player title element by selector "div[class*=AudioPlayer_title]" not found',
+            playerWrapper
+        );
 
-        if (link) {
-            link.addEventListener("click", (event) => {
-                event.preventDefault();
-                downloadContent(event as MouseEvent);
-            });
-        }
+        return;
+    }
+
+    const audioControlsElement = audioControls(audioUrl, playbackRate);
+    // Add speed control and download buttons to player title
+    audioPlayerTitleElement.insertAdjacentHTML("afterend", audioControlsElement);
+
+    // Initialize playback speed controller
+    playbackSpeedController(playerWrapper, audio, playbackRate);
+
+    const link = playerWrapper.querySelector("#mb-audio-download-button");
+
+    if (link) {
+        link.addEventListener("click", (event) => {
+            event.preventDefault();
+            downloadContent(event as MouseEvent);
+        });
+    } else {
+        console.warn(
+            'Error injecting download audio button: Download button element by selector "#mb-audio-download-button" not found',
+            playerWrapper
+        );
     }
 }
 
@@ -156,13 +175,13 @@ function injectVideoControls(playerWrapper: HTMLElement, canBeDownloaded: boolea
         return;
     }
 
-    controlsElement.lastElementChild?.insertAdjacentHTML("beforebegin", controls());
+    controlsElement.lastElementChild?.insertAdjacentHTML("beforebegin", videoControls());
 
-    const additionalControls = controlsElement.querySelector(".mb-controls") as HTMLElement | null;
+    const additionalControls = controlsElement.querySelector("#mb-video-controls") as HTMLElement | null;
 
     if (!additionalControls) {
         console.error(
-            'Error injecting video player controls: Additional controls element by selector ".mb-controls" not found',
+            'Error injecting video player controls: Additional controls element by selector "#mb-video-controls" not found',
             controlsElement
         );
         return;
@@ -171,13 +190,13 @@ function injectVideoControls(playerWrapper: HTMLElement, canBeDownloaded: boolea
     // Add PiP button (for supported browsers)
     if (document.pictureInPictureEnabled) {
         additionalControls.insertAdjacentHTML("beforeend", pipButton());
-        const pipButtonElement = additionalControls.querySelector(".mb-pip");
+        const pipButtonElement = additionalControls.querySelector("#mb-pip");
 
         if (pipButtonElement) {
             pipButtonElement.addEventListener("click", (event) => preparePip(event as MouseEvent));
         } else {
             console.warn(
-                'Error injecting picture-in-picture button: Picture-in-Picture button element by selector ".mb-pip" not found',
+                'Error injecting picture-in-picture button: Picture-in-Picture button element by selector "#mb-pip" not found',
                 additionalControls
             );
         }
@@ -186,13 +205,13 @@ function injectVideoControls(playerWrapper: HTMLElement, canBeDownloaded: boolea
     // Add Download button
     if (canBeDownloaded) {
         additionalControls.insertAdjacentHTML("beforeend", videoDownloadButton());
-        const downloadButton = additionalControls.querySelector(".mb-download");
+        const downloadButton = additionalControls.querySelector("#mb-video-download-button");
 
         if (downloadButton) {
             downloadButton.addEventListener("click", () => prepareVideoDownload(playerWrapper));
         } else {
             console.warn(
-                'Error injecting download button: Download button element by selector "mb-download" not found',
+                'Error injecting download video button: Download button element by selector "#mb-download" not found',
                 additionalControls
             );
         }
@@ -253,11 +272,11 @@ function injectVideoDownloadModal(playerUrls: PlayerUrl[]) {
 
     app.insertAdjacentHTML("beforeend", videoDownloadModal(playerUrls));
 
-    const videoDownloadModalElement = document.querySelector("#mb-video-download");
+    const videoDownloadModalElement = document.querySelector("#mb-video-download-modal");
 
     if (!videoDownloadModalElement) {
         console.error(
-            'Error injecting video download modal: Video download modal element by selector "#mb-video-download" not found',
+            'Error injecting video download modal: Video download modal element by selector "#mb-video-download-modal" not found',
             document
         );
         return;
@@ -274,7 +293,7 @@ function injectVideoDownloadModal(playerUrls: PlayerUrl[]) {
         console.error('Video download close button element by selector "#mb-video-download-close" not found', document);
     }
 
-    const videoDownloadLinks = videoDownloadModalElement.querySelectorAll(".mb-video-download-link");
+    const videoDownloadLinks = videoDownloadModalElement.querySelectorAll("#mb-video-download-link");
 
     console.debug("Video download links", videoDownloadLinks);
 
@@ -296,9 +315,15 @@ function downloadContent(event: MouseEvent) {
     const element = event.currentTarget as HTMLElement;
     const { url } = element.dataset;
 
+    console.group("Prepare download link");
+
     if (!url) {
+        console.debug("Download link not found in button element");
+        console.groupEnd();
         return;
     }
+
+    console.debug(`Download link "${url}"`);
 
     const link = document.createElement("a");
     link.style.display = "none";
@@ -306,8 +331,10 @@ function downloadContent(event: MouseEvent) {
     link.target = "_blank";
 
     document.body.append(link);
-
     link.click();
+
+    console.debug("Link clicked", link);
+    console.groupEnd();
 
     setTimeout(() => {
         link.remove();
@@ -359,7 +386,7 @@ function lastAudioTimestamp(playerWrapper: HTMLElement) {
  * @param {HTMLElement} playerWrapper Player wrapper element
  */
 function playContentEvent(player: HTMLAudioElement | HTMLVideoElement, playerWrapper: HTMLElement) {
-    player.addEventListener("timeupdate", () => saveTimestamp(player, playerWrapper), { once: true });
+    player.addEventListener("timeupdate", () => startTimestampSaving(player, playerWrapper), { once: true });
 }
 
 /**
@@ -368,7 +395,7 @@ function playContentEvent(player: HTMLAudioElement | HTMLVideoElement, playerWra
  * @param {HTMLAudioElement|HTMLVideoElement} player Audio/video player element
  * @param {HTMLElement} playerWrapper Player wrapper element
  */
-async function saveTimestamp(player: HTMLAudioElement | HTMLVideoElement, playerWrapper: HTMLElement) {
+async function startTimestampSaving(player: HTMLAudioElement | HTMLVideoElement, playerWrapper: HTMLElement) {
     const contentID = getContentID(player);
 
     if (!contentID) {
@@ -378,56 +405,61 @@ async function saveTimestamp(player: HTMLAudioElement | HTMLVideoElement, player
 
     console.debug("Content duration:", player.duration);
     if (player.duration <= 60) {
-        console.debug("Skip saving timestamp for player because the video is too short", player);
+        console.debug("Skip saving timestamp for player because the content is too short", player, player.duration);
         return;
     }
 
     const savedTimestamp = await sendGetTimestampMessage(contentID);
+    let previouslySavedTimestamp = 0;
+
     if (savedTimestamp) {
         player.currentTime = savedTimestamp;
         if (player.tagName === "VIDEO") {
-            injectSavedTimestampIndicator(playerWrapper, player.duration, savedTimestamp);
+            injectSavedVideoTimestampIndicator(playerWrapper, player.duration, savedTimestamp);
+        } else {
+            injectSavedAudioTimestampIndicator(playerWrapper, player.duration, savedTimestamp);
         }
+
+        previouslySavedTimestamp = savedTimestamp;
     }
 
-    let timeToSave = true;
-    let previouslySavedTimestamp = 0;
     player.addEventListener("timeupdate", async () => {
-        console.debug("Time update event", timeToSave, player.currentTime);
-        if (!timeToSave) {
+        const currentTimestamp = player.currentTime;
+
+        if (currentTimestamp - previouslySavedTimestamp < 10) {
+            // Not 10 seconds have passed until the next save
             return;
         }
 
-        let currentTimestamp = player.currentTime;
         if (
-            // First one minute of the content
+            // First 10 second of the content
             currentTimestamp <= 10 ||
-            // Last one minute of the content
+            // Last ten seconds of the content
             player.duration - currentTimestamp <= 10
         ) {
             // Ignore this video
-            currentTimestamp = 0;
+            return;
         }
 
-        // Disable the function call
-        timeToSave = false;
+        console.debug(
+            `Update time by timeupdate event: initial saved timestamp: ${savedTimestamp}; previously saved timestamp: ${previouslySavedTimestamp}; timestamp to save: ${currentTimestamp}`,
+            player
+        );
 
-        console.debug("Update time", timeToSave, currentTimestamp, savedTimestamp, previouslySavedTimestamp);
-        if (
-            // Prevents useless caching right after starts playing
-            currentTimestamp !== savedTimestamp &&
-            // Prevents useless caching when timestamp has not changed (pause, ignored)
-            currentTimestamp !== previouslySavedTimestamp
-        ) {
-            sendSaveTimestampMessage(contentID, currentTimestamp);
-            previouslySavedTimestamp = currentTimestamp;
-        }
+        previouslySavedTimestamp = currentTimestamp;
+        sendSaveTimestampMessage(contentID, currentTimestamp);
+    });
 
-        // Throttle 'timeupdate' event call to once in 10 seconds
-        /* eslint-disable no-return-assign */
-        setTimeout(() => {
-            timeToSave = true;
-        }, 10_000);
+    player.addEventListener("pause", async () => {
+        const currentTimestamp = player.currentTime;
+
+        console.debug(
+            `Update time by pause event: initial saved timestamp: ${savedTimestamp}; previously saved timestamp: ${previouslySavedTimestamp}; timestamp to save: ${currentTimestamp}`,
+            player
+        );
+
+        previouslySavedTimestamp = currentTimestamp;
+        sendSaveTimestampMessage(contentID, currentTimestamp);
     });
 }
 
@@ -438,7 +470,7 @@ async function saveTimestamp(player: HTMLAudioElement | HTMLVideoElement, player
  * @param {number} duration Video duration
  * @param {number} timestamp Timestamp to inject
  */
-function injectSavedTimestampIndicator(playerWrapper: HTMLElement, duration: number, timestamp: number) {
+function injectSavedVideoTimestampIndicator(playerWrapper: HTMLElement, duration: number, timestamp: number) {
     const bars = playerWrapper.querySelector(".bars");
 
     if (!bars) {
@@ -447,9 +479,45 @@ function injectSavedTimestampIndicator(playerWrapper: HTMLElement, duration: num
     }
 
     const position = (timestamp * 100) / duration;
-    const template = timestampIndicator(position);
+    const template = videoTimestampIndicator(position);
+
+    console.debug(`Inject saved timestamp indicator with position ${position}% to video player`, bars);
 
     bars.insertAdjacentHTML("beforeend", template);
+}
+
+/**
+ * Inject a last timestamp indicator for an audio
+ *
+ * @param {HTMLElement} playerWrapper Player wrapper element
+ * @param {number} duration Audio duration
+ * @param {number} timestamp Timestamp to inject
+ */
+function injectSavedAudioTimestampIndicator(playerWrapper: HTMLElement, duration: number, timestamp: number) {
+    const bars = playerWrapper.querySelector(`input[type="range"]`);
+
+    if (!bars) {
+        console.warn(
+            'Error inject saved timestamp indicator for audio: Bars element by selector "input[type="range"]" not found',
+            playerWrapper
+        );
+        return;
+    }
+
+    const barsContainer = bars.parentElement;
+
+    if (!barsContainer) {
+        console.warn("Error inject saved timestamp indicator for audio: Bars parent element not exist", bars);
+        return;
+    }
+
+    const position = (timestamp * 100) / duration;
+    const template = audioTimestampIndicator(position);
+
+    console.debug(`Inject saved timestamp indicator with position ${position}% to audio player`, bars);
+
+    bars.insertAdjacentHTML("beforebegin", template);
+    barsContainer.style.position = "relative";
 }
 
 /**
@@ -609,9 +677,9 @@ function forceVideoQuality(playerWrapper: HTMLElement, videoQuality: VideoQualit
 function playbackSpeedController(controlsWrapper: HTMLElement, player: HTMLAudioElement | HTMLVideoElement, playbackRate: number) {
     player.playbackRate = playbackRate;
 
-    const decreaseButton = controlsWrapper.querySelector(".mb-speed-decrease");
-    const increaseButton = controlsWrapper.querySelector(".mb-speed-increase");
-    const playbackRateElement = controlsWrapper.querySelector(".mb-current-playback-rate");
+    const decreaseButton = controlsWrapper.querySelector("#mb-speed-decrease");
+    const increaseButton = controlsWrapper.querySelector("#mb-speed-increase");
+    const playbackRateElement = controlsWrapper.querySelector("#mb-current-playback-rate");
 
     if (decreaseButton) {
         decreaseButton.addEventListener("click", (event) => {
@@ -623,7 +691,7 @@ function playbackSpeedController(controlsWrapper: HTMLElement, player: HTMLAudio
         });
     } else {
         console.warn(
-            'Error while setting up playback speed decrease button: Decrease button by selector "mb-speed-decrease" not found',
+            'Error while setting up playback speed decrease button: Decrease button by selector "#mb-speed-decrease" not found',
             player
         );
     }
@@ -638,7 +706,7 @@ function playbackSpeedController(controlsWrapper: HTMLElement, player: HTMLAudio
         });
     } else {
         console.warn(
-            'Error while setting up playback speed increase button: Increase button by selector "mb-speed-increase" not found',
+            'Error while setting up playback speed increase button: Increase button by selector "#mb-speed-increase" not found',
             player
         );
     }
@@ -657,7 +725,7 @@ function playbackSpeedController(controlsWrapper: HTMLElement, player: HTMLAudio
         });
     } else {
         console.warn(
-            'Error while setting up playback speed rate element: Playback rate element by selector "mb-current-playback-rate" not found',
+            'Error while setting up playback speed rate element: Playback rate element by selector "#mb-current-playback-rate" not found',
             player
         );
     }
@@ -680,7 +748,7 @@ async function changePlaybackRate(playbackRate: number) {
         }
     }
 
-    const audioDisplays = document.querySelectorAll(".mb-current-playback-rate span");
+    const audioDisplays = document.querySelectorAll("#mb-current-playback-rate span");
     for (const display of audioDisplays) {
         if (display) {
             displaysList.push(display);
@@ -695,7 +763,7 @@ async function changePlaybackRate(playbackRate: number) {
             playersList.push(video);
         }
 
-        const display = player.shadowRoot?.querySelector(".mb-current-playback-rate span");
+        const display = player.shadowRoot?.querySelector("#mb-current-playback-rate span");
         if (display) {
             displaysList.push(display);
         }

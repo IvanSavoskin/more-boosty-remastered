@@ -9,91 +9,113 @@
 
     <body>
         <div class="container">
-            <div class="row">
-                <div>
-                    <form id="options-form">
-                        <div class="ms-form-group">
-                            <label class="label-inline">
-                                <input type="checkbox" name="fullLayout">
-                                <span data-locale="options_full_layout" for="full_layout">
-                                    Widescreen layout
-                                </span>
-                            </label>
-                            <span data-locale="options_full_layout_desc" class="ms-under-input ms-text-light ms-text-right">
-                                page is now 95% of screen width
-                            </span>
-                        </div>
-
-                        <hr>
-
-                        <div class="ms-form-group">
-                            <label class="label-inline">
-                                <input type="checkbox" name="theaterMode">
-                                <span data-locale="options_theater_mode" for="theater_mode">
-                                    Theater mode for Boosty streams
-                                </span>
-                            </label>
-                            <span data-locale="options_theater_mode_desc" class="ms-under-input ms-text-light ms-text-right">
-                                scroll down to reveal the top menu
-                            </span>
-                        </div>
-
-                        <hr>
-
-                        <div class="ms-form-group">
-                            <label class="label-inline">
-                                <input type="checkbox" name="saveLastTimestamp">
-                                <span data-locale="options_save_last_timestamp" for="save_last_timestamp">
-                                    Save where you left off video/audio
-                                </span>
-                            </label>
-                            <span class="ms-under-input ms-text-light ms-text-right">
-                              <span data-locale="options_save_last_timestamp_desc_1">
-                                for Boosty players only
-                              </span>
-                              </br>
-                              <span data-locale="options_save_last_timestamp_desc_2">
-                                  saved locally for 7 days, every 10 seconds
-                              </span>
-                              </br>
-                              <span data-locale="options_save_last_timestamp_desc_3">
-                                  first and last 60 seconds are ignored
-                              </span>
-                            </span>
-                        </div>
-
-                        <div class="ms-form-group">
-                            <label class="label-inline">
-                                <input type="checkbox" name="forceVideoQuality">
-                                <span data-locale="options_force_video_quality" for="force_video_quality">
-                                    Force video quality
-                                </span>
-                            </label>
-                        </div>
-
-                        <div class="ms-form-group">
-                            <select type="select" id="videoQuality" disabled />
-                            <span data-locale="options_video_quality_desc" class="ms-under-input ms-text-light ms-text-right">
-                                for Boosty video player only
-                            </span>
-                        </div>
-                    </form>
+            <form class="options-form" id="options-form">
+                <div class="form-field">
+                    <label>
+                        <input type="checkbox" name="fullLayout">
+                        <span data-locale="options_full_layout" for="fullLayout">
+                            Widescreen layout
+                        </span>
+                    </label>
+                    <span data-locale="options_full_layout_desc" class="form-field-description">
+                        page is now 95% of screen width
+                    </span>
                 </div>
+
+                <div class="form-field">
+                    <label>
+                        <input type="checkbox" name="theaterMode">
+                        <span data-locale="options_theater_mode" for="theaterMode">
+                            Theater mode for Boosty streams
+                        </span>
+                    </label>
+                    <span data-locale="options_theater_mode_desc" class="form-field-description">
+                        scroll down to reveal the top menu
+                    </span>
+                </div>
+
+                <div class="form-field">
+                    <label>
+                        <input type="checkbox" name="darkTheme">
+                        <span data-locale="options_dark_theme" for="darkTheme">
+                            Theme switcher β
+                        </span>
+                    </label>
+                    <span data-locale="options_dark_theme_desc" class="form-field-description">
+                        you can set a dark theme in top menu (in beta)
+                    </span>
+                </div>
+
+                <div class="form-field">
+                    <label>
+                        <input type="checkbox" name="sync">
+                        <span data-locale="options_sync" for="sync">
+                            Synchronization
+                        </span>
+                    </label>
+                    <span data-locale="options_sync_desc" class="form-field-description">
+                        settings are synchronized between browsers
+                    </span>
+                </div>
+
+                <div class="form-field">
+                    <button id="cache-sync-button" type="button" data-locale="sync_button" class="sync-button">Synchronize</button>
+                    <span data-locale="sync_button_desc" class="form-field-description">
+                        synchronize local and sync caches
+                    </span>
+                </div>
+
+                <div class="form-field">
+                    <label>
+                        <input type="checkbox" name="saveLastTimestamp">
+                        <span data-locale="options_save_last_timestamp" for="saveLastTimestamp">
+                            Save where you left off video/audio
+                        </span>
+                    </label>
+                    <span class="form-field-description">
+                        <span data-locale="options_save_last_timestamp_desc_1">
+                            for Boosty players only
+                        </span>
+                        </br>
+                        <span data-locale="options_save_last_timestamp_desc_2">
+                            saved locally for 7 days, every 10 seconds
+                        </span>
+                        </br>
+                        <span data-locale="options_save_last_timestamp_desc_3">
+                            or when you press pause
+                        </span>
+                        </br>
+                        <span data-locale="options_save_last_timestamp_desc_4">
+                            content less than 60 seconds are ignored
+                        </span>
+                    </span>
+                </div>
+
+                <div class="select-form-field">
+                    <div class="form-field">
+                        <label>
+                            <input type="checkbox" name="forceVideoQuality">
+                            <span data-locale="options_force_video_quality" for="forceVideoQuality">
+                            Force video quality
+                        </span>
+                        </label>
+                        <span data-locale="options_video_quality_desc" class="form-field-description">
+                            for Boosty video player only
+                        </span>
+                    </div>
+                    <select class="form-select" type="select" id="videoQuality" disabled></select>
+                </div>
+            </form>
+
+            <div class="footer-container">
+                <a class="open-url changelog-link" href="https://boosty.to/#mb-update" data-locale="changelog">
+                    Changelog
+                </a>
+                <span> | </span>
+                <a class="open-url source-link" href="https://github.com/IvanSavoskin/more-boosty-remaster" data-locale="options_github_link">
+                    Source code
+                </a>
             </div>
         </div>
-
-        <footer class="ms-footer ms-small">
-            <div class="container">
-                <p>
-                    <a class="open-url" href="https://boosty.to/#mb-update" data-locale="changelog">
-                        Changelog
-                    </a>
-                    <span> | </span>
-                    <a class="open-url ms-text-light" href="https://github.com/IvanSavoskin/more-boosty-remaster" data-locale="options_github_link">
-                        Source code
-                    </a>
-                </p>
-            </div>
-        </footer>
     </body>
 </html>

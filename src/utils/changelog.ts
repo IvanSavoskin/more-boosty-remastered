@@ -1,6 +1,6 @@
 import { Changelog } from "@models/changelog/types";
 
-export const changelog: Changelog = {
+const changelog: Changelog = {
     "1.0.0": {
         title: {
             en: "Update 1.0.0",
@@ -32,3 +32,5 @@ export const changelog: Changelog = {
         link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.0.2"
     }
 };
+
+export default changelog;

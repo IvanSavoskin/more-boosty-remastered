@@ -1,0 +1,113 @@
+.mb-theme-switcher {
+  aspect-ratio: 1;
+  background: none;
+  block-size: 40px;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  inline-size: 36px;
+  margin-right: 5px;
+  outline-offset: 5px;
+  padding: 4px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+
+  &:hover,
+  &:focus-visible {
+    .mb-theme-switcher-icon-sun,
+    .mb-theme-switcher-icon-moon {
+      fill: hsl(210 10% 15%);
+    }
+
+    .mb-theme-switcher-icon-sun-beams {
+      stroke: hsl(210 10% 15%);
+    }
+  }
+}
+
+.mb-theme-switcher-icon {
+  block-size: 100%;
+  inline-size: 100%;
+  stroke-linecap: round;
+
+  > .mb-theme-switcher-icon-moon,
+  .mb-theme-switcher-icon-sun,
+  .mb-theme-switcher-icon-sun-beams {
+    transform-origin: center center;
+  }
+
+  > .mb-theme-switcher-icon-sun {
+    fill: hsl(210 10% 30%);
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition: transform 0.5s cubic-bezier(0.5, 1.25, 0.75, 1.25);
+    }
+  }
+
+  > .mb-theme-switcher-icon-moon {
+    fill: hsl(210 10% 30%);
+
+    @media (prefers-reduced-motion: no-preference) {
+      > circle {
+        transition: transform 0.25s cubic-bezier(0, 0, 0, 1);
+
+        @supports (cx: 1) {
+          transition: cx 0.25s cubic-bezier(0, 0, 0, 1);
+        }
+      }
+    }
+  }
+
+  > .mb-theme-switcher-icon-sun-beams {
+    stroke: hsl(210 10% 30%);
+    stroke-width: 2px;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition: transform 0.5s cubic-bezier(0.5, 1.5, 0.75, 1.25), opacity 0.5s cubic-bezier(0.25, 0, 0.3, 1);
+    }
+  }
+}
+
+.dark-theme .mb-theme-switcher {
+  &:hover,
+  &:focus-visible {
+    .mb-theme-switcher-icon-sun,
+    .mb-theme-switcher-icon-moon {
+      fill: hsl(210 15% 90%);
+    }
+
+    .mb-theme-switcher-icon-sun-beams {
+      stroke: hsl(210 15% 90%);
+    }
+  }
+}
+
+.dark-theme .mb-theme-switcher-icon {
+  > .mb-theme-switcher-icon-sun {
+    fill: hsl(210 10% 70%);
+    transform: scale(1.75);
+    transition-duration: 0.25s;
+    transition-timing-function: cubic-bezier(0.25, 0, 0.3, 1);
+  }
+
+  > .mb-theme-switcher-icon-sun-beams {
+    opacity: 0;
+    stroke: hsl(210 10% 70%);
+    transform: rotateZ(-25deg);
+    transition-duration: 0.15s;
+  }
+
+  > .mb-theme-switcher-icon-moon > circle {
+    transform: translateX(-7px);
+
+    @supports (cx: 1) {
+      cx: 17;
+      transform: translateX(0);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition-delay: 0.25s;
+      transition-duration: 0.5s;
+    }
+  }
+}

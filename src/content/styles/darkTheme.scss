@@ -1,0 +1,1427 @@
+@use '../../styles/themeVariables' as themeVariables;
+
+/* stylelint-disable selector-class-pattern */
+.dark-theme .NotificationsButton_button_tQ6Ho {
+  background-color: themeVariables.$dark-light-background-color !important;
+  border: 1px solid themeVariables.$dark-light-background-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+
+  &:hover {
+    background-color: themeVariables.$dark-hover-background-color !important;
+
+    .NotificationsButton_icon_R5ZsL {
+      color: themeVariables.$highlight-color !important;
+    }
+  }
+}
+
+.dark-theme .NotificationsButton_icon_R5ZsL {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .MiniProfile_name__2xYu {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .MiniProfile_arrow_dEEwT {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .MiniProfile_link_rQTY2 {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .NotificationsTab_wrapper_iZlGz {
+  background-color: themeVariables.$dark-base-background-color !important;
+  box-shadow: themeVariables.$dark-box-shadow !important;
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .Header_wrapper_bS6y6 {
+  border-bottom-color: themeVariables.$dark-light-background-color !important;
+}
+
+.dark-theme .AttachmentButtonWithDropdown_attachmentList_gsCfg.AttachmentButtonWithDropdown_disabled_nb3Q4 .AttachmentButtonWithDropdown_iconAttachment_PHqEs {
+  color: themeVariables.$dark-disabled-text-color !important;
+}
+
+.dark-theme .ExtraActionsMenu_icon_MuAII {
+  color: themeVariables.$dark-main-text-color !important;
+
+  &:hover {
+    color: themeVariables.$highlight-color !important;
+  }
+}
+
+.dark-theme .AmountSelector_icon_GMmk1.AmountSelector_disabled_v1Ij3 {
+  color: themeVariables.$dark-disabled-text-color !important;
+}
+
+.dark-theme .MessageBasePublisher_smileButton_LAdLk:disabled {
+  color: themeVariables.$dark-disabled-text-color !important;
+}
+
+.dark-theme .NotificationsEmpty_wrapper_dNAcG .NotificationsEmpty_image_KCrK6 {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMTUnIGhlaWdodD0nMTE1JyB2aWV3Qm94PScwIDAgMTE1IDExNScgZmlsbD0nbm9uZSc+PHBhdGggZmlsbC1ydWxlPSdldmVub2RkJyBjbGlwLXJ1bGU9J2V2ZW5vZGQnIGQ9J001OC42NjggMzQuMTYyYzkuODY2LTEuOTU4IDIwLjcxNi03LjIyMyAyOS4zNzEtMi4xNTggOC42ODggNS4wODUgOC44MjMgMTcuMTY2IDEyLjI3NCAyNi41MyAzLjYwOCA5Ljc5MiAxMS4zOTQgMTkuMzk2IDguMzIzIDI5LjM2NS0zLjA3OCA5Ljk5My0xNC4yMDkgMTQuOTE1LTIzLjUwMiAxOS45MTgtOC4yMTggNC40MjQtMTcuMTIzIDcuNTQ1LTI2LjQ2NyA2Ljk4My04Ljk1OS0uNTQtMTYuNjMzLTUuMzAyLTI0LjIxOC0xMC4wMzUtOC4xNDMtNS4wOC0xNy43MTctOS40NjQtMjEuMjIxLTE4LjMxOC0zLjU3My05LjAyOS0xLjc2Ny0xOS42NSAyLjgtMjguMjMgNC4xODktNy44NyAxMi45MzktMTEuNjI3IDIwLjc2LTE2LjA0IDYuOTIzLTMuOTA1IDE0LjA2MS02LjQ2MyAyMS44OC04LjAxNScgZmlsbD0nIzMwMzAzMCcvPjxwYXRoIGQ9J005MS45NzggNzguMzggMzEuNjggODguMzg4Yy0yLjQxNy0xNC41NjcgNi4yMjctMTUuMTYyIDQuODcxLTIzLjMzM2wtMi4zNi0xNC4yM2MtMS45MjMtMTEuNTggMi41MjUtMjAuMTkzIDExLjM5OC0yNC4xMjZhNi43NiA2Ljc2IDAgMCAxIDUuNjU0LTcuMTA2YzMuNDY1LS41NzUgNi43NSAxLjYwMiA3LjY0NSA0Ljg5OSA5LjY2OC44NTYgMTYuNjU1IDcuNTQzIDE4LjU4MSAxOS4xNTFsMi4zNjIgMTQuMjNjMS4zNTUgOC4xNyA5LjczIDUuOTQxIDEyLjE0NyAyMC41MDknIGZpbGw9JyMzMDMwMzAnLz48cGF0aCBkPSdNOTEuOTc4IDc4LjM4IDMxLjY4IDg4LjM4OGEzNiAzNiAwIDAgMS0uMzM2LTIuNTVsNTIuNjMzLTguNzM0Yy0yLjQzNi0xNC42OC0xMC44MS0xMi40NTEtMTIuMTc1LTIwLjY3OWwtMi4zOC0xNC4zNDFjLTEuOTQtMTEuNjk0LTEyLjkwNC0xOC42MTgtMjIuNTcyLTE5LjQ3NC0uMjgtLjk5NiAzLjIxOC0xLjcyMSAyLjYwMy0yLjQ2YTYuNiA2LjYgMCAwIDEgMS43OS0uNTU3YzMuNDY1LS41NzUgNi43NSAxLjYwMiA3LjY0NSA0Ljg5OSA5LjY2OC44NTYgMTYuNjU1IDcuNTQzIDE4LjU4MSAxOS4xNTFsMi4zNjIgMTQuMjNjMS4zNTUgOC4xNyA5LjczIDUuOTQxIDEyLjE0NyAyMC41MDknIGZpbGw9JyMzMDMwMzAnLz48cGF0aCBkPSdNNzQuMzMgODEuNDI1cy43NjIgMTIuMDkyLTExLjA3MiAxNC4wNTZjLTMuMS41MTQtNS41NDUuMDgtNy40MzctLjg1LTUuMzgtMi41ODItNi41NC05LjA0OS02LjU0LTkuMDQ5eicgZmlsbD0nIzMwMzAzMCcvPjxwYXRoIGQ9J003NC4zMyA4MS40MjVzLjc2MiAxMi4wOTItMTEuMDcyIDE0LjA1NmMtMy4xLjUxNC01LjU0NS4wOC03LjQzNy0uODUuMzItLjE3LjczMy0uMjk2IDEuMjYzLS40MTNsLjIyNi0uMDM4YzQuOTU5LTEuMTcgNC4wNjMtOC40OS0xLjAyNy04LjQ1Ny0zLjQxNC4wMTctNi4wNzcuMDI0LTYuMTM4LjAwNWwtLjIxLS4yMjUgMjQuNC00LjA1eicgZmlsbD0nIzMwMzAzMCcvPjxwYXRoIGQ9J204MC45MDIgNTcuNjk0LTIuMzYxLTE0LjIyOWMtMS45MTctMTEuNTUyLTguNzYzLTE4Ljc4My0xOC44MzQtMTkuOTc4YTcuODEgNy44MSAwIDAgMC04LjYxMy00Ljk3Yy0zLjc0OC42MjItNi40NjggMy43NjctNi41NzQgNy40OS05LjE3NCA0LjM4OS0xMy4zMTcgMTMuNDQzLTExLjQgMjQuOTk2bDIuMzYyIDE0LjIyOWMuNTE0IDMuMS0uNTY3IDQuOTU4LTEuOTc3IDcuMjc3LTEuOTQ3IDMuMjc2LTQuMzQ0IDcuMzIyLTIuOSAxNi4wMjguMDk5LjU5Mi42NTcuOTkxIDEuMjQ5Ljg5M2wxNi43MzctMi43NzdjMS42OCA2LjgxNCA4LjM5MiAxMS4zMTcgMTUuNDY0IDEwLjE0MyA3LjA0NS0xLjE2OSAxMS45NDItNy41OTggMTEuMzMyLTE0LjU5bDE2LjczNi0yLjc3OGMuNTkyLS4wOTguOTkyLS42NTYuODkzLTEuMjQ4LTEuNDQ1LTguNzA3LTUuMDUzLTExLjc4NS03LjkyLTE0LjIzMy0yLjA1Ni0xLjc0NC0zLjY4LTMuMTUzLTQuMTk0LTYuMjUzTTYzLjcwNSA5NC42ODNjLTUuODkuOTc3LTExLjQ4NC0yLjcyNy0xMi45NzMtOC4zODZsMjIuNTEzLTMuNzM2Yy40MTkgNS44MzctMy42NTEgMTEuMTQ1LTkuNTQgMTIuMTIybTEwLjMxNy0xNC40MjItMjQuNzY4IDQuMTEtMTYuNjggMi43NjhjLS45NjItNy4xOTQgMS4wMy0xMC41MzYgMi43OTQtMTMuNTIxIDEuNDk1LTIuNTA2IDIuOS00Ljg1MyAyLjI1NS04Ljc0MmwtMi4zNjEtMTQuMjI5Yy0xLjc4Ny0xMC43NjMgMi4xNTQtMTkuMTE4IDEwLjc4Mi0yMi45NTMuNDA0LS4xODMuNjgyLS42MDUuNjM1LTEuMDYxLS4xOTUtMi45MiAxLjg2OC01LjQ5MiA0Ljc0Mi01Ljk3YTUuNjUzIDUuNjUzIDAgMCAxIDYuNDE2IDQuMTE4Yy4xMzEuNDQyLjUwMi43NTcuOTQzLjggOS40LjgxMyAxNS44MzMgNy40NzYgMTcuNjIgMTguMjRsMi4zNiAxNC4yMjljLjY0NiAzLjg4OCAyLjczNCA1LjY1NSA0Ljk1OSA3LjU0NCAyLjYyOCAyLjIyOCA1LjU5OCA0Ljc3NSA3LjAxMSAxMS44OTR6JyBmaWxsPScjRjU5MTZFJy8+PHBhdGggZD0nTTY5LjEzMiAxNC44NTZhMS4wOTMgMS4wOTMgMCAwIDAtMS40NTIuNTAyIDEuMDkzIDEuMDkzIDAgMCAwIC41MDIgMS40NWM4LjQ2OCA0LjA5NiAxNC40NDkgMTIuMDUgMTUuOTg3IDIxLjMyLjQzNSAyLjYyLjUgNS4yNzQuMjM0IDcuODY1LS4wNzUuNTkyLjM2MSAxLjEyOC45NTMgMS4yMDNhMSAxIDAgMCAwIC4yODYtLjAxOGMuNDgtLjA4Ljg1LS40Ni44ODQtLjk1OC4zMTYtMi44MDMuMjItNS42NTMtLjI0My04LjQ0MmEzMSAzMSAwIDAgMC0xNy4xNTEtMjIuOTIyJyBmaWxsPScjRjU5MTZFJy8+PHBhdGggZD0nTTc0Ljc2NCA1LjUyNkExLjA5IDEuMDkgMCAwIDAgNzMuMzA4IDZhMS4wOSAxLjA5IDAgMCAwIC40NzMgMS40NTZjMTEuMiA1LjcyNiAxOS4xIDE2LjUxOCAyMS4xNTcgMjguOTE1LjUxOSAzLjEyOC42NzIgNi4zMTYuNDQgOS40NTMtLjA0OC41ODcuNDE2IDEuMTE3IDEuMDAzIDEuMTY1LjA5LjAxNC4xNzQgMCAuMjU5LS4wMTQuNDc5LS4wOC44NzMtLjQ5Mi45MDctLjk5LjIzMi0zLjMxLjA4NC02LjY0NC0uNDYzLTkuOTQtMi4yMDMtMTMuMDk4LTEwLjU0OC0yNC40ODEtMjIuMzItMzAuNTE5JyBmaWxsPScjRjU5MTZFJy8+PHBhdGggZD0nTTM0LjI4NiAyMi40MzVhMS4wOTMgMS4wOTMgMCAwIDAgLjAwNS0xLjUzNSAxLjA5MyAxLjA5MyAwIDAgMC0xLjUzNS0uMDA2Yy03LjE5IDcuMS0xMC41MDcgMTcuMjkxLTguODU2IDI3LjIzN2EzMC41IDMwLjUgMCAwIDAgMi40OTcgOC4wNjljLjIyLjQ1Ni42OTUuNjk1IDEuMTQ1LjYyYTEgMSAwIDAgMCAuMjc3LS4wNzRjLjUzNi0uMjYzLjc4LS44ODMuNTEzLTEuNDQ2LTEuMTE2LTIuMzYzLTEuODg0LTQuODk5LTIuMzE5LTcuNTJhMjkuMSAyOS4xIDAgMCAxIDguMjczLTI1LjM0NScgZmlsbD0nI0Y1OTE2RScvPjxwYXRoIGQ9J00xNS4zMzUgNDkuNTUyYy0yLjA1My0xMi4zNyAxLjkzMy0yNS4xNjIgMTAuNjgyLTM0LjIuNDIzLS40MTcuMzk1LTEuMTA3LS4wMjItMS41M3MtMS4xMDgtLjM5NS0xLjUzMS4wMjJjLTkuMjIgOS41MjEtMTMuNDEyIDIyLjk4NS0xMS4yNDcgMzYuMDNhNDIuMyA0Mi4zIDAgMCAwIDIuNzczIDkuNTU4Yy4xOTIuNDYuNjk5LjcyNCAxLjE3OC42NDRhLjguOCAwIDAgMCAuMjQ5LS4wNyAxLjA5IDEuMDkgMCAwIDAgLjU3NC0xLjQyN2MtMS4yNTItMi44MzItMi4xMzctNS45LTIuNjU2LTkuMDI3JyBmaWxsPScjRjU5MTZFJy8+PC9zdmc+') !important;
+}
+
+.dark-theme .DialogueContactItem_root_O4V7d {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .MainFeed_myPage_QNAbr {
+  background-color: themeVariables.$dark-base-background-color !important;
+  box-shadow: themeVariables.$dark-box-shadow !important;
+  color: themeVariables.$dark-main-text-color !important;
+
+  &:hover {
+    color: themeVariables.$highlight-color !important;
+  }
+}
+
+.dark-theme .FeedFilter_root_AWN22 {
+  background-color: themeVariables.$dark-base-background-color !important;
+  box-shadow: themeVariables.$dark-box-shadow !important;
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .VerticalRadioTabItem_root_TdF_J.VerticalRadioTabItem_active_WPi2_ {
+  background-color: themeVariables.$dark-light-background-color !important;
+}
+
+.dark-theme .VerticalRadioTabItem_root_TdF_J {
+  color: themeVariables.$dark-main-text-color !important;
+  fill: themeVariables.$dark-main-text-color !important;
+
+  &:not(.VerticalRadioTabItem_active_WPi2_):hover {
+    color: themeVariables.$highlight-color !important;
+    fill: themeVariables.$highlight-color !important;
+  }
+}
+
+.dark-theme .InputField_inputField_vzhmi {
+  &::placeholder {
+    color: themeVariables.$dark-main-text-color !important;
+  }
+}
+
+.dark-theme .FilterSelectByDate_root_nuhmR {
+  background-color: themeVariables.$dark-base-background-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .FeedFilter_datePickerButton_uOT31 {
+  background-color: transparent;
+  border: 1px solid themeVariables.$dark-base-border-color;
+  color: themeVariables.$dark-main-text-color;
+}
+
+.dark-theme .FeedFilter_datePickerArrow_VjKLB {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .FilterSelectByDate_arrow_ouFDY {
+  fill: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .react-calendar {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .react-calendar__navigation {
+  border-bottom: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .DatePicker_arrowContainer_Bgllr {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .DatePicker_arrowIcon_VMDbk {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .react-calendar__navigation__label {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .react-calendar__tile[disabled] {
+  color: themeVariables.$dark-disabled-text-color !important;
+}
+
+.dark-theme .MainFeed_subscriptions_ZeTwe {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .Post_root_0fEms {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .PostHeaderWithAuthor_authorName_DmQ4O {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .CreatedAt_headerLink_CEfWB {
+  color: themeVariables.$dark-secondary-text-color !important;
+
+  &:hover {
+    border-bottom-color: themeVariables.$dark-base-border-color !important;
+    text-decoration: none !important;
+  }
+}
+
+.dark-theme .PostAccessLabel_icon_A1PI7 {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .PostActionsMenu_iconDots_UdMez {
+  fill: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .Post_title_G2QHp {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .Post_content_ETkyT {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .Post_shading_GNneF {
+  background-image: linear-gradient(180deg, hsla(0, 0%, 100%, 0), themeVariables.$dark-base-background-color 75%, themeVariables.$dark-base-background-color);
+}
+
+.dark-theme .PostFooter_commentsBlock_Typ_7 .PostFooter_iconComment_erw9j {
+  color: themeVariables.$dark-main-text-color !important;
+  stroke: themeVariables.$dark-main-text-color !important;
+
+  &:hover {
+    color: themeVariables.$highlight-color !important;
+  }
+}
+
+.dark-theme .PostFooter_commentsCount_fOvdf {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .PostFooter_commentsBlock_Typ_7.PostFooter_link_URAWf {
+  color: themeVariables.$dark-main-text-color !important;
+
+  &:hover {
+    color: themeVariables.$highlight-color !important;
+  }
+}
+
+.dark-theme .ReactionsPost_iconReaction__RBom {
+  color: themeVariables.$dark-main-text-color !important;
+
+  &:hover {
+    color: themeVariables.$highlight-color !important;
+  }
+}
+
+.dark-theme .ReactionsApplied_icon_QBOyu {
+  color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .ReactionsPost_amount_xhaFo {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .ShareDropdown_buttonIcon_wyZax {
+  stroke: themeVariables.$dark-main-text-color !important;
+
+  &:hover {
+    color: themeVariables.$highlight-color !important;
+    stroke: themeVariables.$highlight-color !important;
+  }
+}
+
+.dark-theme .CommentView_root_JkVc2 {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .CommentView_name_rDuK_ {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .CommentView_content_Wn_lx {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .CreatedAtDate_text_mTtf9 {
+  color: themeVariables.$dark-secondary-text-color !important;
+
+  &:hover {
+    color: themeVariables.$dark-main-text-color !important;
+  }
+}
+
+.dark-theme .CommentView_reply_bPHy8 {
+  color: themeVariables.$dark-secondary-text-color !important;
+
+  &:hover {
+    color: themeVariables.$dark-main-text-color !important;
+  }
+}
+
+.dark-theme .ReactionsComment_iconReaction_zESOb {
+  color: themeVariables.$dark-secondary-text-color !important;
+
+  &:hover {
+    color: themeVariables.$dark-main-text-color !important;
+  }
+}
+
+.dark-theme .ReactionItem_icon_lMZoY {
+  color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .ReactionItem_counter_nXgHz {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+  color: themeVariables.$dark-secondary-text-color !important;
+  filter: drop-shadow(0 2px 10px rgba(255, 255, 255, 0.1)) !important;
+}
+
+.dark-theme .CommentMenu_menuIcon_ambS_ {
+  fill: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .CommentPublisher_root__Xfqz {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .CommentPublisher_editor_aTxJZ {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .Publisher_editor_lrEMS {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border-color: themeVariables.$dark-base-border-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .ce-paragraph[data-placeholder]:empty::before {
+  color: #8282827f !important;
+}
+
+.dark-theme .codex-editor {
+  --selectionColor: hsla(0, 0%, 95%, 0.2) !important;
+  --inlineSelectionColor: hsla(0, 0%, 95%, 0.349) !important;
+}
+
+.dark-theme .CommentPublisher_actionsContainer_STYWf {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border-color: themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .Publisher_root_OEAeu:not(.Publisher_rootDisabled_sS2yb):not(.Publisher_error_WsXL7):focus-within .Publisher_actionsContainer_nXHDH,
+.dark-theme .Publisher_root_OEAeu:not(.Publisher_rootDisabled_sS2yb):not(.Publisher_error_WsXL7):focus-within .Publisher_editor_lrEMS {
+  border-color: themeVariables.$highlight-color !important;
+}
+
+.dark-theme .Publisher_root_OEAeu.Publisher_error_WsXL7 .Publisher_actionsContainer_nXHDH,
+.dark-theme .Publisher_root_OEAeu.Publisher_error_WsXL7 .Publisher_editor_lrEMS {
+  border-color: #cd3544 !important;
+}
+
+.dark-theme .Post_commentsDenied_hsxEO {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .SmilesSelector_root_UDrAQ {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .AudioBlock_root_iueHF {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+  fill: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .FileBlock_container_EoPw5 {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .Footer_block_ylyfI {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border-top: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .Footer_copyright_XW34x,
+.dark-theme .Footer_link_x8PN9,
+.dark-theme .Footer_link_x8PN9:link,
+.dark-theme .Footer_link_x8PN9:not(a),
+.dark-theme .Footer_link_x8PN9:visited {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .Card_block_ezGsl {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .Card_title_JIPZ2 {
+  border-bottom: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .BlogLayoutWrapper_shareDonationLinkBlock_qqtrW {
+  background-color: themeVariables.$dark-base-background-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .SubscriptionLevelsItem_root_PZSzU {
+  background-color: themeVariables.$dark-base-background-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .TutorialGroupList_descriptionText_fiLsh {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .FeedFilter_root_mE0Y_ {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .FeedTabs_item_IaY_I {
+  color: themeVariables.$dark-main-text-color !important;
+
+  &:not(.FeedTabs_active_lPBT6):hover {
+    color: themeVariables.$highlight-color !important;
+  }
+}
+
+.dark-theme .FeedFilter_controlButton_q7HQk .FeedFilter_icon_VdVfc {
+  color: themeVariables.$dark-main-text-color !important;
+
+  &:hover {
+    color: themeVariables.$highlight-color !important;
+  }
+}
+
+.dark-theme .LinkToAllPosts_allPostsButton_X3nio,
+.dark-theme .LinkToAllPosts_allPostsButton_X3nio:visited {
+  background-color: themeVariables.$dark-base-background-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .PaymentViewWrapper_icon_MN6mN {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .PaymentViewWrapper_description_ZgOSd {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .StepShare_qrWrapper_vK9Af {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .StepShare_text_kQB7Z {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .PopupContent_block_P9UTg {
+  background-color: themeVariables.$dark-base-background-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .TargetAdd_targetAbout_yQseY {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .TargetTypeToggle_targetsType_ry7k8 {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .Input_counter_P0joS {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .Layout_layout_e7uEn {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .EditForm_title_aXSai {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .CoverField_description_FGX4U {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .MiniRichEditor_totalSymbols_lJqCI {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .MiniRichEditor_editor_wveAI:not(.MiniRichEditor_focused_vqrv2) {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+
+  &:hover {
+    border-color: themeVariables.$dark-secondary-text-color !important;
+  }
+}
+
+.dark-theme .Input_descriptionBottomCaption_Nh7D_ {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .EditForm_thanksMessage_eOv8f {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .ThankMessage_title_UJrWK {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .ThankMessage_description_ST3Lr {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .BlogSubscriptionLevelsAdd_buttons_EUnaX {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .ToggleSwitch_checkbox_IhnSs:not(.ToggleSwitch_checkboxChecked_ObnNX) {
+  background-color: #626262 !important;
+}
+
+.dark-theme .ToggleSwitch_circle_qQ3l_ {
+  background-color: themeVariables.$dark-base-background-color !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5) !important;
+}
+
+.dark-theme .MessageBasePublisher_actionsContainer_SCu53:not(.MessageBasePublisher_actionsContainerDisabled_duvoK) {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border-color: themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .SmileButton_root_bPbsM {
+  color: #7c7c7c !important;
+
+  &:hover {
+    color: themeVariables.$highlight-color !important;
+  }
+}
+
+.dark-theme .AmountSelector_rootVisible_ebXWQ {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+  box-shadow: 0 2px 10px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-theme .AmountSelector_title_X9OGI {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .CommonHint_icon_UbGIv {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .AmountSelector_warning_b_SoN {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .MessagePublisherTabs_root_nhxOs {
+  border-bottom: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .MessagePublisherTabs_tab_wcHTi {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .PreviewMessagePopup_description_Bwxyy {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .DialogueMessageWrapper_containerChatMate_G0eA5 .DialogueMessageWrapper_message_TuB4S {
+  background: themeVariables.$dark-light-background-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .DialogueMessagePaidPreview_text_e3pIi {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .DialogueMessageInfo_root_Z7UbH:not(.DialogueMessageInfo_currentUserMessage_rbkTB) .DialogueMessageInfo_time_olZOa {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .DialogueMessageWrapper_cornerLeft_wDeoc {
+  color: themeVariables.$dark-light-background-color !important;
+}
+
+.dark-theme .ResetButton_container_QBdcb {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .FileBlock_fromEditor_nJWZv {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .FileBlock_fromEditor_nJWZv .FileBlock_headerIcon_yfUjb {
+  color: themeVariables.$dark-main-text-color !important;
+  fill: themeVariables.$dark-main-text-color !important;
+  stroke: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .FileBlock_fromEditor_nJWZv .FileBlock_fileName_k6eXz {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .FileBlock_fromEditor_nJWZv .FileBlock_size_PbfZJ {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .Alerts_alert_q6R_6 {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border-color: themeVariables.$dark-light-background-color !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05) !important;
+}
+
+.dark-theme .Alerts_close_qJx86,
+.dark-theme .Alerts_text_sw9a9 {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .SubscriptionLevelsExample_root_hRmzo {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .SubscriptionLevelsExample_text_m0L1M {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .SubscriptionLevelsPromo_root_A5tF9 {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .TutorialSubscriptionLevels_root_GDtNP {
+  background-color: themeVariables.$dark-light-background-color !important;
+}
+
+.dark-theme .SubscriptionLevelsExample_header_g6XNm {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .SubscriptionLevelSample_root_SLkg0 {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .SubscriptionLevelSample_title_IGg_C {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .SubscriptionLevelSample_value_HcBZF {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .SubscriptionLevelSample_description_InV0p {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .Select_optionsContainer_Tm6EZ {
+  background: themeVariables.$dark-base-background-color !important;
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1) !important;
+}
+
+.dark-theme .Layout_monochrome_T6NVz {
+  background-color: themeVariables.$dark-main-background-color !important;
+}
+
+.dark-theme .PromoBanner_root_F9k7h {
+  background: #1212127f !important;
+}
+
+.dark-theme .SubscriptionLevelsPromoExample_root_KoLNu {
+  background: themeVariables.$dark-base-background-color !important;
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .SubscriptionLevelsPromoExample_priceWithoutDiscount_mHrPH {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .SubscriptionLevelsPromoExample_card__DrC4 {
+  background-color: #080808 !important;
+}
+
+.dark-theme .PromoBannerContent_example_AVp2V::after {
+  background: linear-gradient(180deg, #0a0a0a00, #090909 57.81%) !important;
+}
+
+.dark-theme .PromoBannerContent_description_aUvqN {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .PromoBannerContent_trialLink_nZSoq {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .TrialActivationExample_root_Ft40r {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .TrialActivationExample_userName_XBZdf {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .TrialActivationExample_card_P6fCH {
+  border: 1px solid themeVariables.$dark-base-border-color;
+}
+
+.dark-theme .EmptyPromoList_text_h6mWc {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .BlogPromoFilter_select_wHOHy .BlogPromoFilter_placeholder_ih4Kq,
+.dark-theme .BlogSubscriptionLevelsSelect_placeholder_MXBDa {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .FinishPromoButton_button_bkPBq {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border: 1px solid themeVariables.$dark-base-border-color;
+}
+
+.dark-theme .PromoType_name_pD0YI {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .AccessSubscribers_root_IaKHo {
+  background-color: #1212127f !important;
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .DefinitionItem_title_Pb0nH {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .DefinitionItem_value_uvRnd {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .TabItem_root_JyMmP {
+  color: themeVariables.$dark-main-text-color !important;
+  fill: themeVariables.$dark-main-text-color !important;
+
+  &:not(.TabItem_active_lXfvy):hover {
+    color: themeVariables.$highlight-color !important;
+    fill: themeVariables.$highlight-color !important;
+  }
+}
+
+.dark-theme .TabItem_root_JyMmP.TabItem_active_lXfvy {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .ExternalAppCard_root_ZsT84 {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .BlogDonationButton_button_w1gQB {
+  background-color: themeVariables.$dark-light-background-color !important;
+  border-color: themeVariables.$dark-light-background-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+
+  &:hover {
+    background-color: themeVariables.$dark-hover-background-color !important;
+    color: themeVariables.$highlight-color !important;
+  }
+}
+
+.dark-theme .OutlinedButton_button_gVLJD:hover:not(.OutlinedButton_disabled_eJ2hB) {
+  border-color: themeVariables.$dark-light-background-color !important;
+  color: themeVariables.$highlight-color !important;
+}
+
+.dark-theme .TargetItemCommon_collectedText_boxC2 {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .TargetItemCommon_collectedTextTarget_McKGZ {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .BlogFollowers_label_vQRQu {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .SettingsEdit_blockTitle_lMypl {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .SettingsEditPhotoField_fileDescription_Wfpmg {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .FileButton_label_wRR_W {
+  background-color: themeVariables.$dark-light-background-color !important;
+  border: 1px solid themeVariables.$dark-light-background-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+
+  &:hover {
+    border-color: themeVariables.$highlight-color !important;
+  }
+}
+
+.dark-theme .SettingsEditPhoneField_label_VrC8H {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .SettingsEditPhoneField_description_itrVl {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .InputField_inputField_vzhmi[disabled] {
+  background-color: themeVariables.$dark-light-background-color !important;
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .SettingsEdit_blockTitle_lMypl {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .PaymentBindListItem_boldString_grLX8 {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .Bank131PaymentForm_root_LSjar .bank131-MainContainer__container {
+  background-color: themeVariables.$dark-base-background-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .Bank131PaymentForm_root_LSjar .bank131-Field__label {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .SettingsEditToggler_hintContent_Uuzhc {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .SettingsEditSocialLinksField_iconWrapper_dg8Vh {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border-right: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .CardBase_root_TZKbW {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .CardBase_link_y_JGf {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .SettingsAgents_description_H0XgK {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .SettingsNotificationsForm_labelDescription_Lm6_Z {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .SettingsActiveSessions_description_6q8vK {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .DeviceSessionBlock_root_KsiHq {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .DeviceSessionBlock_date_DLisr:not(.DeviceSessionBlock_online_ezigu) {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .DeviceSessionBlock_lowerInfo_aHmzL {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .SettingsStreamModeration_label_qCY1y {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .SettingsStreamModeration_sublabel_FO1mm {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .SettingsStreamModeration_emptyText_YtI58 {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .StopWord_stopWord_fk6yE {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .StopWord_text_dpSNN {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .StopWord_removeBtn_Rm4s6 {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .Suggests_content_jBKct {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border: themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .Suggests_notFound_EApnC {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .SettingsBlacklist_noTableData_D24sV {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .BlogFollowers_count_TWVv2 {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .MediaAlbumCounters_item_Pi0WW.MediaAlbumCounters_active_KM7qd {
+  background-color: rgba(241, 95, 44, 0.1) !important;
+  border: 1px solid themeVariables.$highlight-color !important;
+  color: themeVariables.$highlight-color !important;
+}
+
+.dark-theme .MediaAlbumCounters_item_Pi0WW:not(.MediaAlbumCounters_active_KM7qd) {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .Filter_container_I7MUg {
+  background-color: themeVariables.$dark-main-background-color !important;
+  border-top: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .FilterSelectByDate_root_nuhmR::after {
+  background-color: themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .FilterSelect_select_ELgh4::after {
+  background-color: themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .FilterSelectByDate_button_vrvM0 {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .Filter_container_I7MUg .FilterSelectByDate_root_nuhmR {
+  background: transparent !important;
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .FilterSelectByDate_root_nuhmR:hover .FilterSelectByDate_button_vrvM0:not(.FilterSelectByDate_disabled_f_mrC) {
+  color: themeVariables.$highlight-color !important;
+}
+
+.dark-theme .Select_mainBox_yfm53.Select_disabled_ynU2M {
+  color: themeVariables.$dark-disabled-text-color !important;
+}
+
+.dark-theme .FilterSelect_select_ELgh4.FilterSelect_disabled_o0e8k .FilterSelect_placeholder_XCeIi {
+  color: themeVariables.$dark-disabled-text-color !important;
+}
+
+.dark-theme .Page_root_zM0IL:not(.Offers_root_Rsrk8)::before {
+  background-color: themeVariables.$dark-main-background-color !important;
+}
+
+.dark-theme .Page_root_zM0IL:not(.Offers_root_Rsrk8)::after {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .PageTabs_item_gFO_L {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .StatMainInfo_counters_YwV6s .StatMainInfo_block_MNIOR {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .StatMainInfo_counter_bNg4h,
+.dark-theme .StatMainInfo_money_IdNCt {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .StatMainInfo_caption_QCbYY {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .EventSelector_button_bVb7R {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .EventSelector_filterIcon__Ps5z {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .EventSelector_filterList_W8OgY {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .StatMainInfo_container_TQQWz {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .StatCharts_chartsItem_Nl0a7 {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .BlogStatistics_containerInfoItem_JVl_n:not(.StatMainInfo_item_G8LbG:last-of-type) {
+  border-right: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .StatCommonItem_count_ksDMT {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .StatCommonItem_title_iPjhm {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .StatDetailedInfoList_root_skY5e {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .StatDetailedInfoList_item_xpLKg:not(:last-child) {
+  border-bottom: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .StatDetailedInfoItem_description_piVZB {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .BlogStatistics_timeInfo_BQIdZ {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .BlogIncomeEmpty_title_skkLm {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .BlogIncomeEmpty_content_geE2F {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .PayoutSystemsListItem_item_aI7iO {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .PayoutSystemsListItem_commission_ZSmKY {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .BlogPayoutHint_root_Hedpf {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .BlogPayoutHistory_emptyText___23A {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .BackButton_icon_mssE7 {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .BlogIncomeExport_title_aAE1l {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.StartStep_range_AunuJ.StartStep_rangeSelected_LNiQv {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .StartStep_range_AunuJ:not(.StartStep_rangeSelected_LNiQv) {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .StartStep_calendar_IuWsO {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .BlogRefs_proposalText_LH9Ky {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .BlogRefsSteps_explanationStepText_tjSeO {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .Messages_root_i6x6v {
+  background-color: themeVariables.$dark-main-background-color !important;
+}
+
+.dark-theme .DialogueContactSelector_button_pw6lL {
+  background-color: themeVariables.$dark-main-background-color !important;
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .DialogueContactSelector_dropdown_xXOr0,
+.dark-theme .DialogueContactSelector_selectorView_fHUzm {
+  background-color: themeVariables.$dark-main-background-color !important;
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .DialogueItem_root_H1zWg .DialogueItem_username_VODL2 {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .DialoguePreviewAttachment_icon_AyNyl {
+  color: themeVariables.$dark-main-text-color !important;
+  fill: themeVariables.$dark-main-text-color !important;
+  stroke: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .DialogueItem_content_TAexB {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .DialogueItem_datetime_QS2Oj {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .DialogueChat_dialog_gnN1g {
+  border-left: 1px solid themeVariables.$dark-base-border-color !important;
+  border-right: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .DialogueChat_dialogWrapper_XGJ8w {
+  background-color: themeVariables.$dark-main-background-color !important;
+}
+
+.dark-theme .Empty_title_Ci0i7 {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .Empty_description_OZcDL {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .DialogueItem_rootActive_zCr19 {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .Messages_audioPlayer_enrWj {
+  border: 0 !important;
+}
+
+.dark-theme .Messages_audioPlayerIconDownload_A3oqM {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .DialogueChatMate_username_RVy0V {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .DialogueMessageList_date_g53_o {
+  background-color: themeVariables.$dark-main-background-color !important;
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .DialogueMessageWrapper_root_ZsQR0:not(.DialogueMessageWrapper_selected_C_Mue):hover::after {
+  background-color: themeVariables.$dark-hover-background-color !important;
+}
+
+.dark-theme .DialogueMessageSelector_container_tG8C3 {
+  background-color: themeVariables.$dark-main-background-color !important;
+  border-bottom: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .DialogueMessageSelector_text_Vn9Bj {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .DialogueChatMate_root_Nd8vP {
+  border-bottom: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .Publisher_sendContainer_mXfrp::before {
+  border-right-color: themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .MessageBasePublisher_sendButton_i6vbM:disabled,
+.dark-theme .MessageBasePublisher_sendButton_i6vbM:disabled .MessageBasePublisher_sendIcon_aYW7i {
+  color: themeVariables.$dark-disabled-text-color !important;
+  stroke: themeVariables.$dark-disabled-text-color !important;
+}
+
+.dark-theme .MessageBasePublisher_smileButton_LAdLk {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .PostTag_root_sJU6G {
+  background-color: themeVariables.$dark-light-background-color !important;
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .StepStartDonationPayment_textarea_NWCEw {
+  background: transparent !important;
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+
+  &:hover {
+    border-color: themeVariables.$dark-secondary-text-color !important;
+  }
+
+  &:focus {
+    border-color: themeVariables.$highlight-color !important;
+  }
+}
+
+.dark-theme .StepStartDonationPayment_note_cRf1m {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .StepStartDonationPayment_lengthCounter_CdepV {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .PaymentViewWrapper_username_BC9iP {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .PaymentViewWrapper_avatar_qNqow {
+  border: 2px solid themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .ShareButton_qr_lFJJM {
+  background-color: themeVariables.$highlight-color !important;
+}
+
+.dark-theme .SearchInputView_searchButton_UPLyJ.SearchInputView_disabled_B6p7C {
+  color: themeVariables.$dark-disabled-text-color;
+}
+
+.dark-theme .Search_input_oVQtG {
+  border-color: themeVariables.$dark-light-background-color !important;
+}
+
+.dark-theme .FeedFilter_resetBlock_mOQln {
+  border-top: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .SubscriptionLevelsItem_root_PZSzU {
+  border-bottom: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .Board_container_ArScH {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .Periods_description_I0fUK {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .BlogSubscriptionLevelsEdit_buttons_LdFMe {
+  background-color: themeVariables.$dark-base-background-color;
+}
+
+.dark-theme .FilterSelect_select_ELgh4:not(.FilterSelect_disabled_o0e8k) .FilterSelect_placeholder_XCeIi {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .FilterSelect_select_ELgh4:hover,
+.dark-theme .FilterSelect_select_ELgh4:hover .FilterSelect_placeholder_XCeIi {
+  color: themeVariables.$highlight-color !important;
+}
+
+.dark-theme .UserCard_returnButtonContainer_PhP3n .UserCard_returnButton_HzOhr.UserCard_notColoured_Elcse {
+  border-top: 1px solid themeVariables.$dark-base-border-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .MainLanding_root_dWiqk {
+  background-color: themeVariables.$dark-main-background-color !important;
+}
+
+.dark-theme .MainLanding_top_NQnKf {
+  background-color: themeVariables.$dark-main-background-color !important;
+}
+
+.dark-theme .MainLanding_topText_lLCZB {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .Tags_text_qXGR7 {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .Tags_tag_XNf3n {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .MainLanding_howWork_rS6AW {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .SubscriptionLevelBlockTemplate_wrapper_FBCiw {
+  background-color: themeVariables.$dark-main-background-color !important;
+}
+
+.dark-theme .SubscriptionLevelBlockTemplate_title_AcnX_ {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .SubscriptionLevelBlockTemplate_price_krxcj {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .SubscriptionLevelBlockTemplate_description_y3xJO {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .MainLanding_howWorkStepText_w_TmS {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .CommentBlockItems_user_k7xuW {
+  background: themeVariables.$dark-main-background-color !important;
+}
+
+.dark-theme .CommentBlockItems_userFullName_YeHHH {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .CommentBlockItems_username_xZhyh {
+  color: themeVariables.$dark-disabled-text-color !important;
+}
+
+.dark-theme .VideoBlockTemplate_root_DxPwm {
+  background-color: themeVariables.$dark-main-background-color !important;
+}
+
+.dark-theme .VideoBlockTemplate_title_WdPYP {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .VideoBlockTemplate_totalComments_MJGU9 {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .MainLanding_successStories_ANj2z {
+  background-color: themeVariables.$dark-main-background-color !important;
+}
+
+.dark-theme .SuccessStoriesSlider_item_twHHM {
+  background: themeVariables.$dark-light-background-color !important;
+}
+
+.dark-theme .SuccessStoriesSlider_name_kQyDP {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .SuccessStoriesSlider_countSubscribers_k_F9u {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .SuccessStoriesSlider_category_ZIBLq {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .MainLanding_successStoriesSliderItem_r5g8d::after {
+  background: themeVariables.$dark-main-background-color !important;
+}
+
+.dark-theme .SuccessStoriesSlider_paginationItemDisabled_SGrG2 {
+  background-color: themeVariables.$dark-disabled-text-color !important;
+}
+
+.dark-theme .MainLanding_separator_oO5BY {
+  background-color: themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .MainLanding_why_uRCqs {
+  background-color: themeVariables.$dark-main-background-color !important;
+}
+
+.dark-theme .MainLanding_whyItemText_Rwnd4 {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .MainLanding_calculator_Y1cI9 {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .MainLanding_calculatorFieldTitle_wb8pl {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .MainLanding_calculatorFieldInput_ynT_M {
+  background: themeVariables.$dark-base-background-color !important;
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .MainLanding_calculatorCommissionInfo_HLJOi {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .MainLanding_calculatorOfferPopular_qrX_6 {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .MainLanding_use_gCQbr {
+  background-color: themeVariables.$dark-main-background-color !important;
+}
+
+.dark-theme .UseTabItem_title_FHMln {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .MainLanding_join_RYpzH {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .MainLanding_joinText_A8XAa {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .Offers_contentContainer_BZRS0 .Offers_tabItem_oKtTD:not(.TabItem_active_RS5JT) {
+  color: themeVariables.$dark-main-text-color !important;
+
+  &:hover {
+    color: themeVariables.$highlight-color !important;
+  }
+}
+
+.dark-theme .Offers_contentBase_qIuhc {
+  background-color: themeVariables.$dark-main-background-color !important;
+}
+
+.dark-theme .Offers_root_Rsrk8::after,
+.dark-theme .Offers_root_Rsrk8::before {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .CardsSet_description_NRCsv {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .Brand_rulesFooter_OsODF {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .Brand_colorsFooterTitle_qiSL7 {
+  color: themeVariables.$dark-light-text-color !important;
+}
+
+.dark-theme .Brand_colorsFooterHex_fZOZX {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .Publisher_actionsContainer_nXHDH {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border-color: themeVariables.$dark-base-border-color !important;
+}
+/* stylelint-enable selector-class-pattern */

@@ -32,6 +32,24 @@
   "options_theater_mode_desc": {
     "message": "скролл вниз для отображения верхнего меню"
   },
+  "options_dark_theme": {
+    "message": "Переключатель тем β"
+  },
+  "options_dark_theme_desc": {
+    "message": "вы можете установить темную тему в верхнем меню (в бета)"
+  },
+  "options_sync": {
+    "message": "Синхронизация"
+  },
+  "options_sync_desc": {
+    "message": "настройки синхронизируются между браузерами"
+  },
+  "sync_button": {
+    "message": "Синхронизировать"
+  },
+  "sync_button_desc": {
+    "message": "синхронизировать local и sync кэши"
+  },
   "options_save_last_timestamp": {
     "message": "Запоминать, где остановились в аудио/видео"
   },
@@ -42,7 +60,10 @@
     "message": "сохраняется локально на 7 дней, раз в 10 секунд"
   },
   "options_save_last_timestamp_desc_3": {
-    "message": "первые и последние 60 секунд игнорируются"
+    "message": "или при нажатии на паузу"
+  },
+  "options_save_last_timestamp_desc_4": {
+    "message": "контент меньше 60-ти секунд игнорируется"
   },
   "options_saved": {
     "message": "Изменения сохраняются автоматически"

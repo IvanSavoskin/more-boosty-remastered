@@ -1,6 +1,6 @@
 import { Message } from "@models/messages/types";
 
-export async function sendMessage<T extends Message, K = undefined>(message: T): Promise<K | void> {
+export default async function sendMessage<T extends Message, K = undefined>(message: T): Promise<K | void> {
     try {
         return await chrome.runtime.sendMessage<T, K>(message);
     } catch (error) {
