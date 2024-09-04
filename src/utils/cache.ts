@@ -67,6 +67,13 @@ export async function readFromCache<T>(key: string, sync: boolean = false): Prom
     const data: TimeoutCacheData<T> | CacheData<T> | undefined | null = cachedData[key];
 
     console.group(`Cache read for ${key} (${sync ? "sync" : "local"})`);
+
+    if (data && typeof data !== "object") {
+        console.warn(`Cache data by key "${key}" from ${sync ? "sync" : "local"} storage is not an object`, data);
+        console.groupEnd();
+        return null;
+    }
+
     if (data && "timeout" in data && data.data !== undefined) {
         console.debug("Data:", data.data);
         console.debug("Expires on:", new Date(data.timeout));
