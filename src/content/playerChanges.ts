@@ -386,7 +386,7 @@ function lastAudioTimestamp(playerWrapper: HTMLElement) {
  * @param {HTMLElement} playerWrapper Player wrapper element
  */
 function playContentEvent(player: HTMLAudioElement | HTMLVideoElement, playerWrapper: HTMLElement) {
-    player.addEventListener("timeupdate", () => saveTimestamp(player, playerWrapper), { once: true });
+    player.addEventListener("timeupdate", () => startTimestampSaving(player, playerWrapper), { once: true });
 }
 
 /**
@@ -395,7 +395,7 @@ function playContentEvent(player: HTMLAudioElement | HTMLVideoElement, playerWra
  * @param {HTMLAudioElement|HTMLVideoElement} player Audio/video player element
  * @param {HTMLElement} playerWrapper Player wrapper element
  */
-async function saveTimestamp(player: HTMLAudioElement | HTMLVideoElement, playerWrapper: HTMLElement) {
+async function startTimestampSaving(player: HTMLAudioElement | HTMLVideoElement, playerWrapper: HTMLElement) {
     const contentID = getContentID(player);
 
     if (!contentID) {
@@ -405,11 +405,13 @@ async function saveTimestamp(player: HTMLAudioElement | HTMLVideoElement, player
 
     console.debug("Content duration:", player.duration);
     if (player.duration <= 60) {
-        console.debug("Skip saving timestamp for player because the video is too short", player);
+        console.debug("Skip saving timestamp for player because the content is too short", player, player.duration);
         return;
     }
 
     const savedTimestamp = await sendGetTimestampMessage(contentID);
+    let previouslySavedTimestamp = 0;
+
     if (savedTimestamp) {
         player.currentTime = savedTimestamp;
         if (player.tagName === "VIDEO") {
@@ -417,46 +419,47 @@ async function saveTimestamp(player: HTMLAudioElement | HTMLVideoElement, player
         } else {
             injectSavedAudioTimestampIndicator(playerWrapper, player.duration, savedTimestamp);
         }
+
+        previouslySavedTimestamp = savedTimestamp;
     }
 
-    let timeToSave = true;
-    let previouslySavedTimestamp = 0;
     player.addEventListener("timeupdate", async () => {
-        console.debug("Time update event", timeToSave, player.currentTime);
-        if (!timeToSave) {
+        const currentTimestamp = player.currentTime;
+
+        if (currentTimestamp - previouslySavedTimestamp < 10) {
+            // Not 10 seconds have passed until the next save
             return;
         }
 
-        let currentTimestamp = player.currentTime;
         if (
-            // First one minute of the content
+            // First 10 second of the content
             currentTimestamp <= 10 ||
-            // Last one minute of the content
+            // Last ten seconds of the content
             player.duration - currentTimestamp <= 10
         ) {
             // Ignore this video
-            currentTimestamp = 0;
+            return;
         }
 
-        // Disable the function call
-        timeToSave = false;
+        console.debug(
+            `Update time by timeupdate event: initial saved timestamp: ${savedTimestamp}; previously saved timestamp: ${previouslySavedTimestamp}; timestamp to save: ${currentTimestamp}`,
+            player
+        );
 
-        console.debug("Update time", timeToSave, currentTimestamp, savedTimestamp, previouslySavedTimestamp);
-        if (
-            // Prevents useless caching right after starts playing
-            currentTimestamp !== savedTimestamp &&
-            // Prevents useless caching when timestamp has not changed (pause, ignored)
-            currentTimestamp !== previouslySavedTimestamp
-        ) {
-            sendSaveTimestampMessage(contentID, currentTimestamp);
-            previouslySavedTimestamp = currentTimestamp;
-        }
+        previouslySavedTimestamp = currentTimestamp;
+        sendSaveTimestampMessage(contentID, currentTimestamp);
+    });
 
-        // Throttle 'timeupdate' event call to once in 10 seconds
-        /* eslint-disable no-return-assign */
-        setTimeout(() => {
-            timeToSave = true;
-        }, 10_000);
+    player.addEventListener("pause", async () => {
+        const currentTimestamp = player.currentTime;
+
+        console.debug(
+            `Update time by pause event: initial saved timestamp: ${savedTimestamp}; previously saved timestamp: ${previouslySavedTimestamp}; timestamp to save: ${currentTimestamp}`,
+            player
+        );
+
+        previouslySavedTimestamp = currentTimestamp;
+        sendSaveTimestampMessage(contentID, currentTimestamp);
     });
 }
 

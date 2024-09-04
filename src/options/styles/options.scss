@@ -15,14 +15,11 @@ html {
 
 ::-webkit-scrollbar-thumb {
   background-color: themeVariables.$light-secondary-text-color;
+  border-radius: 8px;
 
   @media (prefers-color-scheme: dark) {
     background-color: themeVariables.$dark-secondary-text-color;
   }
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -76,6 +73,7 @@ body {
 
 .form-field {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 
   &-description {
