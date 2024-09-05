@@ -27,6 +27,11 @@
     width: 95% !important;
   }
 
+  [class*=MainFeed_root_] {
+    transition: 0.2s;
+    width: 95% !important;
+  }
+
   [class*=Layout_grid_] {
     justify-content: space-between !important;
   }
@@ -62,6 +67,12 @@
   // Teaser overlay
   [class*=TeaserOverlay_container_] {
     width: 100% !important;
+  }
+
+  // Messenger container
+  [class*=Messages_container_] {
+    max-width: 100% !important;
+    transition: 0.2s;
   }
 }
 

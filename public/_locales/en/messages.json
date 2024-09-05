@@ -1,4 +1,7 @@
 {
+  "extDescription": {
+    "message": "Improved and redesigned More Boosty browser extension which improves interface and functions of crowdfunding platform Boosty."
+  },
   "description": {
     "message": "Improve interface and features on Boosty"
   },
@@ -32,6 +35,24 @@
   "options_theater_mode_desc": {
     "message": "scroll down to reveal the top menu"
   },
+  "options_dark_theme": {
+    "message": "Theme switcher β"
+  },
+  "options_dark_theme_desc": {
+    "message": "you can set a dark theme in top menu (in beta)"
+  },
+  "options_sync": {
+    "message": "Synchronization"
+  },
+  "options_sync_desc": {
+    "message": "settings are synchronized between browsers"
+  },
+  "sync_button": {
+    "message": "Synchronize"
+  },
+  "sync_button_desc": {
+    "message": "synchronize local and sync caches"
+  },
   "options_save_last_timestamp": {
     "message": "Save where you left off video/audio"
   },
@@ -42,7 +63,10 @@
     "message": "saved locally for 7 days, every 10 seconds"
   },
   "options_save_last_timestamp_desc_3": {
-    "message": "first and last 60 seconds are ignored"
+    "message": "or when you press pause"
+  },
+  "options_save_last_timestamp_desc_4": {
+    "message": "content less than 60 seconds are ignored"
   },
   "options_saved": {
     "message": "Changes are saved automatically"

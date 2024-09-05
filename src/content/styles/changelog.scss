@@ -1,25 +1,106 @@
+@use 'modal' as *;
+@use '../../styles/themeVariables' as themeVariables;
+
+// Changelog button
 .mb-changelog-button {
   margin-left: 10px;
+  margin-right: auto;
+  position: relative;
 
-  .mb-icon {
+  .mb-changelog-button-icon-container {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    height: 20px;
+    justify-content: center;
+    margin-right: 12px;
+    transition: fill 0.2s;
+    width: 20px;
+  }
+
+  .mb-changelog-button-icon {
     filter: grayscale(100%);
     height: 20px;
     transition: 0.2s;
   }
 
   &:hover {
-    .mb-icon {
+    .mb-changelog-button-icon {
       filter: grayscale(0%);
       transition: 0.2s;
     }
   }
 }
 
-// Changelog modal
-.mb-changelog-modal {
-  [class*=ContainedButton_colorDefault_] {
-    &:visited {
-      color: #fff !important;
-    }
+.mb-changelog-button-content-container {
+  align-items: center;
+  border: 1px solid;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  font-weight: 600;
+  height: 40px;
+  padding: 0 16px;
+  position: relative;
+  transition: background-color 0.2s, color 0.2s;
+
+  @media (max-width: 1140px) {
+    width: 54px;
   }
+
+  &:hover .mb-changelog-button-version {
+    color: themeVariables.$highlight-color !important;
+  }
+}
+
+.mb-changelog-button-version {
+  text-transform: initial;
+
+  @media (max-width: 1140px) {
+    opacity: 0;
+  }
+}
+
+.light-theme .mb-changelog-button-content-container {
+  background-color: themeVariables.$light-base-background-color;
+  border-color: themeVariables.$light-base-border-color;
+  color: themeVariables.$light-main-text-color;
+}
+
+.light-theme .mb-changelog-button-version {
+  color: themeVariables.$light-main-text-color;
+}
+
+.dark-theme .mb-changelog-button-content-container {
+  background-color: themeVariables.$dark-light-background-color;
+  border-color: themeVariables.$dark-light-background-color;
+  color: themeVariables.$dark-main-text-color;
+
+  &:hover {
+    background-color: themeVariables.$dark-hover-background-color;
+  }
+}
+
+.dark-theme .mb-changelog-button-version {
+  color: themeVariables.$dark-main-text-color;
+}
+
+// Changelog modal
+.mb-changelog-modal-content-title {
+  @extend %mb-modal-content-title;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.mb-changelog-modal-changelog-table {
+  margin-block-end: 0;
+  margin-block-start: 0;
+}
+
+.mb-changelog-modal-option-button-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 20px;
+  width: 100%;
 }

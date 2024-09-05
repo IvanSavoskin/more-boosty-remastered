@@ -1,5 +1,5 @@
 name: Feature request
-title: "[Feature request]: "
+title: "[Feature]: "
 description: Suggest an idea for this project
 labels:
   - "community enhancement"
@@ -9,15 +9,15 @@ body:
   - type: textarea
     id: description
     attributes:
-      label: Tell about your request
+      label: Description
       description: A clear and concise description of what you want to happen or the change you would like to see
     validations:
       required: false
   - type: textarea
     id: problem
     attributes:
-      label: Tell about the problem you're trying to solve. What are you trying to do, and why is this necessary?
-      description: A clear and concise description of what the problem is
+      label: Problem
+      description: Tell about the problem you're trying to solve. What are you trying to do, and why is this necessary? A clear and concise description of what the problem is
       placeholder: |
         Ex. I'm always frustrated when [...]
     validations:
@@ -25,7 +25,7 @@ body:
   - type: textarea
     id: workaround
     attributes:
-      label: Are you currently working around the issue?
+      label: Workaround
       description: A clear and concise description of any alternative solutions or features you've considered or are using today.
   - type: input
     id: version
@@ -39,13 +39,14 @@ body:
   - type: dropdown
     id: browsers
     attributes:
-      label: What browser are you using?
+      label: Browser
+      description: What browser are you using?
       multiple: false
       options:
-        - Firefox
         - Chrome
         - Safari
         - Microsoft Edge
+        - Firefox
         - Other
     validations:
       required: true

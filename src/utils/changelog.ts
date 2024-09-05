@@ -1,6 +1,6 @@
 import { Changelog } from "@models/changelog/types";
 
-export const changelog: Changelog = {
+const changelog: Changelog = {
     "1.0.0": {
         title: {
             en: "Update 1.0.0",
@@ -30,5 +30,30 @@ export const changelog: Changelog = {
             en: ["Fixed the problem with updating settings", "Improved notifications about new versions"]
         },
         link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.0.2"
+    },
+    "1.1.0": {
+        title: {
+            en: "Update 1.1.0",
+            ru: "Обновление 1.1.0"
+        },
+        message: {
+            ru: [
+                "Добавлен переключатель тем с возможностью включить темную тему (в бета).",
+                "Добавлена возможность включить синхронизацию настроек расширения.",
+                "Добавлен маркер последнего timestamp для аудио.",
+                "Timestamp для видео и аудио сохраняется теперь также при паузе.",
+                "Прочие улучшения и исправления."
+            ],
+            en: [
+                "Added theme switcher with the ability to enable dark theme (in beta).",
+                "Added the ability to enable extension settings synchronization.",
+                "Added last timestamp marker for audio.",
+                "Timestamp for video and audio is now saved even when paused.",
+                "Other improvements and fixes."
+            ]
+        },
+        link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.1.0"
     }
 };
+
+export default changelog;

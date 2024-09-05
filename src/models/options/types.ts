@@ -6,4 +6,6 @@ export interface UserOptions {
     videoQuality: VideoQualityEnum;
     saveLastTimestamp: boolean;
     theaterMode: boolean;
+    darkTheme: boolean;
+    sync: boolean;
 }

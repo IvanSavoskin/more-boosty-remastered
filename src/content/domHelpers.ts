@@ -1,10 +1,11 @@
-import { sendMessage } from "@coreUtils/messagesUtils";
+import sendMessage from "@coreUtils/messagesUtils";
 import { BackgroundMessageType, MessageTarget } from "@models/messages/enums";
-import { OpenOptionsPageBackgroundMessage } from "@models/messages/types";
+import { OpenOptionsPageBackgroundMessage, ToggleThemeBackgroundMessage } from "@models/messages/types";
 import { UserOptions } from "@models/options/types";
+import ThemeEnum from "@models/theme/enums";
 
 import { prepareAudioPlayer, prepareVideoPlayer } from "./playerChanges";
-import { changelogButton, changelogModal } from "./templates";
+import { changelogButton, changelogModal, themeSwitcher } from "./templates";
 
 /** @see {@link scrollEvent} */
 let topMenu: HTMLElement | undefined | null;
@@ -56,11 +57,11 @@ export function injectAudioPlayerChanges(audioPlayer: HTMLElement, options: User
  *
  * @param {HTMLElement} menuElement Top left menu element
  */
-export function injectIconInTopMenu(menuElement: HTMLElement) {
+export function injectExtensionIconInTopMenu(menuElement: HTMLElement) {
     const menuElementLastChild = menuElement.lastElementChild;
 
     if (!menuElementLastChild) {
-        console.error("Error when injecting icon in top menu: Menu element last child not found");
+        console.error("Error when injecting extension icon in left top menu: Left menu element last child not found");
         return;
     }
 
@@ -69,7 +70,7 @@ export function injectIconInTopMenu(menuElement: HTMLElement) {
     const changelogButtonElement = menuElement.querySelector("a#mb-changelog");
 
     if (!changelogButtonElement) {
-        console.error('Error when injecting icon in top menu: Changelog button by selector "a#mb-changelog" not found');
+        console.error('Error when injecting extension icon in top menu: Changelog button by selector "a#mb-changelog" not found');
         return;
     }
 
@@ -92,11 +93,11 @@ const prepareChangelogModal = () => {
 
     appElement.insertAdjacentHTML("beforeend", changelogModal());
 
-    const changelogModalElement = document.querySelector("div#mb-changelog_modal");
-    const changelogCloseElement = document.querySelector("span#mb-changelog_close");
+    const changelogModalElement = document.querySelector("div#mb-changelog-modal");
+    const changelogCloseElement = document.querySelector("span#mb-changelog-close");
 
     if (!changelogModalElement) {
-        console.error('Error when injecting changelog modal: Changelog modal by selector "div.mb-changelog_modal" not found');
+        console.error('Error when injecting changelog modal: Changelog modal by selector "div.mb-changelog-modal" not found');
         return;
     }
 
@@ -106,7 +107,7 @@ const prepareChangelogModal = () => {
             changelogModalElement.remove();
         });
     } else {
-        console.warn('Error when injecting changelog modal: Changelog close button by selector "span.mb-changelog_close" not found');
+        console.warn('Error when injecting changelog modal: Changelog close button by selector "span.mb-changelog-close" not found');
     }
 
     const optionsButton = changelogModalElement.querySelector("a#mb-options-button");
@@ -147,6 +148,43 @@ export function injectStreamPageChanges(isActive: boolean, body: HTMLElement) {
         body.classList.remove("mb-stream");
         window.removeEventListener("scroll", scrollEvent);
     }
+}
+
+/**
+ * Inject theme switcher in top menu on the right
+ *
+ * @param {HTMLElement} menuElement Top right menu element
+ */
+export function injectThemeSwitcherInTopMenu(menuElement: HTMLElement) {
+    const menuElementFirstChild = menuElement.firstElementChild;
+
+    if (!menuElementFirstChild) {
+        console.error("Error when injecting theme switcher icon in right top menu: Right menu element first child not found");
+        return;
+    }
+
+    menuElementFirstChild.insertAdjacentHTML("beforebegin", themeSwitcher());
+
+    const themeSwitcherElement = menuElement.querySelector("#mb-theme-switcher");
+
+    if (!themeSwitcherElement) {
+        console.error('Error when injecting theme switcher in right top menu: Theme switcher by selector "#mb-theme-switcher" not found');
+        return;
+    }
+
+    themeSwitcherElement.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        console.debug("Theme switcher clicked");
+
+        document.body.classList.toggle(ThemeEnum.DARK_THEME);
+        document.body.classList.toggle(ThemeEnum.LIGHT_THEME);
+
+        sendMessage<ToggleThemeBackgroundMessage>({
+            target: [MessageTarget.BACKGROUND],
+            type: BackgroundMessageType.TOGGLE_THEME
+        });
+    });
 }
 
 /**
