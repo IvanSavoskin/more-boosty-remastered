@@ -208,6 +208,81 @@ function injectThemeToLocalPaymentWidgetIframe(iframe: HTMLIFrameElement, theme:
 }
 
 /**
+ * Remove image copy protection from gallery element
+ *
+ * @param {HTMLElement} gallery Gallery element
+ */
+function removeImageCopyProtection(gallery: HTMLElement) {
+    console.debug("Remove image copy protection from gallery element", gallery);
+
+    gallery.addEventListener(
+        "contextmenu",
+        (event) => {
+            event.stopImmediatePropagation();
+        },
+        true
+    );
+
+    console.debug("Image copy protection removed from gallery element by place clone of gallery", gallery);
+}
+
+/**
+ * Process body mutations
+ *
+ * @param {MutationRecord[]} mutations Body mutation records
+ * @param {HTMLElement} body Body element
+ * @param {boolean} isExtensionIconInjected Is extension icon injected
+ * @param {boolean} isThemeSwitcherInjected Is theme switcher injected
+ */
+function processBodyMutations(
+    mutations: MutationRecord[],
+    body: HTMLElement,
+    isExtensionIconInjected: boolean,
+    isThemeSwitcherInjected: boolean
+) {
+    try {
+        processAudioPlayers();
+        processVideoPlayers();
+
+        for (const mutation of mutations) {
+            const target = mutation.target as HTMLElement;
+
+            if (!isExtensionIconInjected && target.id === "root") {
+                console.debug("Deffered inject extension icon");
+                injectExtensionIcon(body);
+            }
+
+            if (!isThemeSwitcherInjected && target.id === "root") {
+                console.debug("Deffered inject theme switcher");
+                injectThemeSwitcher(body);
+            }
+
+            if (target.id === "gallery") {
+                removeImageCopyProtection(target);
+            }
+
+            if (target.classList.contains("Bank131PaymentWidget_root_lQcDH")) {
+                injectThemeToLocalPaymentWidget();
+            }
+
+            for (const node of mutation.addedNodes) {
+                if ((node as HTMLElement).classList?.value.includes("StreamPage_block_")) {
+                    processTheaterMode(body, true);
+                }
+            }
+
+            for (const node of mutation.removedNodes) {
+                if ((node as HTMLElement).classList?.value.includes("StreamPage_block_")) {
+                    processTheaterMode(body, false);
+                }
+            }
+        }
+    } catch (error) {
+        console.log("Uncaught mutation error", error);
+    }
+}
+
+/**
  * Main function
  */
 async function main() {
@@ -240,45 +315,9 @@ async function main() {
     processTheaterMode(body);
 
     // 2. Dynamic changes
-    const observer = new MutationObserver((mutations) => {
-        try {
-            processAudioPlayers();
-            processVideoPlayers();
-
-            // Checks for streamer page
-            for (const mutation of mutations) {
-                const target = mutation.target as HTMLElement;
-
-                if (!isExtensionIconInjected && target.id === "root") {
-                    console.debug("Deffered inject extension icon");
-                    injectExtensionIcon(body);
-                }
-
-                if (!isThemeSwitcherInjected && target.id === "root") {
-                    console.debug("Deffered inject theme switcher");
-                    injectThemeSwitcher(body);
-                }
-
-                if (target.classList.contains("Bank131PaymentWidget_root_lQcDH")) {
-                    injectThemeToLocalPaymentWidget();
-                }
-
-                for (const node of mutation.addedNodes) {
-                    if ((node as HTMLElement).classList?.value.includes("StreamPage_block_")) {
-                        processTheaterMode(body, true);
-                    }
-                }
-
-                for (const node of mutation.removedNodes) {
-                    if ((node as HTMLElement).classList?.value.includes("StreamPage_block_")) {
-                        processTheaterMode(body, false);
-                    }
-                }
-            }
-        } catch (error) {
-            console.log("Uncaught mutation error", error);
-        }
-    });
+    const observer = new MutationObserver((mutations) =>
+        processBodyMutations(mutations, body, isExtensionIconInjected, isThemeSwitcherInjected)
+    );
 
     observer.observe(body, {
         childList: true,
