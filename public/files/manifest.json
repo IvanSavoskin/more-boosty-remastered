@@ -2,7 +2,6 @@
   "name": "More Boosty Remastered",
   "version": "0.0.0",
   "version_name": "0.0.0",
-  "description": "__MSG_extDescription__",
   "manifest_version": 3,
   "minimum_chrome_version": "100",
   "default_locale": "en",

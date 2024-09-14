@@ -53,6 +53,25 @@ const changelog: Changelog = {
             ]
         },
         link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.1.0"
+    },
+    "1.2.0": {
+        title: {
+            en: "Update 1.2.0",
+            ru: "Обновление 1.2.0"
+        },
+        message: {
+            ru: [
+                "Добавлена возможность открывать контекстное меню для изображений из постов.",
+                "Улучшена темная тема.",
+                "Прочие улучшения и исправления."
+            ],
+            en: [
+                "Added the ability to open the context menu for images from posts.",
+                "Improved the dark theme.",
+                "Other improvements and fixes."
+            ]
+        },
+        link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.2.0"
     }
 };
 
