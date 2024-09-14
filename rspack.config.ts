@@ -1,12 +1,10 @@
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
-import CopyWebpackPlugin from "copy-webpack-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
-import webpack from "webpack";
 
-export const PATHS = {
+import rspack from "@rspack/core";
+
+const PATHS = {
     src: path.join(__dirname, "./src"),
     srcOptions: path.join(__dirname, "./src/options"),
     srcContent: path.join(__dirname, "./src/content"),
@@ -23,7 +21,7 @@ export const PATHS = {
     nodeModules: path.resolve(__dirname, "./node_modules")
 };
 
-const webpack_ = (_: any, argv: any) => {
+const rspack_ = (_: any, argv: any) => {
     const isProduction = argv.mode === "production";
 
     return {
@@ -41,28 +39,53 @@ const webpack_ = (_: any, argv: any) => {
             filename: "[name].js",
             clean: true
         },
+        experiments: {
+            css: true
+        },
         module: {
             rules: [
                 {
-                    test: /\.tsx?$/,
+                    test: /\.ts$/,
                     exclude: [PATHS.nodeModules],
-                    use: [
-                        {
-                            loader: "ts-loader",
-                            options: {
-                                compilerOptions: {
-                                    module: "ESNext",
-                                    removeComments: false
+                    loader: "builtin:swc-loader",
+                    options: {
+                        jsc: {
+                            parser: {
+                                syntax: "typescript"
+                            }
+                        },
+                        compilerOptions: {
+                            module: "ESNext",
+                            removeComments: false
+                        }
+                    },
+                    type: "javascript/auto"
+                },
+                {
+                    test: /\.tsx$/,
+                    exclude: [PATHS.nodeModules],
+                    use: {
+                        loader: "builtin:swc-loader",
+                        options: {
+                            jsc: {
+                                parser: {
+                                    syntax: "typescript",
+                                    tsx: true
                                 }
+                            },
+                            compilerOptions: {
+                                module: "ESNext",
+                                removeComments: false
                             }
                         }
-                    ]
+                    },
+                    type: "javascript/auto"
                 },
                 {
                     test: /\.scss$/,
                     exclude: [PATHS.nodeModules],
                     use: [
-                        MiniCssExtractPlugin.loader,
+                        rspack.CssExtractRspackPlugin.loader,
                         {
                             loader: "css-loader",
                             options: {
@@ -77,18 +100,17 @@ const webpack_ = (_: any, argv: any) => {
                             }
                         },
                         {
-                            loader: "postcss-loader",
+                            loader: "builtin:lightningcss-loader",
                             options: {
-                                sourceMap: true,
-                                postcssOptions: {
-                                    config: path.resolve(__dirname, "postcss.config.js")
-                                }
+                                targets: "chrome >= 110"
                             }
                         },
                         {
                             loader: "sass-loader",
                             options: {
-                                sourceMap: !isProduction
+                                sourceMap: !isProduction,
+                                api: "modern-compiler",
+                                implementation: require.resolve("sass-embedded")
                             }
                         }
                     ]
@@ -105,11 +127,9 @@ const webpack_ = (_: any, argv: any) => {
             }
         },
         plugins: [
-            new CleanWebpackPlugin({
-                cleanOnceBeforeBuildPatterns: []
-            }),
-            new webpack.ProgressPlugin(),
-            new CopyWebpackPlugin({
+            new CleanWebpackPlugin(),
+            new rspack.ProgressPlugin(),
+            new rspack.CopyRspackPlugin({
                 patterns: [
                     {
                         from: `${PATHS.publicFiles}/`,
@@ -129,17 +149,17 @@ const webpack_ = (_: any, argv: any) => {
                     }
                 ]
             }),
-            new ForkTsCheckerWebpackPlugin(),
-            new HtmlWebpackPlugin({
+            isProduction && new ForkTsCheckerWebpackPlugin({ typescript: { mode: "write-references" } }),
+            new rspack.HtmlRspackPlugin({
                 template: `${PATHS.publicHtml}/options.html`,
                 filename: "../options.html",
                 excludeChunks: ["content", "background"]
             }),
-            new MiniCssExtractPlugin({
+            new rspack.CssExtractRspackPlugin({
                 filename: "../css/[name].css",
                 chunkFilename: "../css/[name].css"
             })
-        ]
+        ].filter(Boolean)
     };
 };
-module.exports = webpack_;
+module.exports = rspack_;
