@@ -46,19 +46,7 @@ body {
   margin-right: auto;
   padding: 20px 40px;
   row-gap: 15px;
-  width: 100%;
-
-  @media (min-width: 992px) {
-    max-width: 960px;
-  }
-
-  @media (min-width: 768px) {
-    max-width: 720px;
-  }
-
-  @media (min-width: 576px) {
-    max-width: 540px;
-  }
+  width: 90%;
 }
 
 .options-form {
