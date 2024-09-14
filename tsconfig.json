@@ -18,6 +18,7 @@
         "noEmitOnError": true,
         "typeRoots": ["node_modules/@types", "./custom_typing"],
         "baseUrl": "src",
+        "incremental": true,
         "paths": {
             "@api/*": ["api/*"],
             "@static/*": ["static/*"],
@@ -27,7 +28,7 @@
     },
     "include": [
         "./src/**/*",
-        "./webpack.config.ts",
+        "./rspack.config.ts",
         "./custom_typing/**/*"
     ],
     "exclude": ["public", "./node_modules"]
