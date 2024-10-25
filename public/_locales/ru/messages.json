@@ -87,8 +87,14 @@
   "content_pip": {
     "message": "Картинка в картинке"
   },
-  "content_download": {
+  "video_download": {
     "message": "Скачать видео"
+  },
+  "audio_download": {
+    "message": "Скачать аудио"
+  },
+  "audio_download_tooltip": {
+    "message": "Скачивание доступно только из плеера в верхнем меню. Для его появления необходимо запустить проигрывание интересующего вас аудио."
   },
   "changelog": {
     "message": "Список изменений"
@@ -104,15 +110,6 @@
   },
   "download_video_modal_title": {
     "message": "Выбери качество видео"
-  },
-  "player_speed_decrease": {
-    "message": "Замедлить воспроизведение"
-  },
-  "player_speed_reset": {
-    "message": "Сбросить/вернуть скорость воспроизведения"
-  },
-  "player_speed_increase": {
-    "message": "Ускорить воспроизведение"
   },
   "git_hub": {
     "message": "GitHub"

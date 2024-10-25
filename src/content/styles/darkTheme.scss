@@ -47,9 +47,11 @@
 
 .dark-theme .ExtraActionsMenu_icon_MuAII {
   color: themeVariables.$dark-main-text-color !important;
+  fill: themeVariables.$dark-main-text-color !important;
 
   &:hover {
     color: themeVariables.$highlight-color !important;
+    fill: themeVariables.$highlight-color !important;
   }
 }
 
@@ -375,6 +377,7 @@
 
 .dark-theme .SubscriptionLevelsItem_root_PZSzU {
   background-color: themeVariables.$dark-base-background-color !important;
+  border-bottom: 1px solid themeVariables.$dark-base-border-color !important;
   color: themeVariables.$dark-main-text-color !important;
 }
 
@@ -783,10 +786,6 @@
 .dark-theme .InputField_inputField_vzhmi[disabled] {
   background-color: themeVariables.$dark-light-background-color !important;
   border: 1px solid themeVariables.$dark-base-border-color !important;
-}
-
-.dark-theme .SettingsEdit_blockTitle_lMypl {
-  color: themeVariables.$dark-main-text-color !important;
 }
 
 .dark-theme .PaymentBindListItem_boldString_grLX8 {
@@ -1210,10 +1209,6 @@
 
 .dark-theme .FeedFilter_resetBlock_mOQln {
   border-top: 1px solid themeVariables.$dark-base-border-color !important;
-}
-
-.dark-theme .SubscriptionLevelsItem_root_PZSzU {
-  border-bottom: 1px solid themeVariables.$dark-base-border-color !important;
 }
 
 .dark-theme .Board_container_ArScH {
@@ -1658,5 +1653,37 @@
 .dark-theme .AgentRightsNotice_root_Y9ZXP::before {
   background-color: themeVariables.$dark-base-background-color !important;
   border-top: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .TimeCodeItemActionsMenu_root_je14q {
+  border: 1px solid themeVariables.$dark-base-border-color !important;
+}
+
+.dark-theme .ExtraActionsMenuItem_root_Bfneb {
+  color: themeVariables.$dark-main-text-color !important;
+  fill: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .MainFeed_subscriptionsTitle_XIP9m {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .AudioPlayerButton_audioPlayerButton_XNNy_ {
+  background-color: themeVariables.$dark-light-background-color !important;
+  border: 1px solid themeVariables.$dark-light-background-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+
+  &:hover {
+    background-color: themeVariables.$dark-hover-background-color !important;
+
+    .AudioPlayerButton_iconAudioPlayer_w74dj {
+      color: themeVariables.$highlight-color !important;
+    }
+  }
+}
+
+.dark-theme .AppAudioPlayer_root_LK6Ec {
+  border-top-color: themeVariables.$dark-base-border-color !important;
+  color: themeVariables.$dark-main-text-color !important;
 }
 /* stylelint-enable selector-class-pattern */

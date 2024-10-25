@@ -46,10 +46,10 @@ export function injectVkPlayerChanges(shadowRootContainer: HTMLElement, options:
  * Prepares to inject audio player changes using one-time event listeners
  *
  * @param {HTMLElement} audioPlayer Audio player node
- * @param {UserOptions} options Extension options
+ * @param {boolean} isTopMenuAudioPlayer Is top menu audio player
  */
-export function injectAudioPlayerChanges(audioPlayer: HTMLElement, options: UserOptions) {
-    prepareAudioPlayer(audioPlayer, options);
+export function injectAudioPlayerChanges(audioPlayer: HTMLElement, isTopMenuAudioPlayer: boolean) {
+    prepareAudioPlayer(audioPlayer, isTopMenuAudioPlayer);
 }
 
 /**
@@ -137,17 +137,21 @@ export function injectFullLayout(options: UserOptions, body: HTMLElement) {
 /**
  * Inject stream page stuff
  *
- * @param {boolean} isActive Is stream page active
  * @param {HTMLElement} body Body element
  */
-export function injectStreamPageChanges(isActive: boolean, body: HTMLElement) {
-    if (isActive) {
-        body.classList.add("mb-stream");
-        window.addEventListener("scroll", scrollEvent);
-    } else {
-        body.classList.remove("mb-stream");
-        window.removeEventListener("scroll", scrollEvent);
-    }
+export function injectStreamPageChanges(body: HTMLElement) {
+    body.classList.remove("mb-stream");
+    window.removeEventListener("scroll", scrollEvent);
+}
+
+/**
+ * Inject stream page stuff
+ *
+ * @param {HTMLElement} body Body element
+ */
+export function injectActiveStreamPageChanges(body: HTMLElement) {
+    body.classList.add("mb-stream");
+    window.addEventListener("scroll", scrollEvent);
 }
 
 /**

@@ -25,6 +25,7 @@
         "simple-import-sort",
         "import-x"
     ],
+    "ignorePatterns": ["rspack.config.ts"],
     "rules": {
         "prettier/prettier": [
             "error",
@@ -42,7 +43,7 @@
             "error",
             "all"
         ],
-        "import-x/prefer-default-export": "off",
+        "import/prefer-default-export": "off",
         "import-x/extensions": [
             "error",
             "ignorePackages",
