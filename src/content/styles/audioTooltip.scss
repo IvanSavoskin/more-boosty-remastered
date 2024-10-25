@@ -1,0 +1,49 @@
+@use '../../styles/themeVariables' as themeVariables;
+
+.mb-audio-download-tooltip {
+  border-radius: 8px;
+  opacity: 1;
+  padding: 20px;
+  position: absolute;
+  transform: translateX(-50%) translateY(-100%);
+  transition: opacity 0.15s ease;
+  z-index: 99999999;
+}
+
+.mb-audio-download-tooltip-close-icon-container {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  height: 20px;
+  justify-content: center;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 20px;
+  z-index: 2;
+}
+
+.mb-audio-download-tooltip-close-icon {
+  height: 15px;
+  width: 15px;
+}
+
+.light-theme .mb-audio-download-tooltip {
+  background-color: themeVariables.$light-base-background-color;
+  box-shadow: themeVariables.$dark-box-shadow;
+  color: themeVariables.$light-main-text-color;
+}
+
+.dark-theme .mb-audio-download-tooltip {
+  background-color: themeVariables.$dark-base-background-color;
+  box-shadow: themeVariables.$dark-box-shadow;
+  color: themeVariables.$dark-main-text-color;
+}
+
+.light-theme .mb-audio-download-tooltip-close-icon {
+  fill: themeVariables.$light-main-text-color;
+}
+
+.dark-theme .mb-audio-download-tooltip-close-icon {
+  fill: themeVariables.$dark-main-text-color;
+}

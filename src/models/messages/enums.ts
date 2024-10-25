@@ -22,7 +22,6 @@ export enum BackgroundMessageType {
 export enum ContentMessageType {
     TIMESTAMP_INFO = "timestampInfo",
     CONTENT_DATA_INFO = "contentDataInfo",
-    PLAYBACK_RATE_INFO = "playbackRateInfo",
     THEME_INFO = "themeInfo"
 }
 

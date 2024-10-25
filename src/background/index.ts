@@ -15,7 +15,6 @@ import {
     BackgroundMessage,
     ContentDataInfoContentMessage,
     OptionsInfoMessage,
-    PlaybackRateInfoContentMessage,
     ThemeInfoContentMessage,
     TimestampInfoContentMessage
 } from "@models/messages/types";
@@ -80,26 +79,6 @@ chrome.runtime.onMessage.addListener((message: BackgroundMessage, _, sendRespons
             );
 
             return true;
-        }
-        case BackgroundMessageType.REQUEST_PLAYBACK_RATE: {
-            console.debug("Send playback rate");
-
-            getPlaybackRateFromCache().then((playbackRate) =>
-                sendResponse({
-                    target: [MessageTarget.CONTENT],
-                    type: ContentMessageType.PLAYBACK_RATE_INFO,
-                    data: { playbackRate: playbackRate ?? 1 }
-                } as PlaybackRateInfoContentMessage)
-            );
-
-            return true;
-        }
-        case BackgroundMessageType.SAVE_PLAYBACK_RATE: {
-            console.debug(`Save playback rate ${message.data.playbackRate}`);
-
-            savePlaybackRateToCache(message.data.playbackRate);
-
-            break;
         }
         case BackgroundMessageType.REQUEST_OPTIONS: {
             console.debug("Send extension options");
@@ -310,25 +289,6 @@ async function getAllTimestampsFromCache(sync: boolean): Promise<[string, number
 }
 
 /**
- * Get playback rate from cache
- *
- * @returns {Promise<number|null|undefined>} Playback rate from cache
- */
-async function getPlaybackRateFromCache(): Promise<number | null | undefined> {
-    const data = await readFromCache<number>("playbackRate");
-    return data?.data;
-}
-
-/**
- * Save the current playback rate to cache
- *
- * @param {number} playbackRate Current playback rate
- */
-async function savePlaybackRateToCache(playbackRate: number) {
-    await writeToCacheWithTimeout("playbackRate", playbackRate);
-}
-
-/**
  * Get theme from cache
  *
  * @param {boolean} sync Whether to get from sync cache or from local
@@ -343,7 +303,7 @@ async function getThemeFromCache(sync: boolean): Promise<ThemeEnum | null | unde
  * Save the current theme to cache
  *
  * @param {boolean} sync Whether to save to sync cache or to local
- * @param {ThemeEnum} theme Current playback rate
+ * @param {ThemeEnum} theme Current theme
  */
 async function saveThemeToCache(theme: ThemeEnum, sync: boolean) {
     await writeToCache("theme", theme, sync);
