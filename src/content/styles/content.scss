@@ -1,6 +1,7 @@
-@import 'base';
-@import 'changelog';
-@import 'modal';
-@import 'themeSwitcher';
-@import 'darkTheme';
-@import 'styleImprovement';
+@use 'base';
+@use 'changelog';
+@use 'modal';
+@use 'audioTooltip';
+@use 'themeSwitcher';
+@use 'darkTheme';
+@use 'styleImprovement';

@@ -62,26 +62,6 @@ const rspack_ = (_: any, argv: any) => {
                     type: "javascript/auto"
                 },
                 {
-                    test: /\.tsx$/,
-                    exclude: [PATHS.nodeModules],
-                    use: {
-                        loader: "builtin:swc-loader",
-                        options: {
-                            jsc: {
-                                parser: {
-                                    syntax: "typescript",
-                                    tsx: true
-                                }
-                            },
-                            compilerOptions: {
-                                module: "ESNext",
-                                removeComments: false
-                            }
-                        }
-                    },
-                    type: "javascript/auto"
-                },
-                {
                     test: /\.scss$/,
                     exclude: [PATHS.nodeModules],
                     use: [
@@ -162,4 +142,4 @@ const rspack_ = (_: any, argv: any) => {
         ].filter(Boolean)
     };
 };
-module.exports = rspack_;
+export default rspack_;

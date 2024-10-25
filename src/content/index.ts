@@ -12,6 +12,7 @@ import { UserOptions } from "@models/options/types";
 import ThemeEnum from "@models/theme/enums";
 
 import {
+    injectActiveStreamPageChanges,
     injectAudioPlayerChanges,
     injectExtensionIconInTopMenu,
     injectFullLayout,
@@ -26,6 +27,13 @@ let options: UserOptions | null = null;
  * Process audio players
  */
 function processAudioPlayers() {
+    const topMenuAudioPlayer = document.querySelector("div[class*=AppAudioPlayer_root_]:not([data-complete=true])") as HTMLElement | null;
+
+    if (topMenuAudioPlayer) {
+        injectAudioPlayerChanges(topMenuAudioPlayer, true);
+        topMenuAudioPlayer.dataset.complete = "true";
+    }
+
     const audioPlayers = document.querySelectorAll("div[class*=AudioBlock_root_]:not([data-complete=true])") as NodeListOf<HTMLElement>;
 
     for (const player of audioPlayers) {
@@ -34,7 +42,7 @@ function processAudioPlayers() {
             continue;
         }
 
-        injectAudioPlayerChanges(player, options as UserOptions);
+        injectAudioPlayerChanges(player, false);
         player.dataset.complete = "true";
     }
 }
@@ -69,8 +77,8 @@ function injectExtensionIcon(body: HTMLElement): boolean {
 
     injectExtensionIconInTopMenu(topMenuLeft);
 
-    if (window.location.hash?.includes("mb-update")) {
-        window.location.href = "#";
+    if (globalThis.location.hash?.includes("mb-update")) {
+        globalThis.location.href = "#";
 
         const changelogButton = body.querySelector("a#mb-changelog") as HTMLAnchorElement | null;
 
@@ -96,18 +104,16 @@ function processTheaterMode(body: HTMLElement, isActive?: boolean) {
         return;
     }
 
-    let isTheaterModeInjectActive = !!isActive;
-
-    if (isTheaterModeInjectActive) {
-        injectStreamPageChanges(isTheaterModeInjectActive, body);
+    if (isActive) {
+        injectActiveStreamPageChanges(body);
         return;
     }
 
-    if (window.location.href.includes("/video_stream")) {
-        isTheaterModeInjectActive = true;
+    if (globalThis.location.href.includes("/video_stream")) {
+        injectActiveStreamPageChanges(body);
     }
 
-    injectStreamPageChanges(isTheaterModeInjectActive, body);
+    injectStreamPageChanges(body);
 }
 
 /**

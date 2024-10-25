@@ -72,6 +72,27 @@ const changelog: Changelog = {
             ]
         },
         link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.2.0"
+    },
+    "1.2.1": {
+        title: {
+            en: "Update 1.2.1",
+            ru: "Обновление 1.2.1"
+        },
+        message: {
+            ru: [
+                "Исправлено скачивание аудио.",
+                "Удалено управление скоростью воспроизведения (Boosty сделали встроенную систему).",
+                "Улучшена темная тема.",
+                "Прочие улучшения и исправления."
+            ],
+            en: [
+                "Fix download action for audio.",
+                "Remove playback rate controls (Boosty made it built-in).",
+                "Improve dark theme",
+                "Other improvements and fixes."
+            ]
+        },
+        link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.2.1"
     }
 };
 

@@ -87,8 +87,14 @@
   "content_pip": {
     "message": "Picture-in-picture"
   },
-  "content_download": {
+  "video_download": {
     "message": "Download video"
+  },
+  "audio_download": {
+    "message": "Download audio"
+  },
+  "audio_download_tooltip": {
+    "message": "Downloading is only available from the player in the top menu. To make it appear, you need to start playing the audio you are interested in."
   },
   "changelog": {
     "message": "Release notes"
@@ -128,15 +134,6 @@
   },
   "video_quality_tiny": {
     "message": "144p"
-  },
-  "player_speed_decrease": {
-    "message": "Decrease playback speed"
-  },
-  "player_speed_reset": {
-    "message": "Reset/return playback speed"
-  },
-  "player_speed_increase": {
-    "message": "Increase playback speed"
   },
   "git_hub": {
     "message": "GitHub"
