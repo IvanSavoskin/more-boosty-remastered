@@ -692,6 +692,11 @@ function getContentMetadata(playerWrapper: HTMLElement): ContentMetadataWithUnkn
         };
     }
 
+    // Media page
+    if (pathName.includes("/media/")) {
+        return generateMediaMetadata(pathName);
+    }
+
     // Post on main blog page
     const postContent = playerRoot.closest("div[class*=Post_root_]") as HTMLElement | null;
     if (postContent) {
@@ -701,18 +706,6 @@ function getContentMetadata(playerWrapper: HTMLElement): ContentMetadataWithUnkn
             const postLink = postLinkElement.href;
 
             return generatePostMetadata(postLink);
-        }
-    }
-
-    // Post in Media tab
-    const mediaContent = playerRoot.closest("div[class*=MediaViewer_root_]") as HTMLElement | null;
-    if (mediaContent) {
-        const mediaLinkElement = mediaContent.querySelector("a[class*=GoToPostButton_link_]") as HTMLAnchorElement | null;
-
-        if (mediaLinkElement) {
-            const mediaLink = mediaLinkElement.href;
-
-            return generatePostMetadata(mediaLink);
         }
     }
 
@@ -733,6 +726,20 @@ function generatePostMetadata(url: string): BlogContentMetadata {
         type: "post",
         id: url.split("/").reverse()[0],
         blogName: url.split("/").reverse()[2]
+    };
+}
+
+/**
+ * Generate generic media metadata from URL/pathname
+ *
+ * @param {string} url Page URL
+ * @returns {BlogContentMetadata} Blog content metadata
+ */
+function generateMediaMetadata(url: string): BlogContentMetadata {
+    return {
+        type: "post",
+        id: url.split("/").reverse()[1],
+        blogName: url.split("/").reverse()[4]
     };
 }
 
