@@ -745,6 +745,21 @@
   color: themeVariables.$highlight-color !important;
 }
 
+.dark-theme .BlogRssLinkButton_button_z8BMI {
+  background-color: themeVariables.$dark-light-background-color !important;
+  border-color: themeVariables.$dark-light-background-color !important;
+  color: themeVariables.$dark-main-text-color !important;
+
+  &:hover {
+    background-color: themeVariables.$dark-hover-background-color !important;
+    color: themeVariables.$highlight-color !important;
+  }
+}
+
+.dark-theme .RssLinkPopup_inputWrapper_DtKe3::after {
+  background: linear-gradient(270deg, themeVariables.$dark-light-background-color, transparent) !important;
+}
+
 .dark-theme .TargetItemCommon_collectedText_boxC2 {
   color: themeVariables.$dark-secondary-text-color !important;
 }
@@ -1685,5 +1700,38 @@
 .dark-theme .AppAudioPlayer_root_LK6Ec {
   border-top-color: themeVariables.$dark-base-border-color !important;
   color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .MediaAlbumPostFeedItem_root_ua784 {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .MediaAlbumPostFeedItem_header_AXCAC {
+  border-bottom: 1px solid themeVariables.$dark-light-background-color !important;
+}
+
+.dark-theme .MediaAlbumPostFeedItem_goToPost_fekVc:not(:hover) {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme .Progress_timing_f7ky3 {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .AudioPlayer_artist_bKgAE {
+  color: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .AudioItem_overlay_JxrrH {
+  background-color: themeVariables.$dark-base-background-color !important;
+}
+
+.dark-theme .AudioItem_playIconSmall_TT96Z {
+  color: themeVariables.$dark-secondary-text-color !important;
+  stroke: themeVariables.$dark-secondary-text-color !important;
+}
+
+.dark-theme .AudioItem_time_Hm0vW {
+  color: themeVariables.$dark-secondary-text-color !important;
 }
 /* stylelint-enable selector-class-pattern */
