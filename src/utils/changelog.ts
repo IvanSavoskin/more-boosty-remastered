@@ -93,6 +93,17 @@ const changelog: Changelog = {
             ]
         },
         link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.2.1"
+    },
+    "1.2.2": {
+        title: {
+            en: "Update 1.2.2",
+            ru: "Обновление 1.2.2"
+        },
+        message: {
+            ru: ["Исправлено скачивание видео из вкладки Медиа.", "Улучшена темная тема."],
+            en: ["Fix download video from Media tab.", "Improve dark theme"]
+        },
+        link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.2.2"
     }
 };
 
