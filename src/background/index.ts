@@ -15,6 +15,7 @@ import {
     BackgroundMessage,
     ContentDataInfoContentMessage,
     OptionsInfoMessage,
+    PlaybackRateInfoContentMessage,
     ThemeInfoContentMessage,
     TimestampInfoContentMessage
 } from "@models/messages/types";
@@ -79,6 +80,26 @@ chrome.runtime.onMessage.addListener((message: BackgroundMessage, _, sendRespons
             );
 
             return true;
+        }
+        case BackgroundMessageType.REQUEST_PLAYBACK_RATE: {
+            console.debug("Send playback rate");
+
+            getPlaybackRateFromCache().then((playbackRate) =>
+                sendResponse({
+                    target: [MessageTarget.CONTENT],
+                    type: ContentMessageType.PLAYBACK_RATE_INFO,
+                    data: { playbackRate: playbackRate ?? 1 }
+                } as PlaybackRateInfoContentMessage)
+            );
+
+            return true;
+        }
+        case BackgroundMessageType.SAVE_PLAYBACK_RATE: {
+            console.debug(`Save playback rate ${message.data.playbackRate}`);
+
+            savePlaybackRateToCache(message.data.playbackRate);
+
+            break;
         }
         case BackgroundMessageType.REQUEST_OPTIONS: {
             console.debug("Send extension options");
@@ -286,6 +307,25 @@ async function getAllTimestampsFromCache(sync: boolean): Promise<[string, number
     console.groupEnd();
 
     return timestamps;
+}
+
+/**
+ * Get playback rate from cache
+ *
+ * @returns {Promise<number|null|undefined>} Playback rate from cache
+ */
+async function getPlaybackRateFromCache(): Promise<number | null | undefined> {
+    const data = await readFromCache<number>("playbackRate");
+    return data?.data;
+}
+
+/**
+ * Save the current playback rate to cache
+ *
+ * @param {number} playbackRate Current playback rate
+ */
+async function savePlaybackRateToCache(playbackRate: number) {
+    await writeToCacheWithTimeout("playbackRate", playbackRate);
 }
 
 /**

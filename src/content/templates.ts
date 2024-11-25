@@ -140,7 +140,14 @@ export const pipButton = () => `
 
 export const videoDownloadButton = () => `
 <div id="mb-video-download-button" style="cursor: pointer">
-    <div role="button" tabindex="0" title="${t("video_download")}" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+    <div
+        role="button"
+        tabindex="0"
+        title="${t("video_download")}"
+        style="height: 24px"
+        onmouseover="this.style.opacity='0.8'"
+        onmouseout="this.style.opacity='1'"
+    >
         <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
             <g fill="currentColor" fill-rule="evenodd">
               <path class="_enter" d="M6 21H18A1 1 0 0018 19H6A1 1 0 006 21M19 10H15V3H9V10H5C7.3333 12.3333 9.6667 14.6667 12 17L19 10Z" />
@@ -150,13 +157,56 @@ export const videoDownloadButton = () => `
 </div>
 `;
 
-export const audioControls = (url: string) => `
-<div id="mb-audio-control-wrapper" style="display: flex; justify-content: center; margin-left: auto; column-gap: 8px;">
-    <div id="mb-audio-download-button" style="cursor: pointer" data-url="${url}">
-        <div role="button" tabindex="0" title="${t("audio_download")}" onmouseover="this.style.color='#f15f2c'" onmouseout="this.style.color='inherit'">
+export const videoSpeedController = (initialPlaybackRate: number) => `
+<div id="mb-video-speed-control" style="display: flex; align-items: center">
+    <div id="mb-speed-decrease" style="background-color: initial !important; cursor: pointer !important; padding: 0;">
+        <div
+            role="button"
+            tabindex="0"
+            title="${t("player_speed_decrease")}"
+            style="height: 24px"
+            onmouseover="this.style.opacity='0.8'"
+            onmouseout="this.style.opacity='1'"
+        >
             <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
                 <g fill="currentColor" fill-rule="evenodd">
-                    <path class="_enter" d="M6 21H18A1 1 0 0018 19H6A1 1 0 006 21M19 10H15V3H9V10H5C7.3333 12.3333 9.6667 14.6667 12 17L19 10Z" />
+                    <path class="_enter" d="M20 12a1 1 0 01-1 1H5a1 1 0 110-2h14a1 1 0 011 1z" />
+                </g>
+            </svg>
+        </div>
+    </div>
+
+    <div id="mb-current-playback-rate" style="cursor: pointer !important;">
+        <div
+            role="button"
+            tabindex="0"
+            title="${t("player_speed_reset")}"
+            style="width: 40px;
+            text-align: center;"
+            onmouseover="this.style.opacity='0.8'"
+            onmouseout="this.style.opacity='1'"
+        >
+            <span>
+                x${initialPlaybackRate}
+            </span>
+        </div>
+    </div>
+
+    <div id="mb-speed-increase" style="background-color: initial !important; cursor: pointer !important; padding: 0;">
+        <div
+            role="button"
+            tabindex="0"
+            title="${t("player_speed_increase")}"
+            style="height: 24px"
+            onmouseover="this.style.opacity='0.8'"
+            onmouseout="this.style.opacity='1'"
+        >
+            <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
+                <g fill="currentColor" fill-rule="evenodd">
+                    <path
+                        class="_enter"
+                        d="M20 12a1 1 0 01-1 1h-6v6A1 1 0 0112 20a1 1 0 01-1-1v-6h-6a1 1 0 110-2h6v-6A1 1 0 0112 4a1 1 0 011 1v6h6a1 1 0 011 1z"
+                    />
                 </g>
             </svg>
         </div>
@@ -164,13 +214,153 @@ export const audioControls = (url: string) => `
 </div>
 `;
 
-export const audioControlsStub = () => `
+export const audioControls = (url: string, initialPlaybackRate: number) => `
 <div id="mb-audio-control-wrapper" style="display: flex; justify-content: center; margin-left: auto; column-gap: 8px;">
-    <div id="mb-audio-download-button-stub" style="cursor: pointer">
-        <div role="button" tabindex="0" title="${t("audio_download")}" onmouseover="this.style.color='#f15f2c'" onmouseout="this.style.color='inherit'">
+    <div id="mb-audio-speed-control" style="display: flex; align-items: center;">
+        <div id="mb-speed-decrease" style="cursor: pointer !important;">
+            <div
+                role="button"
+                tabindex="0"
+                title="${t("player_speed_decrease")}"
+                style="height: 24px"
+                onmouseover="this.style.color='#f15f2c'"
+                onmouseout="this.style.color='inherit'"
+            >
+                <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="currentColor" fill-rule="evenodd">
+                        <path class="_enter" d="M20 12a1 1 0 01-1 1H5a1 1 0 110-2h14a1 1 0 011 1z" />
+                    </g>
+                </svg>
+            </div>
+        </div>
+    
+        <div id="mb-current-playback-rate" style="cursor: pointer !important;">
+            <div
+                role="button"
+                tabindex="0"
+                title="${t("player_speed_reset")}"
+                style="width: 40px; text-align: center;"
+                onmouseover="this.style.color='#f15f2c'"
+                onmouseout="this.style.color='inherit'"
+            >
+                <span>
+                    x${initialPlaybackRate}
+                </span>
+            </div>
+        </div>
+    
+        <div id="mb-speed-increase" style="cursor: pointer !important;">
+            <div
+                role="button"
+                tabindex="0"
+                title="${t("player_speed_increase")}"
+                style="height: 24px"
+                onmouseover="this.style.color='#f15f2c'"
+                onmouseout="this.style.color='inherit'"
+            >
+                <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="currentColor" fill-rule="evenodd">
+                        <path
+                            class="_enter"
+                            d="M20 12a1 1 0 01-1 1h-6v6A1 1 0 0112 20a1 1 0 01-1-1v-6h-6a1 1 0 110-2h6v-6A1 1 0 0112 4a1 1 0 011 1v6h6a1 1 0 011 1z"
+                        />
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div id="mb-audio-download-button" style="cursor: pointer" data-url="${url}">
+        <div
+            role="button"
+            tabindex="0"
+            title="${t("audio_download")}"
+            style="height: 24px"
+            onmouseover="this.style.color='#f15f2c'"
+            onmouseout="this.style.color='inherit'"
+        >
             <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
                 <g fill="currentColor" fill-rule="evenodd">
-                    <path class="_enter" d="M6 21H18A1 1 0 0018 19H6A1 1 0 006 21M19 10H15V3H9V10H5C7.3333 12.3333 9.6667 14.6667 12 17L19 10Z" />
+                    <path
+                        class="_enter"
+                        d="M6 21H18A1 1 0 0018 19H6A1 1 0 006 21M19 10H15V3H9V10H5C7.3333 12.3333 9.6667 14.6667 12 17L19 10Z"
+                    />
+                </g>
+            </svg>
+        </div>
+    </div>
+</div>
+`;
+
+export const audioControlsStub = (initialPlaybackRate: number) => `
+<div id="mb-audio-control-wrapper" style="display: flex; justify-content: center; margin-left: auto; column-gap: 8px;">
+    <div id="mb-audio-speed-control" style="display: flex; align-items: center;">
+        <div id="mb-speed-decrease" style="cursor: pointer !important;">
+            <div
+                role="button"
+                tabindex="0"
+                title="${t("player_speed_decrease")}"
+                style="height: 24px"
+                onmouseover="this.style.color='#f15f2c'"
+                onmouseout="this.style.color='inherit'"
+            >
+                <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="currentColor" fill-rule="evenodd">
+                        <path class="_enter" d="M20 12a1 1 0 01-1 1H5a1 1 0 110-2h14a1 1 0 011 1z" />
+                    </g>
+                </svg>
+            </div>
+        </div>
+    
+        <div id="mb-current-playback-rate" style="cursor: pointer !important;">
+            <div
+                role="button"
+                tabindex="0"
+                title="${t("player_speed_reset")}"
+                style="width: 40px; text-align: center;"
+                onmouseover="this.style.color='#f15f2c'"
+                onmouseout="this.style.color='inherit'"
+            >
+                <span>
+                    x${initialPlaybackRate}
+                </span>
+            </div>
+        </div>
+    
+        <div id="mb-speed-increase" style="cursor: pointer !important;">
+            <div
+                role="button"
+                tabindex="0"
+                title="${t("player_speed_increase")}"
+                style="height: 24px"
+                onmouseover="this.style.color='#f15f2c'"
+                onmouseout="this.style.color='inherit'"
+            >
+                <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="currentColor" fill-rule="evenodd">
+                        <path
+                            class="_enter"
+                            d="M20 12a1 1 0 01-1 1h-6v6A1 1 0 0112 20a1 1 0 01-1-1v-6h-6a1 1 0 110-2h6v-6A1 1 0 0112 4a1 1 0 011 1v6h6a1 1 0 011 1z"
+                        />
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div id="mb-audio-download-button-stub" style="cursor: pointer">
+        <div
+            role="button"
+            tabindex="0"
+            title="${t("audio_download")}"
+            style="height: 24px"
+            onmouseover="this.style.color='#f15f2c'"
+            onmouseout="this.style.color='inherit'"
+        >
+            <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg">
+                <g fill="currentColor" fill-rule="evenodd">
+                    <path
+                        class="_enter"
+                        d="M6 21H18A1 1 0 0018 19H6A1 1 0 006 21M19 10H15V3H9V10H5C7.3333 12.3333 9.6667 14.6667 12 17L19 10Z"
+                    />
                 </g>
             </svg>
         </div>
@@ -180,9 +370,17 @@ export const audioControlsStub = () => `
 
 export const audioDownloadTooltip = (left: number, top: number) => `
 <div id="mb-audio-download-tooltip" class="mb-audio-download-tooltip" style="left: ${left}px; top: ${top}px;">
-    <span class="mb-audio-download-tooltip-close-icon-container" id="mb-audio-download-tooltip-close" onmouseover="this.style.color='#f15f2c'" onmouseout="this.style.color='inherit'">
+    <span
+        class="mb-audio-download-tooltip-close-icon-container"
+        id="mb-audio-download-tooltip-close"
+        onmouseover="this.style.color='#f15f2c'"
+        onmouseout="this.style.color='inherit'"
+    >
         <svg class="mb-audio-download-tooltip-close-icon" viewBox="0 0 1792 1792">
-            <path fill="currentColor" d="M1082.2,896.6l410.2-410c51.5-51.5,51.5-134.6,0-186.1s-134.6-51.5-186.1,0l-410.2,410L486,300.4c-51.5-51.5-134.6-51.5-186.1,0s-51.5,134.6,0,186.1l410.2,410l-410.2,410c-51.5,51.5-51.5,134.6,0,186.1c51.6,51.5,135,51.5,186.1,0l410.2-410l410.2,410c51.5,51.5,134.6,51.5,186.1,0c51.1-51.5,51.1-134.6-0.5-186.2L1082.2,896.6z"/>
+            <path
+                fill="currentColor"
+                d="M1082.2,896.6l410.2-410c51.5-51.5,51.5-134.6,0-186.1s-134.6-51.5-186.1,0l-410.2,410L486,300.4c-51.5-51.5-134.6-51.5-186.1,0s-51.5,134.6,0,186.1l410.2,410l-410.2,410c-51.5,51.5-51.5,134.6,0,186.1c51.6,51.5,135,51.5,186.1,0l410.2-410l410.2,410c51.5,51.5,134.6,51.5,186.1,0c51.1-51.5,51.1-134.6-0.5-186.2L1082.2,896.6z"
+            />
          </svg>
     </span>
     <span>${t("audio_download_tooltip")}</span>

@@ -135,6 +135,15 @@
   "video_quality_tiny": {
     "message": "144p"
   },
+  "player_speed_decrease": {
+    "message": "Decrease playback speed"
+  },
+  "player_speed_reset": {
+    "message": "Reset/return playback speed"
+  },
+  "player_speed_increase": {
+    "message": "Increase playback speed"
+  },
   "git_hub": {
     "message": "GitHub"
   }
