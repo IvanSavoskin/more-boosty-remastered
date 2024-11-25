@@ -111,6 +111,15 @@
   "download_video_modal_title": {
     "message": "Выбери качество видео"
   },
+  "player_speed_decrease": {
+    "message": "Замедлить воспроизведение"
+  },
+  "player_speed_reset": {
+    "message": "Сбросить/вернуть скорость воспроизведения"
+  },
+  "player_speed_increase": {
+    "message": "Ускорить воспроизведение"
+  },
   "git_hub": {
     "message": "GitHub"
   }
