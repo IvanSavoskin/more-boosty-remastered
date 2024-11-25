@@ -1734,4 +1734,8 @@
 .dark-theme .AudioItem_time_Hm0vW {
   color: themeVariables.$dark-secondary-text-color !important;
 }
+
+.dark-theme .CommentView_contentWrapper_LoUi4 .CommentView_showMore_qpZ4Z {
+  background-image: linear-gradient(180deg, hsla(0, 0%, 100%, 0), themeVariables.$dark-base-background-color 75%, themeVariables.$dark-base-background-color) !important;
+}
 /* stylelint-enable selector-class-pattern */

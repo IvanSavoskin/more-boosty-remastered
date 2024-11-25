@@ -33,6 +33,17 @@ export interface RequestContentDataBackgroundMessage extends Message {
     data: { metadata: ContentMetadata; accessToken: string };
 }
 
+export interface RequestPlaybackRateBackgroundMessage extends Message {
+    type: BackgroundMessageType.REQUEST_PLAYBACK_RATE;
+    target: [MessageTarget.BACKGROUND];
+}
+
+export interface SavePlaybackRateBackgroundMessage extends Message {
+    type: BackgroundMessageType.SAVE_PLAYBACK_RATE;
+    target: [MessageTarget.BACKGROUND];
+    data: { playbackRate: number };
+}
+
 export interface RequestOptionsBackgroundMessage extends Message {
     type: BackgroundMessageType.REQUEST_OPTIONS;
     target: [MessageTarget.BACKGROUND];
@@ -71,6 +82,8 @@ export type BackgroundMessage =
     | SaveTimestampBackgroundMessage
     | RequestContentDataBackgroundMessage
     | RequestOptionsBackgroundMessage
+    | RequestPlaybackRateBackgroundMessage
+    | SavePlaybackRateBackgroundMessage
     | SaveSyncOptionBackgroundMessage
     | SaveOptionsBackgroundMessage
     | RequestThemeBackgroundMessage
@@ -89,6 +102,12 @@ export interface ContentDataInfoContentMessage extends Message {
     data: { contentData: VideoInfo[] | null };
 }
 
+export interface PlaybackRateInfoContentMessage extends Message {
+    type: ContentMessageType.PLAYBACK_RATE_INFO;
+    target: [MessageTarget.CONTENT];
+    data: { playbackRate: number };
+}
+
 export interface ThemeInfoContentMessage extends Message {
     type: ContentMessageType.THEME_INFO;
     target: [MessageTarget.CONTENT];
@@ -101,6 +120,10 @@ export interface OptionsInfoMessage extends Message {
     data: { options: UserOptions };
 }
 
-export type ContentMessage = TimestampInfoContentMessage | ContentDataInfoContentMessage | OptionsInfoMessage;
+export type ContentMessage =
+    | TimestampInfoContentMessage
+    | ContentDataInfoContentMessage
+    | PlaybackRateInfoContentMessage
+    | OptionsInfoMessage;
 
 export type OptionsMessage = OptionsInfoMessage;
