@@ -104,6 +104,17 @@ const changelog: Changelog = {
             en: ["Fix download video from Media tab.", "Improve dark theme"]
         },
         link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.2.2"
+    },
+    "1.3.0": {
+        title: {
+            en: "Update 1.3.0",
+            ru: "Обновление 1.3.0"
+        },
+        message: {
+            ru: ["Возвращено управление скоростью воспроизведения.", "Улучшена темная тема."],
+            en: ["Playback speed control has been returned.", "Improve dark theme"]
+        },
+        link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.3.0"
     }
 };
 
