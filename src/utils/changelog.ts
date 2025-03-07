@@ -115,6 +115,17 @@ const changelog: Changelog = {
             en: ["Playback speed control has been returned.", "Improve dark theme"]
         },
         link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.3.0"
+    },
+    "1.3.1": {
+        title: {
+            en: "Update 1.3.1",
+            ru: "Обновление 1.3.1"
+        },
+        message: {
+            ru: ["Улучшена темная тема."],
+            en: ["Improve dark theme"]
+        },
+        link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.3.1"
     }
 };
 
