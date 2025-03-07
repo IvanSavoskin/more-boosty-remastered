@@ -22,3 +22,9 @@ $light-secondary-text-color: #7c7c7c;
 $light-base-background-color: #fff;
 $light-base-border-color: #eaeaea;
 $light-hover-border-color: #ccc;
+
+.dark-theme {
+  --var-color-text-primary: #f1f1f1 !important;
+  --var-color-text-regular: #f1f1f1 !important;
+  --var-color-base-border: #4a4a4a !important;
+}
