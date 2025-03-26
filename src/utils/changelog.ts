@@ -137,6 +137,17 @@ const changelog: Changelog = {
             en: ["Fix light theme"]
         },
         link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.3.2"
+    },
+    "1.3.3": {
+        title: {
+            en: "Update 1.3.3",
+            ru: "Обновление 1.3.3"
+        },
+        message: {
+            ru: ["Адаптация расширения под изменения стилей на сайте."],
+            en: ["Adapting the extension to changes in styles on the site."]
+        },
+        link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.3.3"
     }
 };
 

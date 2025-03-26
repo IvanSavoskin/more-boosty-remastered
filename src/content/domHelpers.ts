@@ -65,6 +65,8 @@ export function injectExtensionIconInTopMenu(menuElement: HTMLElement) {
         return;
     }
 
+    console.log(menuElementLastChild);
+
     menuElementLastChild.insertAdjacentHTML("afterend", changelogButton());
 
     const changelogButtonElement = menuElement.querySelector("a#mb-changelog");
@@ -84,10 +86,10 @@ export function injectExtensionIconInTopMenu(menuElement: HTMLElement) {
  * Prepare changelog modal
  */
 const prepareChangelogModal = () => {
-    const appElement = document.querySelector("div[class^=App_app_]");
+    const appElement = document.querySelector("div[class^=App-scss--module_app_]");
 
     if (!appElement) {
-        console.error('Error when injecting changelog modal: App element by selector "div[class^=App_app_]" not found');
+        console.error('Error when injecting changelog modal: App element by selector "div[class^=App-scss--module_app_]" not found');
         return;
     }
 
