@@ -22,55 +22,55 @@
 
 .mb-active {
   // Main layout
-  [class*=Layout_content_] {
+  [class*=Layout-scss--module_content_] {
     transition: 0.2s;
     width: 95% !important;
   }
 
-  [class*=MainFeed_root_] {
+  [class*=MainFeed-scss--module_root_] {
     transition: 0.2s;
     width: 95% !important;
   }
 
-  [class*=Layout_grid_] {
+  [class*=Layout-scss--module_grid_] {
     justify-content: space-between !important;
   }
 
   // Columns overrides
-  [class*=Layout_threeColsLeft_] {
+  [class*=Layout-scss--module_threeColsLeft_] {
     min-width: 255px;
   }
 
-  [class*=Layout_threeColsCenter_] {
+  [class*=Layout-scss--module_threeColsCenter_] {
     width: 100% !important;
   }
 
-  [class*=Layout_threeColsRight_] {
+  [class*=Layout-scss--module_threeColsRight_] {
     min-width: 255px;
   }
 
   // Post
-  [class*=Post_root_] {
+  [class*=Post-scss--module_root_] {
     width: 100% !important;
   }
 
   // Audio in Media tab
-  [class*=MediaAlbumPostFeedItem_root_] {
+  [class*=MediaAlbumPostFeedItem-scss--module_root_] {
     width: 100% !important;
   }
 
   // Locked post content
-  [class*=PostSubscriptionBlock_container_] {
+  [class*=PostSubscriptionBlock-scss--module_container_] {
     width: 100% !important;
   }
 
   // Teaser overlay
-  [class*=TeaserOverlay_container_] {
+  [class*=TeaserOverlay-scss--module_container_] {
     width: 100% !important;
   }
 
   // Messenger container
-  [class*=Messages_container_] {
+  [class*=Messages-scss--module_container_] {
     max-width: 100% !important;
     transition: 0.2s;
   }
@@ -100,15 +100,15 @@
     top: 0 !important;
   }
 
-  [class*=StreamPage_block_] {
+  [class*=StreamPage-scss--module_block_] {
     height: 100% !important;
   }
 
-  [class*=StreamChatToggler_root_] {
+  [class*=StreamChatToggler-scss--module_root_] {
     top: 0 !important;
   }
 
-  [class*=StreamPage_streamVideo_] {
+  [class*=StreamPage-scss--module_streamVideo_] {
     height: 100vh !important;
     max-height: 100vh !important;
   }
