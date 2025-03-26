@@ -148,6 +148,17 @@ const changelog: Changelog = {
             en: ["Adapting the extension to changes in styles on the site."]
         },
         link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.3.3"
+    },
+    "1.3.4": {
+        title: {
+            en: "Update 1.3.4",
+            ru: "Обновление 1.3.4"
+        },
+        message: {
+            ru: ["Исправление широкоформатного режима и стримов."],
+            en: ["Fix for widescreen mode and streams."]
+        },
+        link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.3.4"
     }
 };
 
