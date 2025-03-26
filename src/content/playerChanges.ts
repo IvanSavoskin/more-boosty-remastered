@@ -118,7 +118,7 @@ export async function prepareAudioPlayer(element: HTMLElement, isTopMenuAudioPla
 function injectAudioControlsToTopMenuPlayer(playerWrapper: HTMLElement, playbackRate: number) {
     const audio = document.querySelector("audio");
     const audioUrl = audio?.src;
-    const audioPlayerTopElement = playerWrapper.querySelector("div[class*=AppAudioPlayer_top_]");
+    const audioPlayerTopElement = playerWrapper.querySelector("div[class*=AppAudioPlayer-scss--module_top_]");
 
     if (!audioUrl) {
         console.error("Error injecting audio controls: Audio url not exist", audio);
@@ -127,7 +127,7 @@ function injectAudioControlsToTopMenuPlayer(playerWrapper: HTMLElement, playback
 
     if (!audioPlayerTopElement) {
         console.error(
-            'Error injecting audio controls: Audio player top element by selector "div[class*=AppAudioPlayer_top_]" not found',
+            'Error injecting audio controls: Audio player top element by selector "div[class*=AppAudioPlayer-scss--module_top_]" not found',
             playerWrapper
         );
 
@@ -163,7 +163,7 @@ function injectAudioControlsToTopMenuPlayer(playerWrapper: HTMLElement, playback
  * @param {number} playbackRate Playback rate
  */
 function injectAudioControlsToBasePlayer(playerWrapper: HTMLElement, playbackRate: number) {
-    const audioPlayerRightControlsElement = playerWrapper.querySelector("div[class*=LongAudioControlsView_right]");
+    const audioPlayerRightControlsElement = playerWrapper.querySelector("div[class*=LongAudioControlsView-scss--module_right_]");
 
     if (!audioPlayerRightControlsElement) {
         console.error(
@@ -191,7 +191,7 @@ function injectAudioControlsToBasePlayer(playerWrapper: HTMLElement, playbackRat
         );
     }
 
-    const playButton = playerWrapper.querySelector("button[class*=PlayPauseButton_playButton_]");
+    const playButton = playerWrapper.querySelector("button[class*=PlayPauseButton-scss--module_playButton_]");
 
     if (playButton) {
         playButton.addEventListener("click", () => {
@@ -317,15 +317,9 @@ function injectVideoDownloadModal(playerUrls: PlayerUrl[]) {
             .catch((error) => console.error("Error exiting from Full screen mode:", error));
     }
 
-    // Close in dialogs
-    const closeButton = document.querySelector("button[class*=MediaSwiper_closeButton_]") as HTMLButtonElement | null;
-    if (closeButton) {
-        closeButton.click();
-    }
-
-    const app = document.querySelector("[class^=App_app_]");
+    const app = document.querySelector("[class^=App-scss--module_app_]");
     if (!app) {
-        console.error('Error injecting video download modal: App element by selector "[class^=App_app_]" not found', document);
+        console.error('Error injecting video download modal: App element by selector "[class^=App-scss--module_app_]" not found', document);
         return;
     }
 
@@ -898,9 +892,9 @@ function getContentMetadata(playerWrapper: HTMLElement): ContentMetadataWithUnkn
     }
 
     // Post on main blog page
-    const postContent = playerRoot.closest("div[class*=Post_root_]") as HTMLElement | null;
+    const postContent = playerRoot.closest("div[class*=Post-scss--module_root_]") as HTMLElement | null;
     if (postContent) {
-        const postLinkElement = postContent.querySelector("a[class*=CreatedAt_headerLink_]") as HTMLAnchorElement | null;
+        const postLinkElement = postContent.querySelector("a[class*=CreatedAt-scss--module_headerLink_]") as HTMLAnchorElement | null;
 
         if (postLinkElement) {
             const postLink = postLinkElement.href;
