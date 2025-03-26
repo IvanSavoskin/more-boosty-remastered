@@ -27,18 +27,22 @@ let options: UserOptions | null = null;
  * Process audio players
  */
 function processAudioPlayers() {
-    const topMenuAudioPlayer = document.querySelector("div[class*=AppAudioPlayer_root_]:not([data-complete=true])") as HTMLElement | null;
+    const topMenuAudioPlayer = document.querySelector(
+        "div[class*=AppAudioPlayer-scss--module_root_]:not([data-complete=true])"
+    ) as HTMLElement | null;
 
     if (topMenuAudioPlayer) {
         injectAudioPlayerChanges(topMenuAudioPlayer, true);
         topMenuAudioPlayer.dataset.complete = "true";
     }
 
-    const audioPlayers = document.querySelectorAll("div[class*=AudioBlock_root_]:not([data-complete=true])") as NodeListOf<HTMLElement>;
+    const audioPlayers = document.querySelectorAll(
+        "div[class*=AudioPlayer-scss--module_root_]:not([data-complete=true])"
+    ) as NodeListOf<HTMLElement>;
 
     for (const player of audioPlayers) {
         // Skip nodes from app/messages
-        if (player.classList.value.includes("Messages_audioPlayer_")) {
+        if (player.classList.value.includes("Messages-scss--module_audioPlayer_")) {
             continue;
         }
 
@@ -68,10 +72,10 @@ function processVideoPlayers() {
  * @returns {boolean} Is extension icon injected
  */
 function injectExtensionIcon(body: HTMLElement): boolean {
-    const topMenuLeft = body.querySelector("div[class*=TopMenu_left_]") as HTMLElement | null;
+    const topMenuLeft = body.querySelector("div[class*=TopMenu-scss--module_left_]") as HTMLElement | null;
 
     if (!topMenuLeft) {
-        console.warn('Error injecting extension icon: Left top menu by selector "div[class*=TopMenu_left_]" not found');
+        console.warn('Error injecting extension icon: Left top menu by selector "div[class*=TopMenu-scss--module_left_]" not found');
         return false;
     }
 
@@ -127,10 +131,10 @@ function injectThemeSwitcher(body: HTMLElement): boolean {
         return false;
     }
 
-    const topRightLeft = body.querySelector("div[class*=TopMenu_right_]") as HTMLElement | null;
+    const topRightLeft = body.querySelector("div[class*=TopMenu-scss--module_right_]") as HTMLElement | null;
 
     if (!topRightLeft) {
-        console.warn('Error injecting theme switcher: Right top menu by selector "div[class*=TopMenu_right_]" not found');
+        console.warn('Error injecting theme switcher: Right top menu by selector "div[class*=TopMenu-scss--module_right_]" not found');
         return false;
     }
 
@@ -194,11 +198,11 @@ function injectThemeToLocalPaymentWidget() {
 function injectThemeToLocalPaymentWidgetIframe(iframe: HTMLIFrameElement, theme: ThemeEnum) {
     console.debug("Local payment widget iframe loaded", iframe);
 
-    const appElement = iframe.contentWindow?.document.querySelector(".App_app_Hc7fD");
+    const appElement = iframe.contentWindow?.document.querySelector("div[class*=App-scss--module_app_]");
 
     if (!appElement) {
         console.debug(
-            `Error injecting dark theme to local payment widget container: Local payment widget container by selector ".App_app_Hc7fD" not found`,
+            `Error injecting dark theme to local payment widget container: Local payment widget container by selector "div[class*=App-scss--module_app_]" not found`,
             iframe.contentWindow?.document
         );
         return;
@@ -253,6 +257,16 @@ function processBodyMutations(
         for (const mutation of mutations) {
             const target = mutation.target as HTMLElement;
 
+            if (target.id === "root") {
+                if (isExtensionIconInjected && !target.querySelector("#mb-changelog")) {
+                    injectExtensionIcon(target);
+                }
+
+                if (isThemeSwitcherInjected && !target.querySelector("#mb-theme-switcher")) {
+                    injectThemeSwitcher(target);
+                }
+            }
+
             if (!isExtensionIconInjected && target.id === "root") {
                 console.debug("Deffered inject extension icon");
                 injectExtensionIcon(body);
@@ -272,13 +286,13 @@ function processBodyMutations(
             }
 
             for (const node of mutation.addedNodes) {
-                if ((node as HTMLElement).classList?.value.includes("StreamPage_block_")) {
+                if ((node as HTMLElement).classList?.value.includes("StreamPage-scss--module_block_")) {
                     processTheaterMode(body, true);
                 }
             }
 
             for (const node of mutation.removedNodes) {
-                if ((node as HTMLElement).classList?.value.includes("StreamPage_block_")) {
+                if ((node as HTMLElement).classList?.value.includes("StreamPage-scss--module_block_")) {
                     processTheaterMode(body, false);
                 }
             }

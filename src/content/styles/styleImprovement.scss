@@ -1,46 +1,46 @@
 /* stylelint-disable selector-class-pattern */
-.InputField_inputField_vzhmi {
+[class*=InputField-scss--module_inputField_] {
   cursor: pointer;
 }
 
-.VerticalRadioTabItem_root_TdF_J.VerticalRadioTabItem_active_WPi2_ {
+[class*=VerticalRadioTabItem-scss--module_root_][class*=VerticalRadioTabItem-scss--module_active_] {
   cursor: default !important;
 }
 
-.TabItem_root_JyMmP.TabItem_active_lXfvy {
+[class*=TabItem-scss--module_root_][class*=TabItem-scss--module_active_] {
   cursor: default !important;
 }
 
-.SettingsEditSocialLinksField_iconWrapper_dg8Vh {
+[class*=SettingsEditSocialLinksField-scss--module_iconWrapper_] {
   margin-top: 0.5px !important;
 }
 
-.AudioPlayer_inputTrack_R9AEa::before {
+[class*=AudioPlayer-scss--module_inputTrack_]::before {
   height: 4px !important;
 }
 
-.SubscriptionLevels_giftIcon_HbkXW {
+[class*=SubscriptionLevels-scss--module_giftIcon_] {
   min-height: 20px;
   min-width: 20px;
 }
 
-.CreatedAt_headerLink_CEfWB {
+[class*=CreatedAt-scss--module_headerLink_] {
   line-height: 17px;
 }
 
-.TimeCodeRedactor_list_q1paq {
+[class*=TimeCodeRedactor-scss--module_list_] {
   overflow: auto !important;
 }
 
-.Progress_inputTrack_WdwYS::before {
+[class*=Progress-scss--module_inputTrack_]::before {
   height: 4px !important;
 }
 
-.AppAudioPlayer_root_LK6Ec {
+[class*=AppAudioPlayer-scss--module_root_] {
   width: 586px !important;
 }
 
-.StepStartGiftSubscription_slider_M88_0 {
+[class*=StepStartGiftSubscription-scss--module_slider_] {
   > .react-swipeable-view-container {
     height: 100% !important;
   }
