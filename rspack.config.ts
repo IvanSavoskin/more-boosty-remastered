@@ -1,8 +1,8 @@
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
-import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import path from "path";
 
 import rspack from "@rspack/core";
+import { TsCheckerRspackPlugin } from "ts-checker-rspack-plugin";
 
 const PATHS = {
     src: path.join(__dirname, "./src"),
@@ -129,7 +129,7 @@ const rspack_ = (_: any, argv: any) => {
                     }
                 ]
             }),
-            isProduction && new ForkTsCheckerWebpackPlugin({ typescript: { mode: "write-references" } }),
+            isProduction && new TsCheckerRspackPlugin({ typescript: { mode: "write-references" } }),
             new rspack.HtmlRspackPlugin({
                 template: `${PATHS.publicHtml}/options.html`,
                 filename: "../options.html",
