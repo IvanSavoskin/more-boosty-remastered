@@ -159,6 +159,17 @@ const changelog: Changelog = {
             en: ["Fix for widescreen mode and streams."]
         },
         link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.3.4"
+    },
+    "1.3.5": {
+        title: {
+            en: "Update 1.3.5",
+            ru: "Обновление 1.3.5"
+        },
+        message: {
+            ru: ["Исправление стилей окна настроек.", "Исправление темной темы."],
+            en: ["Fixing the styles of the settings window.", "Fixing the dark theme."]
+        },
+        link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.3.5"
     }
 };
 
