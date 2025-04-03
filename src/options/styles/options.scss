@@ -2,7 +2,7 @@
 
 html {
   min-width: 720px;
-  overflow-x: hidden;
+  overflow: auto;
 }
 
 ::-webkit-scrollbar {
@@ -46,7 +46,6 @@ body {
   margin-right: auto;
   padding: 20px 40px;
   row-gap: 15px;
-  width: 90%;
 }
 
 .options-form {
