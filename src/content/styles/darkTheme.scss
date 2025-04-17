@@ -806,20 +806,6 @@
   color: themeVariables.$dark-main-text-color !important;
 }
 
-.dark-theme [class*=TabItem-scss--module_root_] {
-  color: themeVariables.$dark-main-text-color !important;
-  fill: themeVariables.$dark-main-text-color !important;
-
-  &:not([class*=TabItem-scss--module_active_]):hover {
-    color: themeVariables.$highlight-color !important;
-    fill: themeVariables.$highlight-color !important;
-  }
-}
-
-.dark-theme [class*=TabItem-scss--module_root_][class*=TabItem-scss--module_active_] {
-  background-color: themeVariables.$dark-base-background-color !important;
-}
-
 .dark-theme [class*=ExternalAppCard-scss--module_root_] {
   background-color: themeVariables.$dark-base-background-color !important;
   border: 1px solid themeVariables.$dark-base-border-color !important;
@@ -2244,6 +2230,20 @@
 }
 
 .dark-theme [class*=VolumeControl-scss--module_button_] {
+  color: themeVariables.$dark-main-text-color !important;
+}
+
+.dark-theme [class*=DownloadAppBlock-scss--module_root_] {
+  background-color: themeVariables.$dark-light-background-color !important;
+}
+
+.dark-theme [class*=NativeAppQr-scss--module_root_] {
+  background-color: themeVariables.$dark-main-background-color !important;
+}
+
+.dark-theme [class*=NotificationView-scss--module_wrapper_] {
+  background-color: themeVariables.$dark-base-background-color !important;
+  border-bottom-color: themeVariables.$dark-base-border-color !important;
   color: themeVariables.$dark-main-text-color !important;
 }
 /* stylelint-enable selector-class-pattern */
