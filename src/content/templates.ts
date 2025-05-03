@@ -1,8 +1,8 @@
-import safeHTML from "html-template-tag";
-
 // Changelog JSON
 import changelog from "@coreUtils/changelog";
 import { PlayerUrl } from "@models/video/types";
+
+import safeHTML from "html-template-tag";
 
 // Chrome aliases
 const t = (name: string) => chrome.i18n.getMessage(name);

@@ -1,7 +1,7 @@
-import { $enum } from "ts-enum-util";
-
 import { VideoQualityTypeEnum } from "@models/video/enums";
 import { PlayerUrl } from "@models/video/types";
+
+import { $enum } from "ts-enum-util";
 
 /**
  * Returns a sorted filtered list of video URLs (non-empty with type from VideoQualityTypeEnum)
