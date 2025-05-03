@@ -1,6 +1,6 @@
-import axios, { AxiosResponse } from "axios";
-
 import { BlogContentMetadata, BlogResponse, Data, DialogContentMetadata, DialogData, DialogResponse } from "@models/boosty/types";
+
+import axios, { AxiosResponse } from "axios";
 
 const API_URL = "https://api.boosty.to/v1/";
 

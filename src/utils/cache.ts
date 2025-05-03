@@ -1,6 +1,6 @@
-import { DateTime } from "luxon";
-
 import { CacheData, TimeoutCacheData } from "@models/cache/types";
+
+import { DateTime } from "luxon";
 
 import { DEFAULT_TIMEOUT, generateTimeout, msToReadable } from "./timeUtils";
 import StorageArea = chrome.storage.StorageArea;
@@ -100,8 +100,8 @@ export async function readFromCache<T>(key: string, sync: boolean = false): Prom
     return null;
 }
 
-export async function readAllFromCache(sync: boolean = false): Promise<{ [key: string]: any }> {
-    return (await getStorage(sync).get(null)) as { [key: string]: any };
+export async function readAllFromCache(sync: boolean = false): Promise<Record<string, any>> {
+    return (await getStorage(sync).get(null)) as Record<string, any>;
 }
 
 /**

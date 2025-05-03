@@ -10,6 +10,4 @@ export interface ChangelogElement {
     link: string;
 }
 
-export interface Changelog {
-    [version: string]: ChangelogElement;
-}
+export type Changelog = Record<string, ChangelogElement>;
