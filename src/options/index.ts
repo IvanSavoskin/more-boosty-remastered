@@ -1,7 +1,5 @@
 import "./styles/options.scss";
 
-import { $enum } from "ts-enum-util";
-
 import sendMessage from "@coreUtils/messagesUtils";
 import { BackgroundMessageType, MessageTarget } from "@models/messages/enums";
 import {
@@ -13,6 +11,8 @@ import {
 } from "@models/messages/types";
 import { UserOptions } from "@models/options/types";
 import { VideoQualityEnum } from "@models/video/enums";
+
+import { $enum } from "ts-enum-util";
 
 let options: UserOptions | undefined;
 

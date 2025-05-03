@@ -13,11 +13,9 @@ export function msToReadable(milliseconds: number): string {
 }
 
 /**
- * Generate a milliseconds timeout value from minutes
+ * Generate a millisecond timeout value from minutes
  *
  * @param {number} [timeout=10080] Timeout in minutes
  * @returns {number} Timeout in milliseconds
  */
-export const generateTimeout = (timeout: number = DEFAULT_TIMEOUT): number => {
-    return Date.now() + timeout * 60 * 1000;
-};
+export const generateTimeout = (timeout: number = DEFAULT_TIMEOUT): number => Date.now() + timeout * 60 * 1000;
