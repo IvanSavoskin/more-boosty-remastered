@@ -192,6 +192,17 @@ const changelog: Changelog = {
             en: ["Dark theme has been adjusted to the color format intended by Boosty."]
         },
         link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.3.7"
+    },
+    "1.3.8": {
+        title: {
+            en: "Update 1.3.8",
+            ru: "Обновление 1.3.8"
+        },
+        message: {
+            ru: ["Исправление темной темы."],
+            en: ["Fixing the dark theme."]
+        },
+        link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.3.8"
     }
 };
 
