@@ -82,6 +82,6 @@
 }
 
 .dark-theme [class*=LinkToAllPosts-scss--module_allPostsButton_] {
-  background: var(--var-color-panel-bg);
+  background: var(--var-color-panel-bg) !important;
 }
 /* stylelint-enable selector-class-pattern */
