@@ -80,4 +80,8 @@
 .dark-theme [class*=OffersInfoItem-scss--module_root_] {
   background-color: var(--var-color-panel-bg);
 }
+
+.dark-theme [class*=LinkToAllPosts-scss--module_allPostsButton_] {
+  background: var(--var-color-panel-bg);
+}
 /* stylelint-enable selector-class-pattern */
