@@ -131,10 +131,12 @@ function injectThemeSwitcher(body: HTMLElement): boolean {
         return false;
     }
 
-    const topRightLeft = body.querySelector("div[class*=TopMenu-scss--module_right_]") as HTMLElement | null;
+    const topRightLeft = body.querySelector("div[class*=TopMenuRightButtonsFounder-scss--module_root_]") as HTMLElement | null;
 
     if (!topRightLeft) {
-        console.warn('Error injecting theme switcher: Right top menu by selector "div[class*=TopMenu-scss--module_right_]" not found');
+        console.warn(
+            'Error injecting theme switcher: Right top menu by selector "div[class*=TopMenuRightButtonsFounder-scss--module_root_]" not found'
+        );
         return false;
     }
 
