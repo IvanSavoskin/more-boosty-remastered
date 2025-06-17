@@ -16,11 +16,9 @@ import {
     ContentDataInfoContentMessage,
     OptionsInfoMessage,
     PlaybackRateInfoContentMessage,
-    ThemeInfoContentMessage,
     TimestampInfoContentMessage
 } from "@models/messages/types";
 import { UserOptions } from "@models/options/types";
-import ThemeEnum from "@models/theme/enums";
 import { VideoQualityEnum } from "@models/video/enums";
 import { VideoInfo } from "@models/video/types";
 
@@ -30,7 +28,6 @@ const INITIAL_OPTIONS = {
     forceVideoQuality: false,
     saveLastTimestamp: false,
     theaterMode: false,
-    darkTheme: false,
     sync: false
 };
 
@@ -132,32 +129,6 @@ chrome.runtime.onMessage.addListener((message: BackgroundMessage, _, sendRespons
             console.debug("Save options", message.data.options);
 
             saveOptionsToCache(message.data.options, SYNC);
-            break;
-        }
-        case BackgroundMessageType.REQUEST_THEME: {
-            console.debug("Send theme");
-
-            getThemeFromCache(SYNC).then((theme) =>
-                sendResponse({
-                    target: [MessageTarget.CONTENT],
-                    type: ContentMessageType.THEME_INFO,
-                    data: { theme: theme ?? ThemeEnum.LIGHT_THEME }
-                } as ThemeInfoContentMessage)
-            );
-
-            return true;
-        }
-        case BackgroundMessageType.TOGGLE_THEME: {
-            console.debug(`Toggle theme`);
-
-            getThemeFromCache(SYNC).then((data) => {
-                const newTheme = data === ThemeEnum.DARK_THEME ? ThemeEnum.LIGHT_THEME : ThemeEnum.DARK_THEME;
-
-                console.debug(`New theme ${newTheme}`);
-
-                saveThemeToCache(newTheme, SYNC);
-            });
-
             break;
         }
         case BackgroundMessageType.SYNC_OPTIONS: {
@@ -329,27 +300,6 @@ async function savePlaybackRateToCache(playbackRate: number) {
 }
 
 /**
- * Get theme from cache
- *
- * @param {boolean} sync Whether to get from sync cache or from local
- * @returns {Promise<ThemeEnum|null|undefined>} Playback rate from cache
- */
-async function getThemeFromCache(sync: boolean): Promise<ThemeEnum | null | undefined> {
-    const data = await readFromCache<ThemeEnum>("theme", sync);
-    return data?.data;
-}
-
-/**
- * Save the current theme to cache
- *
- * @param {boolean} sync Whether to save to sync cache or to local
- * @param {ThemeEnum} theme Current theme
- */
-async function saveThemeToCache(theme: ThemeEnum, sync: boolean) {
-    await writeToCache("theme", theme, sync);
-}
-
-/**
  * Open options page
  */
 function openOptionsPage() {
@@ -380,7 +330,7 @@ async function saveOptionsToCache(options: UserOptions, sync: boolean) {
 }
 
 /**
- * Get options, theme and timestamps from local cache and save to sync cache
+ * Get options and timestamps from local cache and save to sync cache
  */
 async function syncCacheData(from: "sync" | "local", to: "sync" | "local"): Promise<UserOptions> {
     console.group(`Getting data from ${from} cache and saving to ${to} cache`);
@@ -388,21 +338,15 @@ async function syncCacheData(from: "sync" | "local", to: "sync" | "local"): Prom
     const isFromSync = from === "sync";
     const isToSync = to === "sync";
 
-    const theme = await getThemeFromCache(isFromSync);
     const options = await getOptionsFromCache(isFromSync);
     const timestamps = await getAllTimestampsFromCache(isFromSync);
 
     console.debug(`Data from ${from} cache for saving ${to} sync cache`);
-    console.debug("Theme", theme);
     console.debug("Options", options);
     console.debug("Timestamp", timestamps);
 
     if (options) {
         await saveOptionsToCache(options, isToSync);
-    }
-
-    if (theme) {
-        await saveThemeToCache(theme ?? ThemeEnum.LIGHT_THEME, isToSync);
     }
 
     for (const timestamp of timestamps) {

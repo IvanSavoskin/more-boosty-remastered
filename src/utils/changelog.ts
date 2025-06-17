@@ -225,6 +225,17 @@ const changelog: Changelog = {
             en: ["Fixed display of dark theme switcher."]
         },
         link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.3.10"
+    },
+    "1.3.11": {
+        title: {
+            en: "Update 1.3.11",
+            ru: "Обновление 1.3.11"
+        },
+        message: {
+            ru: ["В связи с добавлением официальной темной темы от Boosty - темная тема встроенная в расширение удалена."],
+            en: ["Due to the addition of the official dark theme from Boosty - the dark theme built into the extension has been removed."]
+        },
+        link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.3.11"
     }
 };
 
