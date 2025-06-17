@@ -32,12 +32,6 @@
   "options_theater_mode_desc": {
     "message": "scroll down to reveal the top menu"
   },
-  "options_dark_theme": {
-    "message": "Theme switcher β"
-  },
-  "options_dark_theme_desc": {
-    "message": "you can set a dark theme in top menu (in beta)"
-  },
   "options_sync": {
     "message": "Synchronization"
   },

@@ -1,11 +1,10 @@
 import sendMessage from "@coreUtils/messagesUtils";
 import { BackgroundMessageType, MessageTarget } from "@models/messages/enums";
-import { OpenOptionsPageBackgroundMessage, ToggleThemeBackgroundMessage } from "@models/messages/types";
+import { OpenOptionsPageBackgroundMessage } from "@models/messages/types";
 import { UserOptions } from "@models/options/types";
-import ThemeEnum from "@models/theme/enums";
 
 import { prepareAudioPlayer, prepareVideoPlayer } from "./playerChanges";
-import { changelogButton, changelogModal, themeSwitcher } from "./templates";
+import { changelogButton, changelogModal } from "./templates";
 
 /** @see {@link scrollEvent} */
 let topMenu: HTMLElement | undefined | null;
@@ -154,43 +153,6 @@ export function injectStreamPageChanges(body: HTMLElement) {
 export function injectActiveStreamPageChanges(body: HTMLElement) {
     body.classList.add("mb-stream");
     window.addEventListener("scroll", scrollEvent);
-}
-
-/**
- * Inject theme switcher in top menu on the right
- *
- * @param {HTMLElement} menuElement Top right menu element
- */
-export function injectThemeSwitcherInTopMenu(menuElement: HTMLElement) {
-    const menuElementFirstChild = menuElement.firstElementChild;
-
-    if (!menuElementFirstChild) {
-        console.error("Error when injecting theme switcher icon in right top menu: Right menu element first child not found");
-        return;
-    }
-
-    menuElementFirstChild.insertAdjacentHTML("beforebegin", themeSwitcher());
-
-    const themeSwitcherElement = menuElement.querySelector("#mb-theme-switcher");
-
-    if (!themeSwitcherElement) {
-        console.error('Error when injecting theme switcher in right top menu: Theme switcher by selector "#mb-theme-switcher" not found');
-        return;
-    }
-
-    themeSwitcherElement.addEventListener("click", (event) => {
-        event.preventDefault();
-
-        console.debug("Theme switcher clicked");
-
-        document.body.classList.toggle(ThemeEnum.DARK_THEME);
-        document.body.classList.toggle(ThemeEnum.LIGHT_THEME);
-
-        sendMessage<ToggleThemeBackgroundMessage>({
-            target: [MessageTarget.BACKGROUND],
-            type: BackgroundMessageType.TOGGLE_THEME
-        });
-    });
 }
 
 /**

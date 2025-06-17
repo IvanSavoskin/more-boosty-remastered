@@ -14,16 +14,13 @@ export enum BackgroundMessageType {
     REQUEST_OPTIONS = "requestOptions",
     SAVE_OPTIONS = "saveOptions",
     SAVE_SYNC_OPTION = "saveSyncOption",
-    REQUEST_THEME = "requestTheme",
-    TOGGLE_THEME = "toggleTheme",
     SYNC_OPTIONS = "syncOptions"
 }
 
 export enum ContentMessageType {
     TIMESTAMP_INFO = "timestampInfo",
     CONTENT_DATA_INFO = "contentDataInfo",
-    PLAYBACK_RATE_INFO = "playbackRateInfo",
-    THEME_INFO = "themeInfo"
+    PLAYBACK_RATE_INFO = "playbackRateInfo"
 }
 
 export enum ContentOptionsMessageType {
