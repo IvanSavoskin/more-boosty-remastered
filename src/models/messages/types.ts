@@ -1,7 +1,6 @@
 import { ContentMetadata } from "@models/boosty/types";
 import { BackgroundMessageType, ContentMessageType, ContentOptionsMessageType, MessageTarget } from "@models/messages/enums";
 import { UserOptions } from "@models/options/types";
-import ThemeEnum from "@models/theme/enums";
 import { VideoInfo } from "@models/video/types";
 
 export interface Message {
@@ -61,16 +60,6 @@ export interface SaveSyncOptionBackgroundMessage extends Message {
     data: { sync: boolean };
 }
 
-export interface RequestThemeBackgroundMessage extends Message {
-    type: BackgroundMessageType.REQUEST_THEME;
-    target: [MessageTarget.BACKGROUND];
-}
-
-export interface ToggleThemeBackgroundMessage extends Message {
-    type: BackgroundMessageType.TOGGLE_THEME;
-    target: [MessageTarget.BACKGROUND];
-}
-
 export interface SyncOptionsBackgroundMessage extends Message {
     type: BackgroundMessageType.SYNC_OPTIONS;
     target: [MessageTarget.BACKGROUND];
@@ -86,8 +75,6 @@ export type BackgroundMessage =
     | SavePlaybackRateBackgroundMessage
     | SaveSyncOptionBackgroundMessage
     | SaveOptionsBackgroundMessage
-    | RequestThemeBackgroundMessage
-    | ToggleThemeBackgroundMessage
     | SyncOptionsBackgroundMessage;
 
 export interface TimestampInfoContentMessage extends Message {
@@ -106,12 +93,6 @@ export interface PlaybackRateInfoContentMessage extends Message {
     type: ContentMessageType.PLAYBACK_RATE_INFO;
     target: [MessageTarget.CONTENT];
     data: { playbackRate: number };
-}
-
-export interface ThemeInfoContentMessage extends Message {
-    type: ContentMessageType.THEME_INFO;
-    target: [MessageTarget.CONTENT];
-    data: { theme: ThemeEnum };
 }
 
 export interface OptionsInfoMessage extends Message {

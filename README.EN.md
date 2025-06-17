@@ -12,7 +12,6 @@
 * Download video *(for Boosty player)*
 * Save where you left off video/audio *(for Boosty players)*
 * Theater mode for streams
-* Dark theme (in beta)
 
 > Screenshots - *see Installation page*
 

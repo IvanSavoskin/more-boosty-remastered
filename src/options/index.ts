@@ -87,7 +87,6 @@ function updateOptionsFromMessage(message: void | OptionsInfoMessage) {
     optionsForm.forceVideoQuality.checked = _options.forceVideoQuality;
     optionsForm.fullLayout.checked = _options.fullLayout;
     optionsForm.theaterMode.checked = _options.theaterMode;
-    optionsForm.darkTheme.checked = _options.darkTheme;
     optionsForm.sync.checked = _options.sync;
     optionsForm.saveLastTimestamp.checked = _options.saveLastTimestamp;
     optionsForm.videoQuality.value = _options.videoQuality;
@@ -112,7 +111,6 @@ function optionsConfigure() {
     optionsForm.forceVideoQuality.checked = options.forceVideoQuality;
     optionsForm.fullLayout.checked = options.fullLayout;
     optionsForm.theaterMode.checked = options.theaterMode;
-    optionsForm.darkTheme.checked = options.darkTheme;
     optionsForm.sync.checked = options.sync;
     optionsForm.saveLastTimestamp.checked = options.saveLastTimestamp;
     optionsForm.videoQuality.value = options.videoQuality;
@@ -136,13 +134,6 @@ function optionsConfigure() {
         saveOptions({
             ...options,
             theaterMode: isTheaterModeChecked
-        } as UserOptions);
-    });
-    optionsForm.darkTheme.addEventListener("change", (event: Event) => {
-        const isDarkThemeChecked = (event.target as HTMLInputElement).checked;
-        saveOptions({
-            ...options,
-            darkTheme: isDarkThemeChecked
         } as UserOptions);
     });
     optionsForm.sync.addEventListener("change", (event: Event) => {
