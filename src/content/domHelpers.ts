@@ -169,11 +169,7 @@ const scrollEvent = () => {
     }
 
     const scroll = window.scrollY;
-    if (scroll >= 1) {
-        topMenu.classList.add("mb-scrolled");
-    } else {
-        topMenu.classList.remove("mb-scrolled");
-    }
+    topMenu.classList.toggle("mb-scrolled", scroll >= 1);
 };
 
 /**

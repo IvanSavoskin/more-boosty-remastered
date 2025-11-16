@@ -33,6 +33,97 @@ const INITIAL_OPTIONS = {
 
 let SYNC = false;
 
+const CACHE_GOVERNOR_ALARM = "cache-governor";
+
+let latestUpdateNotificationID: string | undefined;
+let latestReleaseNotesLink: string | undefined;
+
+/**
+ * Handle cache cleanup for local storage when cache governor alarm fires.
+ *
+ * @param {chrome.alarms.Alarm} alarm Chrome alarm payload.
+ */
+function handleLocalCacheCleanup(alarm: chrome.alarms.Alarm) {
+    if (alarm.name !== CACHE_GOVERNOR_ALARM) {
+        return;
+    }
+
+    removeExpiredItemsFromCache();
+}
+
+/**
+ * Handle cache cleanup for sync storage when cache governor alarm fires.
+ *
+ * @param {chrome.alarms.Alarm} alarm Chrome alarm payload.
+ */
+function handleSyncCacheCleanup(alarm: chrome.alarms.Alarm) {
+    if (alarm.name !== CACHE_GOVERNOR_ALARM) {
+        return;
+    }
+
+    removeExpiredItemsFromCache(true);
+}
+
+/**
+ * Handle clicks on the extension update notification body.
+ *
+ * @param {string} notificationId Identifier of the clicked notification.
+ */
+function handleNotificationClick(notificationId: string) {
+    if (notificationId !== latestUpdateNotificationID) {
+        return;
+    }
+
+    chrome.tabs.create({ url: "https://boosty.to/#mb-update" });
+    chrome.notifications.clear(notificationId);
+    latestUpdateNotificationID = undefined;
+    latestReleaseNotesLink = undefined;
+}
+
+/**
+ * Handle clicks on the buttons of the extension update notification.
+ *
+ * @param {string} notificationId Identifier of the clicked notification.
+ * @param {number} buttonIndex Index of the clicked button.
+ */
+function handleNotificationButtonClick(notificationId: string, buttonIndex: number) {
+    if (notificationId !== latestUpdateNotificationID) {
+        return;
+    }
+
+    if (buttonIndex === 0) {
+        chrome.tabs.create({ url: "https://boosty.to/#mb-update" });
+    }
+
+    if (buttonIndex === 1 && latestReleaseNotesLink) {
+        chrome.tabs.create({ url: latestReleaseNotesLink });
+    }
+
+    chrome.notifications.clear(notificationId);
+    latestUpdateNotificationID = undefined;
+    latestReleaseNotesLink = undefined;
+}
+
+chrome.notifications.onClicked.addListener(handleNotificationClick);
+chrome.notifications.onButtonClicked.addListener(handleNotificationButtonClick);
+
+/**
+ * Register or unregister the sync cache cleanup listener based on option state.
+ *
+ * @param {boolean} shouldListen Whether the sync listener should be active.
+ */
+function toggleSyncAlarmListener(shouldListen: boolean) {
+    const hasListener = chrome.alarms.onAlarm.hasListener(handleSyncCacheCleanup);
+
+    if (shouldListen && !hasListener) {
+        chrome.alarms.onAlarm.addListener(handleSyncCacheCleanup);
+    }
+
+    if (!shouldListen && hasListener) {
+        chrome.alarms.onAlarm.removeListener(handleSyncCacheCleanup);
+    }
+}
+
 chrome.runtime.onMessage.addListener((message: BackgroundMessage, _, sendResponse) => {
     if (!message.target.includes(MessageTarget.BACKGROUND)) {
         return;
@@ -365,12 +456,9 @@ async function syncCacheData(from: "sync" | "local", to: "sync" | "local"): Prom
  */
 async function saveSyncOptionToCache(sync: boolean) {
     await writeToCache("sync", sync);
+
     SYNC = sync;
-    if (SYNC) {
-        chrome.alarms.onAlarm.addListener(() => removeExpiredItemsFromCache(SYNC));
-    } else {
-        chrome.alarms.onAlarm.removeListener(() => removeExpiredItemsFromCache(SYNC));
-    }
+    toggleSyncAlarmListener(SYNC);
 }
 
 /**
@@ -386,7 +474,7 @@ async function getSyncOptionFromCache(): Promise<boolean> {
  * Install/update listener
  */
 chrome.runtime.onInstalled.addListener((details) => {
-    if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
+    if ((details.reason as chrome.runtime.OnInstalledReason) === chrome.runtime.OnInstalledReason.INSTALL) {
         chrome.notifications.create({
             type: "basic",
             iconUrl: chrome.runtime.getURL("static/assets/icon.png"),
@@ -402,9 +490,10 @@ chrome.runtime.onInstalled.addListener((details) => {
 
     const currentVersion = chrome.runtime.getManifest().version;
 
-    if (details.reason === chrome.runtime.OnInstalledReason.UPDATE && currentVersion !== details.previousVersion) {
-        let notificationID: string | undefined;
-
+    if (
+        (details.reason as chrome.runtime.OnInstalledReason) === chrome.runtime.OnInstalledReason.UPDATE &&
+        currentVersion !== details.previousVersion
+    ) {
         const t = (name: string) => chrome.i18n.getMessage(name);
         const uiLang = chrome.i18n.getUILanguage();
 
@@ -430,27 +519,10 @@ chrome.runtime.onInstalled.addListener((details) => {
                     ]
                 },
                 (id) => {
-                    notificationID = id;
+                    latestUpdateNotificationID = id;
+                    latestReleaseNotesLink = currentVersionReleaseNotes.link;
                 }
             );
-
-            chrome.notifications.onClicked.addListener(() => {
-                chrome.tabs.create({ url: "https://boosty.to/#mb-update" });
-            });
-
-            chrome.notifications.onButtonClicked.addListener((_notificationId, buttonIndex) => {
-                if (_notificationId === notificationID && buttonIndex === 0) {
-                    chrome.tabs.create({ url: "https://boosty.to/#mb-update" });
-                }
-
-                if (_notificationId === notificationID && buttonIndex === 1) {
-                    chrome.tabs.create({ url: currentVersionReleaseNotes.link });
-                }
-
-                if (notificationID !== undefined) {
-                    chrome.notifications.clear(notificationID);
-                }
-            });
         } else {
             console.debug(`Release notes for version "${currentVersion}" not found`);
         }
@@ -459,6 +531,7 @@ chrome.runtime.onInstalled.addListener((details) => {
 
 getSyncOptionFromCache().then((sync) => {
     SYNC = sync;
+    toggleSyncAlarmListener(SYNC);
 });
 
 /**
@@ -466,10 +539,9 @@ getSyncOptionFromCache().then((sync) => {
  * Checks for expired cache items every hour
  */
 chrome.alarms.clearAll();
-chrome.alarms.create("cache-governor", {
+chrome.alarms.create(CACHE_GOVERNOR_ALARM, {
     periodInMinutes: 60
 });
-chrome.alarms.onAlarm.addListener(() => removeExpiredItemsFromCache());
-if (SYNC) {
-    chrome.alarms.onAlarm.addListener(() => removeExpiredItemsFromCache(SYNC));
-}
+
+chrome.alarms.onAlarm.addListener(handleLocalCacheCleanup);
+toggleSyncAlarmListener(SYNC);
