@@ -21,15 +21,17 @@
 }
 
 .mb-active {
+  --mb-full-layout-width: 95%;
+
   // Main layout
   [class*=Layout-scss--module_content_] {
     transition: 0.2s;
-    width: 95% !important;
+    width: var(--mb-full-layout-width, 95%) !important;
   }
 
   [class*=MainFeed-scss--module_root_] {
     transition: 0.2s;
-    width: 95% !important;
+    width: var(--mb-full-layout-width, 95%) !important;
   }
 
   [class*=Layout-scss--module_grid_] {

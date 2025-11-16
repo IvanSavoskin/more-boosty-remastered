@@ -15,13 +15,22 @@
     "message": "Widescreen layout"
   },
   "options_full_layout_desc": {
-    "message": "page is now 95% of screen width"
+    "message": "stretch the feed and adjust the width below"
+  },
+  "options_full_layout_width": {
+    "message": "Content width"
+  },
+  "options_full_layout_width_desc": {
+    "message": "applies when widescreen layout is enabled (65–95%)"
+  },
+  "options_full_layout_width_value": {
+    "message": "Width: $1%"
   },
   "options_force_video_quality": {
-    "message": "Force video quailty"
+    "message": "Force video quality"
   },
   "options_video_quality": {
-    "message": "Video quailty"
+    "message": "Video quality"
   },
   "options_video_quality_desc": {
     "message": "for Boosty video player only"
