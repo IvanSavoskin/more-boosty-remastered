@@ -25,6 +25,7 @@ import { VideoInfo } from "@models/video/types";
 const INITIAL_OPTIONS = {
     videoQuality: VideoQualityEnum.Q_1080P,
     fullLayout: false,
+    fullLayoutWidth: 95,
     forceVideoQuality: false,
     saveLastTimestamp: false,
     theaterMode: false,
@@ -405,7 +406,7 @@ function openOptionsPage() {
  */
 async function getOptionsFromCache(sync: boolean): Promise<UserOptions | undefined> {
     const data = await readFromCache<UserOptions>("options", sync);
-    return data?.data ? { ...data.data, sync: SYNC } : data?.data;
+    return data?.data ? { ...INITIAL_OPTIONS, ...data.data, sync: SYNC } : data?.data;
 }
 
 /**

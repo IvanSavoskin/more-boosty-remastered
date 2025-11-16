@@ -73,6 +73,43 @@ body {
   }
 }
 
+.range-field {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+
+  &-label {
+    font-weight: 500;
+  }
+
+  &-control {
+    align-items: center;
+    column-gap: 12px;
+    display: flex;
+  }
+
+  &-value {
+    color: themeVariables.$light-secondary-text-color;
+    font-weight: 600;
+    min-width: 90px;
+    text-align: right;
+
+    @media (prefers-color-scheme: dark) {
+      color: themeVariables.$dark-secondary-text-color;
+    }
+  }
+
+  &-slider {
+    accent-color: themeVariables.$highlight-color;
+    flex: 1;
+    margin: 0;
+
+    &:disabled {
+      opacity: 0.4;
+    }
+  }
+}
+
 .select-form-field {
   display: flex;
   flex-direction: column;

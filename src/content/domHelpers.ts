@@ -6,6 +6,9 @@ import { UserOptions } from "@models/options/types";
 import { prepareAudioPlayer, prepareVideoPlayer } from "./playerChanges";
 import { changelogButton, changelogModal } from "./templates";
 
+const MIN_FULL_LAYOUT_WIDTH = 65;
+const MAX_FULL_LAYOUT_WIDTH = 95;
+
 /** @see {@link scrollEvent} */
 let topMenu: HTMLElement | undefined | null;
 
@@ -132,6 +135,9 @@ export function injectFullLayout(options: UserOptions, body: HTMLElement) {
         return;
     }
 
+    const layoutWidth = Math.min(Math.max(options.fullLayoutWidth ?? MAX_FULL_LAYOUT_WIDTH, MIN_FULL_LAYOUT_WIDTH), MAX_FULL_LAYOUT_WIDTH);
+
+    body.style.setProperty("--mb-full-layout-width", `${layoutWidth}%`);
     body.classList.add("mb-active");
 }
 
