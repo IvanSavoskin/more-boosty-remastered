@@ -7,7 +7,7 @@
     },
     "compilerOptions": {
         "strict": true,
-        "target": "es2022",
+        "target": "es2023",
         "moduleResolution": "node",
         "resolveJsonModule": true,
         "module": "commonjs",

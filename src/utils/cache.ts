@@ -63,7 +63,7 @@ export async function writeToCacheWithTimeout<T>(key: string, data: T, timeout: 
  * @returns {Promise<TimeoutCacheData<T>|CacheData<T>|null|undefined>} Data from cache
  */
 export async function readFromCache<T>(key: string, sync: boolean = false): Promise<TimeoutCacheData<T> | CacheData<T> | null | undefined> {
-    const cachedData = await getStorage(sync).get(key);
+    const cachedData: { [key]: TimeoutCacheData<T> | CacheData<T> | undefined | null } = await getStorage(sync).get(key);
     const data: TimeoutCacheData<T> | CacheData<T> | undefined | null = cachedData[key];
 
     console.group(`Cache read for ${key} (${sync ? "sync" : "local"})`);

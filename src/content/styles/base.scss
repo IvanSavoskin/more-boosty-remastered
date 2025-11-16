@@ -37,15 +37,15 @@
   }
 
   // Columns overrides
-  [class*=Layout-scss--module_threeColsLeft_] {
+  [class*=Layout-scss--module_gridLayoutLeft_] {
     min-width: 255px;
   }
 
-  [class*=Layout-scss--module_threeColsCenter_] {
+  [class*=Layout-scss--module_gridLayoutCenter_] {
     width: 100% !important;
   }
 
-  [class*=Layout-scss--module_threeColsRight_] {
+  [class*=Layout-scss--module_gridLayoutRight_] {
     min-width: 255px;
   }
 

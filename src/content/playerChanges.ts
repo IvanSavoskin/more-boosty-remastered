@@ -29,7 +29,86 @@ import {
 } from "./templates";
 
 // Content cache for videos
-const contentCache = new Map();
+const MAX_CONTENT_CACHE_SIZE = 30;
+const contentCache: Map<string, PlayerUrl[]> = new Map();
+
+/**
+ * Insert or refresh a video entry in the bounded cache.
+ *
+ * @param {string} videoId Video identifier acting as cache key.
+ * @param {PlayerUrl[]} videoUrls Collection of video URLs for the cache entry.
+ */
+function setVideoContentCache(videoId: string, videoUrls: PlayerUrl[]) {
+    if (contentCache.has(videoId)) {
+        contentCache.delete(videoId);
+    }
+
+    contentCache.set(videoId, videoUrls);
+
+    while (contentCache.size > MAX_CONTENT_CACHE_SIZE) {
+        const oldestEntry = contentCache.keys().next().value;
+        if (!oldestEntry) {
+            break;
+        }
+
+        contentCache.delete(oldestEntry);
+    }
+}
+
+/**
+ * Remove stale video entries from cache.
+ *
+ * @param {string[]} videoIds Identifiers to evict from the cache.
+ */
+function cleanupVideoContentCache(videoIds: string[]) {
+    if (videoIds.length === 0) {
+        return;
+    }
+
+    for (const videoId of videoIds) {
+        contentCache.delete(videoId);
+    }
+
+    console.debug("Cleanup video cache entries", videoIds);
+}
+
+/**
+ * Observe player lifecycle and clean up cached content when the modal closes.
+ *
+ * @param {Node} playerRootNode Shadow root node that hosts the player.
+ * @param {HTMLElement} playerWrapper Player wrapper element observed for disposal.
+ * @param {string[]} cachedVideoIds Cached video identifiers linked to the player.
+ */
+function observePlayerDisposal(playerRootNode: Node, playerWrapper: HTMLElement, cachedVideoIds: string[]) {
+    if (cachedVideoIds.length === 0) {
+        return;
+    }
+
+    const cleanupObserver = new MutationObserver(() => {
+        if (!playerWrapper.isConnected) {
+            cleanupVideoContentCache(cachedVideoIds);
+            cleanupObserver.disconnect();
+        }
+    });
+
+    cleanupObserver.observe(playerRootNode, {
+        childList: true,
+        subtree: true
+    });
+
+    const closeButton = playerWrapper.querySelector("button[class*=ModalCloseButton]");
+
+    if (closeButton) {
+        closeButton.addEventListener(
+            "click",
+            () => {
+                cleanupVideoContentCache(cachedVideoIds);
+                cleanupObserver.disconnect();
+            },
+            { once: true }
+        );
+    }
+}
 
 // Previous playback rate for the speed controller
 let previousPlaybackRate = 1;
@@ -64,13 +143,20 @@ export async function prepareVideoPlayer(event: MouseEvent, options: UserOptions
     } else {
         // Get content components
         const contentComponents = await sendGetContentComponentsMessage(contentMetadata);
+        const cachedVideoIds: string[] = [];
+
         if (contentComponents) {
             for (const component of contentComponents) {
-                contentCache.set(component.videoId, component.videoUrls);
+                if (component.videoId) {
+                    setVideoContentCache(component.videoId, component.videoUrls);
+                    cachedVideoIds.push(component.videoId);
+                }
             }
         }
         console.debug("Content components", contentComponents);
         console.debug("Content cache", contentCache);
+
+        observePlayerDisposal(playerRootNode, playerWrapper, cachedVideoIds);
     }
 
     // Get the last recorded playback rate
@@ -295,12 +381,20 @@ function injectVideoControls(playerWrapper: HTMLElement, canBeDownloaded: boolea
  */
 async function prepareVideoDownload(playerWrapper: HTMLElement) {
     const videoId = getVideoId(playerWrapper);
-    console.debug("Video ID", videoId);
 
-    const playerUrls: PlayerUrl[] = contentCache.get(videoId);
-    console.debug("Player urls", playerUrls);
+    if (videoId) {
+        console.debug("Video ID", videoId);
+        const playerUrls: PlayerUrl[] | undefined = contentCache.get(videoId);
 
-    injectVideoDownloadModal(playerUrls);
+        if (playerUrls) {
+            console.debug("Player urls", playerUrls);
+            injectVideoDownloadModal(playerUrls);
+        } else {
+            console.warn("Video URLs not found by video ID", videoId);
+        }
+    } else {
+        console.warn("Video ID is not defined", playerWrapper);
+    }
 }
 
 /**
@@ -918,8 +1012,8 @@ function getContentMetadata(playerWrapper: HTMLElement): ContentMetadataWithUnkn
 function generatePostMetadata(url: string): BlogContentMetadata {
     return {
         type: "post",
-        id: url.split("/").reverse()[0],
-        blogName: url.split("/").reverse()[2]
+        id: url.split("/").toReversed()[0],
+        blogName: url.split("/").toReversed()[2]
     };
 }
 
@@ -932,8 +1026,8 @@ function generatePostMetadata(url: string): BlogContentMetadata {
 function generateMediaMetadata(url: string): BlogContentMetadata {
     return {
         type: "post",
-        id: url.split("/").reverse()[1],
-        blogName: url.split("/").reverse()[4]
+        id: url.split("/").toReversed()[1],
+        blogName: url.split("/").toReversed()[4]
     };
 }
 
