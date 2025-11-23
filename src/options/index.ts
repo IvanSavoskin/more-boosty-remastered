@@ -14,7 +14,52 @@ import { VideoQualityEnum } from "@models/video/enums";
 
 import { $enum } from "ts-enum-util";
 
+const FULL_LAYOUT_WIDTH_INPUT_SELECTOR = "#fullLayoutWidth";
+const FULL_LAYOUT_WIDTH_VALUE_SELECTOR = "#fullLayoutWidthValue";
+
 let options: UserOptions | undefined;
+
+/**
+ * Returns the range input that controls the widescreen layout width.
+ *
+ * @returns {(HTMLInputElement | null)} The input element or `null` if it isn't present.
+ */
+function getFullLayoutWidthInput(): HTMLInputElement | null {
+    return document.querySelector<HTMLInputElement>(FULL_LAYOUT_WIDTH_INPUT_SELECTOR);
+}
+
+/**
+ * Updates the localized textual representation of the current widescreen width.
+ *
+ * @param {number} width Width percentage selected by the user.
+ */
+function updateFullLayoutWidthValue(width: number) {
+    const valueElement = document.querySelector<HTMLElement>(FULL_LAYOUT_WIDTH_VALUE_SELECTOR);
+
+    if (!valueElement) {
+        return;
+    }
+
+    valueElement.textContent = chrome.i18n.getMessage("options_full_layout_width_value", width.toString()) || `${width}%`;
+}
+
+/**
+ * Initializes the full layout width slider and toggles its availability.
+ *
+ * @param {number} width Width percentage to display.
+ * @param {boolean} [isFullLayoutEnabled=true] Whether the full layout option is enabled.
+ */
+function configureFullLayoutWidthControl(width: number | undefined, isFullLayoutEnabled: boolean = true) {
+    const widthInput = getFullLayoutWidthInput();
+
+    if (!widthInput || width === undefined) {
+        return;
+    }
+
+    widthInput.value = width.toString();
+    widthInput.disabled = !isFullLayoutEnabled;
+    updateFullLayoutWidthValue(width);
+}
 
 /**
  * Localize options page
@@ -86,6 +131,7 @@ function updateOptionsFromMessage(message: void | OptionsInfoMessage) {
 
     optionsForm.forceVideoQuality.checked = _options.forceVideoQuality;
     optionsForm.fullLayout.checked = _options.fullLayout;
+    configureFullLayoutWidthControl(_options.fullLayoutWidth, _options.fullLayout);
     optionsForm.theaterMode.checked = _options.theaterMode;
     optionsForm.sync.checked = _options.sync;
     optionsForm.saveLastTimestamp.checked = _options.saveLastTimestamp;
@@ -110,6 +156,7 @@ function optionsConfigure() {
 
     optionsForm.forceVideoQuality.checked = options.forceVideoQuality;
     optionsForm.fullLayout.checked = options.fullLayout;
+    configureFullLayoutWidthControl(options.fullLayoutWidth, options.fullLayout);
     optionsForm.theaterMode.checked = options.theaterMode;
     optionsForm.sync.checked = options.sync;
     optionsForm.saveLastTimestamp.checked = options.saveLastTimestamp;
@@ -124,6 +171,7 @@ function optionsConfigure() {
     });
     optionsForm.fullLayout.addEventListener("change", (event: Event) => {
         const isFullLayoutChecked = (event.target as HTMLInputElement).checked;
+        configureFullLayoutWidthControl(options?.fullLayoutWidth, isFullLayoutChecked);
         saveOptions({
             ...options,
             fullLayout: isFullLayoutChecked
@@ -161,6 +209,23 @@ function optionsConfigure() {
             videoQuality: $enum(VideoQualityEnum).asValueOrDefault(videoQualityOptionValue, VideoQualityEnum.Q_1080P)
         } as UserOptions);
     });
+
+    const fullLayoutWidthInput = getFullLayoutWidthInput();
+
+    if (fullLayoutWidthInput) {
+        fullLayoutWidthInput.addEventListener("input", (event: Event) => {
+            const width = Number((event.target as HTMLInputElement).value);
+            updateFullLayoutWidthValue(width);
+        });
+
+        fullLayoutWidthInput.addEventListener("change", (event: Event) => {
+            const width = Number((event.target as HTMLInputElement).value);
+            saveOptions({
+                ...options,
+                fullLayoutWidth: width
+            } as UserOptions);
+        });
+    }
 }
 
 /**

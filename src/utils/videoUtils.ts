@@ -13,7 +13,7 @@ import { $enum } from "ts-enum-util";
 export function filterVideoUrls(playerUrls: PlayerUrl[]): PlayerUrl[] {
     return playerUrls
         .filter((playerUrl) => playerUrl.url && $enum(VideoQualityTypeEnum).isValue(playerUrl.type))
-        .sort(
+        .toSorted(
             ({ type: typeA }, { type: typeB }) =>
                 $enum(VideoQualityTypeEnum).indexOfValue($enum(VideoQualityTypeEnum).asValueOrThrow(typeA)) -
                 $enum(VideoQualityTypeEnum).indexOfValue($enum(VideoQualityTypeEnum).asValueOrThrow(typeB))
@@ -35,7 +35,7 @@ export function parseVideoId(previewUrl: string): string | null | undefined {
     }
 
     if (urlObject.hostname.includes("images.boosty.to")) {
-        return urlObject.pathname.split("/").reverse()[0];
+        return urlObject.pathname.split("/").toReversed()[0];
     }
 
     return undefined;

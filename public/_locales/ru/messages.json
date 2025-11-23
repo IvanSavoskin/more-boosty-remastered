@@ -15,7 +15,16 @@
     "message": "Широкоформатный режим"
   },
   "options_full_layout_desc": {
-    "message": "страница растягивается на 95% ширины окна"
+    "message": "лента растягивается, ширину можно выбрать ниже"
+  },
+  "options_full_layout_width": {
+    "message": "Ширина контента"
+  },
+  "options_full_layout_width_desc": {
+    "message": "работает только в широкоформатном режиме (65–95%)"
+  },
+  "options_full_layout_width_value": {
+    "message": "Ширина: $1%"
   },
   "options_force_video_quality": {
     "message": "Изменять качество видео"

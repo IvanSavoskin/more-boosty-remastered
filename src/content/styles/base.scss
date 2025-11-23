@@ -21,15 +21,17 @@
 }
 
 .mb-active {
+  --mb-full-layout-width: 95%;
+
   // Main layout
   [class*=Layout-scss--module_content_] {
     transition: 0.2s;
-    width: 95% !important;
+    width: var(--mb-full-layout-width, 95%) !important;
   }
 
   [class*=MainFeed-scss--module_root_] {
     transition: 0.2s;
-    width: 95% !important;
+    width: var(--mb-full-layout-width, 95%) !important;
   }
 
   [class*=Layout-scss--module_grid_] {
@@ -37,15 +39,15 @@
   }
 
   // Columns overrides
-  [class*=Layout-scss--module_threeColsLeft_] {
+  [class*=Layout-scss--module_gridLayoutLeft_] {
     min-width: 255px;
   }
 
-  [class*=Layout-scss--module_threeColsCenter_] {
+  [class*=Layout-scss--module_gridLayoutCenter_] {
     width: 100% !important;
   }
 
-  [class*=Layout-scss--module_threeColsRight_] {
+  [class*=Layout-scss--module_gridLayoutRight_] {
     min-width: 255px;
   }
 

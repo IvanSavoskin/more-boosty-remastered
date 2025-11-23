@@ -18,7 +18,29 @@
                         </span>
                     </label>
                     <span data-locale="options_full_layout_desc" class="form-field-description">
-                        page is now 95% of screen width
+                        adjust the feed width below
+                    </span>
+                </div>
+
+                <div class="range-field">
+                    <label class="range-field-label" for="fullLayoutWidth" data-locale="options_full_layout_width">
+                        Content width
+                    </label>
+                    <div class="range-field-control">
+                        <input
+                                type="range"
+                                min="65"
+                                max="95"
+                                step="1"
+                                class="range-field-slider"
+                                name="fullLayoutWidth"
+                                id="fullLayoutWidth"
+                                value="95"
+                        >
+                        <span class="range-field-value" id="fullLayoutWidthValue">Width: 95%</span>
+                    </div>
+                    <span data-locale="options_full_layout_width_desc" class="form-field-description">
+                        applies when widescreen layout is enabled
                     </span>
                 </div>
 

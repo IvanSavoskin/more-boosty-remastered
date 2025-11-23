@@ -13,25 +13,94 @@ import {
     injectStreamPageChanges,
     injectVkPlayerChanges
 } from "./domHelpers";
+import enhanceGallery from "./gallery";
+
+const TOP_MENU_AUDIO_SELECTOR = "div[class*=AppAudioPlayer-scss--module_root_]:not([data-complete=true])";
+const AUDIO_PLAYER_SELECTOR = "div[class*=AudioPlayer-scss--module_root_]:not([data-complete=true])";
+const VIDEO_PLAYER_SELECTOR = "vk-video-player .shadow-root-container:not([data-complete=true])";
 
 let options: UserOptions | null = null;
+let mediaProcessingScheduled = false;
+
+/**
+ * Schedule throttled processing of audio/video players triggered by DOM mutations.
+ */
+function scheduleMediaProcessing() {
+    if (mediaProcessingScheduled) {
+        return;
+    }
+
+    mediaProcessingScheduled = true;
+
+    const run = () => {
+        mediaProcessingScheduled = false;
+        processAudioPlayers();
+        processVideoPlayers();
+    };
+
+    if (typeof globalThis.requestIdleCallback === "function") {
+        globalThis.requestIdleCallback(run, { timeout: 500 });
+        return;
+    }
+
+    globalThis.setTimeout(run, 100);
+}
+
+/**
+ * Check whether a node or any of its descendants match supplied selectors.
+ *
+ * @param {Node} node DOM node to inspect.
+ * @param {string[]} selectors Selector list representing media containers.
+ * @returns {boolean} True if node matches any selector.
+ */
+function nodeContainsMediaTarget(node: Node, selectors: string[]): boolean {
+    if (!(node instanceof Element)) {
+        return false;
+    }
+
+    return selectors.some((selector) => node.matches(selector) || !!node.querySelector(selector));
+}
+
+/**
+ * Determine whether a mutation record affects media players that need processing.
+ *
+ * @param {MutationRecord} mutation Mutation record to inspect.
+ * @returns {boolean} True if the mutation touches tracked media nodes.
+ */
+function shouldProcessMedia(mutation: MutationRecord): boolean {
+    const selectors = [TOP_MENU_AUDIO_SELECTOR, AUDIO_PLAYER_SELECTOR, VIDEO_PLAYER_SELECTOR];
+
+    if (nodeContainsMediaTarget(mutation.target, selectors)) {
+        return true;
+    }
+
+    for (const node of mutation.addedNodes) {
+        if (nodeContainsMediaTarget(node, selectors)) {
+            return true;
+        }
+    }
+
+    for (const node of mutation.removedNodes) {
+        if (nodeContainsMediaTarget(node, selectors)) {
+            return true;
+        }
+    }
+
+    return false;
+}
 
 /**
  * Process audio players
  */
 function processAudioPlayers() {
-    const topMenuAudioPlayer = document.querySelector(
-        "div[class*=AppAudioPlayer-scss--module_root_]:not([data-complete=true])"
-    ) as HTMLElement | null;
+    const topMenuAudioPlayer = document.querySelector(TOP_MENU_AUDIO_SELECTOR) as HTMLElement | null;
 
     if (topMenuAudioPlayer) {
         injectAudioPlayerChanges(topMenuAudioPlayer, true);
         topMenuAudioPlayer.dataset.complete = "true";
     }
 
-    const audioPlayers = document.querySelectorAll(
-        "div[class*=AudioPlayer-scss--module_root_]:not([data-complete=true])"
-    ) as NodeListOf<HTMLElement>;
+    const audioPlayers = document.querySelectorAll(AUDIO_PLAYER_SELECTOR) as NodeListOf<HTMLElement>;
 
     for (const player of audioPlayers) {
         // Skip nodes from app/messages
@@ -48,9 +117,7 @@ function processAudioPlayers() {
  * Process video players in root
  */
 function processVideoPlayers() {
-    const playerShadowRootContainers = document.querySelectorAll(
-        "vk-video-player .shadow-root-container:not([data-complete=true])"
-    ) as NodeListOf<HTMLElement>;
+    const playerShadowRootContainers = document.querySelectorAll(VIDEO_PLAYER_SELECTOR) as NodeListOf<HTMLElement>;
 
     for (const playerShadowRootContainer of playerShadowRootContainers) {
         injectVkPlayerChanges(playerShadowRootContainer, options as UserOptions);
@@ -114,25 +181,6 @@ function processTheaterMode(body: HTMLElement, isActive?: boolean) {
 }
 
 /**
- * Remove image copy protection from gallery element
- *
- * @param {HTMLElement} gallery Gallery element
- */
-function removeImageCopyProtection(gallery: HTMLElement) {
-    console.debug("Remove image copy protection from gallery element", gallery);
-
-    gallery.addEventListener(
-        "contextmenu",
-        (event) => {
-            event.stopImmediatePropagation();
-        },
-        true
-    );
-
-    console.debug("Image copy protection removed from gallery element by place clone of gallery", gallery);
-}
-
-/**
  * Process body mutations
  *
  * @param {MutationRecord[]} mutations Body mutation records
@@ -141,8 +189,9 @@ function removeImageCopyProtection(gallery: HTMLElement) {
  */
 function processBodyMutations(mutations: MutationRecord[], body: HTMLElement, isExtensionIconInjected: boolean) {
     try {
-        processAudioPlayers();
-        processVideoPlayers();
+        if (mutations.some((mutation) => shouldProcessMedia(mutation))) {
+            scheduleMediaProcessing();
+        }
 
         for (const mutation of mutations) {
             const target = mutation.target as HTMLElement;
@@ -157,7 +206,7 @@ function processBodyMutations(mutations: MutationRecord[], body: HTMLElement, is
             }
 
             if (target.id === "gallery") {
-                removeImageCopyProtection(target);
+                enhanceGallery(target);
             }
 
             for (const node of mutation.addedNodes) {

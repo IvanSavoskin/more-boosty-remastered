@@ -1,0 +1,50 @@
+.mb-pswp-button-group {
+  align-items: center;
+  display: flex;
+  gap: 4px;
+  height: fit-content;
+  margin-inline: 4px;
+  position: relative;
+  right: 60px;
+  top: 30px;
+}
+
+.mb-pswp-button-group-hidden {
+  display: none;
+}
+
+.mb-pswp-button {
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 0;
+  border-radius: 6px;
+  display: flex;
+  float: none;
+  height: 32px;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+  width: 32px;
+}
+
+.mb-pswp-button:hover,
+.mb-pswp-button:focus-visible {
+  background-color: #fff;
+}
+
+.mb-pswp-icon {
+  color: var(--pswp-icon-color-secondary);
+  fill: var(--pswp-icon-color-secondary);
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  transition: color 0.15s ease;
+  width: 18px;
+}
+
+.mb-pswp-button:hover .mb-pswp-icon,
+.mb-pswp-button:focus-visible .mb-pswp-icon {
+  color: var(--color-brand);
+  fill: var(--color-brand);
+}
