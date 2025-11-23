@@ -9,5 +9,5 @@ export interface GalleryTransformState {
 export interface GalleryButtonConfig {
     icon: string;
     title: string;
-    onClick: (image: HTMLImageElement) => void;
+    onClick: (image: HTMLElement) => void;
 }

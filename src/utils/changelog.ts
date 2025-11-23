@@ -251,6 +251,17 @@ const changelog: Changelog = {
             en: ["Widescreen mode fixed.", "Widescreen mode customization option added.", "Image control buttons added."]
         },
         link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.4.0"
+    },
+    "1.4.1": {
+        title: {
+            en: "Update 1.4.1",
+            ru: "Обновление 1.4.1"
+        },
+        message: {
+            ru: ["Добавлены кнопки управления видео."],
+            en: ["Video control buttons added."]
+        },
+        link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.4.1"
     }
 };
 
