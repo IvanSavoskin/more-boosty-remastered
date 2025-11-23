@@ -13,6 +13,7 @@ import {
     injectStreamPageChanges,
     injectVkPlayerChanges
 } from "./domHelpers";
+import enhanceGallery from "./gallery";
 
 const TOP_MENU_AUDIO_SELECTOR = "div[class*=AppAudioPlayer-scss--module_root_]:not([data-complete=true])";
 const AUDIO_PLAYER_SELECTOR = "div[class*=AudioPlayer-scss--module_root_]:not([data-complete=true])";
@@ -180,25 +181,6 @@ function processTheaterMode(body: HTMLElement, isActive?: boolean) {
 }
 
 /**
- * Remove image copy protection from gallery element
- *
- * @param {HTMLElement} gallery Gallery element
- */
-function removeImageCopyProtection(gallery: HTMLElement) {
-    console.debug("Remove image copy protection from gallery element", gallery);
-
-    gallery.addEventListener(
-        "contextmenu",
-        (event) => {
-            event.stopImmediatePropagation();
-        },
-        true
-    );
-
-    console.debug("Image copy protection removed from gallery element by place clone of gallery", gallery);
-}
-
-/**
  * Process body mutations
  *
  * @param {MutationRecord[]} mutations Body mutation records
@@ -224,7 +206,7 @@ function processBodyMutations(mutations: MutationRecord[], body: HTMLElement, is
             }
 
             if (target.id === "gallery") {
-                removeImageCopyProtection(target);
+                enhanceGallery(target);
             }
 
             for (const node of mutation.addedNodes) {
