@@ -236,6 +236,21 @@ const changelog: Changelog = {
             en: ["Due to the addition of the official dark theme from Boosty - the dark theme built into the extension has been removed."]
         },
         link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.3.11"
+    },
+    "1.4.0": {
+        title: {
+            en: "Update 1.4.0",
+            ru: "Обновление 1.4.0"
+        },
+        message: {
+            ru: [
+                "Исправлен широкоформатный режим.",
+                "Добавлена возможность настройки широкоформатного режима.",
+                "Добавлены кнопки управления изображениями."
+            ],
+            en: ["Widescreen mode fixed.", "Widescreen mode customization option added.", "Image control buttons added."]
+        },
+        link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.4.0"
     }
 };
 
