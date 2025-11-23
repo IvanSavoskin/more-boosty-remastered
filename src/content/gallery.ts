@@ -6,12 +6,13 @@ const GALLERY_BUTTON_GROUP_ID = "mb-gallery-button-group";
 const TOOLBAR_SELECTOR = ".pswp__top-bar";
 const CLOSE_BUTTON_SELECTOR = ".pswp__button--close";
 const CURRENT_IMAGE_SELECTOR = ".pswp__item--current img.pswp__img";
-const IMAGE_SELECTOR = "img.pswp__img";
+const IMAGE_SELECTOR = ".pswp__item[aria-hidden=false] img.pswp__img";
+const VK_VIDEO_PLAYER_SHADOW_CONTAINER_SELECTOR = ".pswp__item[aria-hidden=false] vk-video-player .shadow-root-container";
 
 const trackedGalleries = new WeakSet<HTMLElement>();
-const imageStates = new WeakMap<HTMLImageElement, GalleryTransformState>();
+const imageStates = new WeakMap<HTMLElement, GalleryTransformState>();
 const imageObservers = new WeakMap<HTMLImageElement, MutationObserver>();
-const pendingStyleUpdates = new WeakSet<HTMLImageElement>();
+const pendingStyleUpdates = new WeakSet<HTMLElement>();
 
 const DEFAULT_STATE: GalleryTransformState = Object.freeze({
     rotation: 0,
@@ -74,7 +75,7 @@ function normalizeRotation(value: number): number {
  * @param image Target gallery image element.
  * @param state Rotation/flip configuration to apply.
  */
-function applyImageTransform(image: HTMLImageElement, state: GalleryTransformState) {
+function applyImageTransform(image: HTMLElement, state: GalleryTransformState) {
     const baseTransform = image.dataset.mbBaseTransform ?? image.style.transform ?? "";
     const transforms: string[] = [];
 
@@ -161,7 +162,7 @@ function prepareImage(image: HTMLImageElement) {
  * @param image Image element with mutable state.
  * @param updater Callback that mutates the draft state object.
  */
-function updateImageState(image: HTMLImageElement, updater: (state: GalleryTransformState) => void) {
+function updateImageState(image: HTMLElement, updater: (state: GalleryTransformState) => void) {
     const currentState = { ...(imageStates.get(image) ?? DEFAULT_STATE) };
 
     updater(currentState);
@@ -182,7 +183,7 @@ function updateImageState(image: HTMLImageElement, updater: (state: GalleryTrans
  * @param image Target gallery image element.
  * @param delta Signed degrees to add to the current rotation.
  */
-function rotateImage(image: HTMLImageElement, delta: number) {
+function rotateImage(image: HTMLElement, delta: number) {
     updateImageState(image, (state) => {
         state.rotation += delta;
     });
@@ -194,7 +195,7 @@ function rotateImage(image: HTMLImageElement, delta: number) {
  * @param image Target gallery image element.
  * @param axis Axis direction to mirror (horizontal or vertical).
  */
-function flipImage(image: HTMLImageElement, axis: GalleryFlipDirection) {
+function flipImage(image: HTMLElement, axis: GalleryFlipDirection) {
     updateImageState(image, (state) => {
         if (axis === "horizontal") {
             state.flipX = (state.flipX === 1 ? -1 : 1) as 1 | -1;
@@ -211,8 +212,14 @@ function flipImage(image: HTMLImageElement, axis: GalleryFlipDirection) {
  * @param gallery Root gallery element.
  * @returns Active image node or null when unavailable.
  */
-function getCurrentImage(gallery: HTMLElement): HTMLImageElement | null {
-    return gallery.querySelector(CURRENT_IMAGE_SELECTOR) ?? gallery.querySelector(IMAGE_SELECTOR);
+function getCurrentImage(gallery: HTMLElement): HTMLElement | null {
+    return (
+        gallery.querySelector(CURRENT_IMAGE_SELECTOR) ??
+        gallery.querySelector(IMAGE_SELECTOR) ??
+        gallery.querySelector(VK_VIDEO_PLAYER_SHADOW_CONTAINER_SELECTOR)?.shadowRoot?.querySelector(".container:not(.hidden)") ??
+        gallery.querySelector(VK_VIDEO_PLAYER_SHADOW_CONTAINER_SELECTOR)?.shadowRoot?.querySelector("video") ??
+        null
+    );
 }
 
 /**
@@ -221,7 +228,7 @@ function getCurrentImage(gallery: HTMLElement): HTMLImageElement | null {
  * @param gallery Root gallery element.
  * @param handler Action to perform on the current image.
  */
-function handleButtonClick(gallery: HTMLElement, handler: (image: HTMLImageElement) => void) {
+function handleButtonClick(gallery: HTMLElement, handler: (image: HTMLElement) => void) {
     const currentImage = getCurrentImage(gallery);
 
     if (!currentImage) {
@@ -240,56 +247,35 @@ function injectTransformButtons(gallery: HTMLElement) {
     const toolbar = gallery.querySelector<HTMLElement>(TOOLBAR_SELECTOR);
 
     if (toolbar) {
-        const withPlayer = !!gallery.querySelector(".pswp__item[aria-hidden=false] vk-video-player");
-        const withImg = !!gallery.querySelector(".pswp__item[aria-hidden=false] img");
-
-        if (!withPlayer && !withImg) {
+        if (toolbar.dataset.mbButtonsReady === "true") {
             return;
         }
 
-        if (toolbar.dataset.mbButtonsReady === "true") {
-            const buttonGroup = gallery.querySelector(`#${GALLERY_BUTTON_GROUP_ID}`);
+        const closeButton = toolbar.querySelector(CLOSE_BUTTON_SELECTOR);
+        const group = document.createElement("div");
+        group.id = GALLERY_BUTTON_GROUP_ID;
+        group.classList.add("mb-pswp-button-group");
 
-            if (buttonGroup) {
-                if (withPlayer) {
-                    buttonGroup.ariaHidden = "true";
-                    buttonGroup.classList.add("mb-pswp-button-group-hidden");
-                } else {
-                    buttonGroup.ariaHidden = "false";
-                    buttonGroup.classList.remove("mb-pswp-button-group-hidden");
-                }
-            }
-        } else {
-            const closeButton = toolbar.querySelector(CLOSE_BUTTON_SELECTOR);
-            const group = document.createElement("div");
-            group.id = GALLERY_BUTTON_GROUP_ID;
-            group.classList.add("mb-pswp-button-group");
-            if (withPlayer) {
-                group.ariaHidden = "true";
-                group.classList.add("mb-pswp-button-group-hidden");
-            }
+        for (const config of BUTTONS) {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.classList.add("pswp__button", "mb-pswp-button");
+            button.title = config.title;
+            button.setAttribute("aria-label", config.title);
 
-            for (const config of BUTTONS) {
-                const button = document.createElement("button");
-                button.type = "button";
-                button.classList.add("pswp__button", "mb-pswp-button");
-                button.title = config.title;
-                button.setAttribute("aria-label", config.title);
+            button.insertAdjacentHTML("afterbegin", config.icon);
 
-                button.insertAdjacentHTML("afterbegin", config.icon);
+            button.addEventListener("click", (event) => {
+                event.stopPropagation();
+                event.preventDefault();
+                handleButtonClick(gallery, config.onClick);
+            });
 
-                button.addEventListener("click", (event) => {
-                    event.stopPropagation();
-                    event.preventDefault();
-                    handleButtonClick(gallery, config.onClick);
-                });
-
-                group.append(button);
-            }
-
-            toolbar.insertBefore(group, closeButton ?? null);
-            toolbar.dataset.mbButtonsReady = "true";
+            group.append(button);
         }
+
+        toolbar.insertBefore(group, closeButton ?? null);
+        toolbar.dataset.mbButtonsReady = "true";
     }
 }
 
