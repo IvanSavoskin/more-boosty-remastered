@@ -65,11 +65,13 @@ function cleanupVideoContentCache(videoIds: string[]) {
         return;
     }
 
+    console.debug("Cleaning video cache entries", videoIds);
+
     for (const videoId of videoIds) {
         contentCache.delete(videoId);
     }
 
-    console.debug("Cleanup video cache entries", videoIds);
+    console.debug("Video cache entries cleaned", videoIds);
 }
 
 /**
@@ -85,7 +87,10 @@ function observePlayerDisposal(playerRootNode: Node, playerWrapper: HTMLElement,
     }
 
     const cleanupObserver = new MutationObserver(() => {
-        if (!playerWrapper.isConnected) {
+        const rootIsConnected = getPlayerRootIsConnected(playerRootNode, playerWrapper);
+
+        if (!rootIsConnected) {
+            console.debug("Player root is disconnected. Cleaning video content cache", playerRootNode);
             cleanupVideoContentCache(cachedVideoIds);
             cleanupObserver.disconnect();
         }
@@ -102,12 +107,29 @@ function observePlayerDisposal(playerRootNode: Node, playerWrapper: HTMLElement,
         closeButton.addEventListener(
             "click",
             () => {
+                console.debug("Player closed. Cleaning video content cache", playerWrapper);
+
                 cleanupVideoContentCache(cachedVideoIds);
                 cleanupObserver.disconnect();
             },
             { once: true }
         );
     }
+}
+
+/**
+ * Safely detect whether the player root is still connected to the DOM.
+ *
+ * @param {Node} playerRootNode Shadow root node that hosts the player.
+ * @param {HTMLElement} playerWrapper Player wrapper element used as fallback.
+ * @returns {boolean} Whether the root is connected to the DOM.
+ */
+function getPlayerRootIsConnected(playerRootNode: Node, playerWrapper: HTMLElement): boolean {
+    if (playerRootNode.nodeType === Node.DOCUMENT_FRAGMENT_NODE && "host" in playerRootNode) {
+        return (playerRootNode as ShadowRoot).host.isConnected;
+    }
+
+    return playerRootNode.isConnected ?? playerWrapper.isConnected;
 }
 
 // Previous playback rate for the speed controller
