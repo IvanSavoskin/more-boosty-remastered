@@ -114,6 +114,9 @@
   "download_video_modal_title": {
     "message": "Select a video quality"
   },
+  "download_video_unavailable": {
+    "message": "Download links could not be loaded. Try opening the video again or refresh the page."
+  },
   "video_quality_ultra_hd": {
     "message": "2160p"
   },

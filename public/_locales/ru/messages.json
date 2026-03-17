@@ -114,6 +114,9 @@
   "download_video_modal_title": {
     "message": "Выбери качество видео"
   },
+  "download_video_unavailable": {
+    "message": "Ссылки для скачивания не удалось получить. Попробуй снова открыть видео или обновить страницу."
+  },
   "player_speed_decrease": {
     "message": "Замедлить воспроизведение"
   },

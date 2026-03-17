@@ -20,6 +20,7 @@ import {
     audioControls,
     audioControlsStub,
     audioDownloadTooltip,
+    downloadUnavailableToast,
     pipButton,
     videoControls,
     videoDownloadButton,
@@ -397,25 +398,62 @@ function injectVideoControls(playerWrapper: HTMLElement, canBeDownloaded: boolea
 }
 
 /**
- * Prepare and open video download modal
+ * Prepare and open video download modal.
+ * If URLs are not in cache, tries to fetch them via content API before giving up.
  *
  * @param {HTMLElement} playerWrapper Player wrapper element
  */
 async function prepareVideoDownload(playerWrapper: HTMLElement) {
     const videoId = getVideoId(playerWrapper);
 
-    if (videoId) {
-        console.debug("Video ID", videoId);
-        const playerUrls: PlayerUrl[] | undefined = contentCache.get(videoId);
-
-        if (playerUrls) {
-            console.debug("Player urls", playerUrls);
-            injectVideoDownloadModal(playerUrls);
-        } else {
-            console.warn("Video URLs not found by video ID", videoId);
-        }
-    } else {
+    if (!videoId) {
         console.warn("Video ID is not defined", playerWrapper);
+        showDownloadUnavailableMessage();
+        return;
+    }
+
+    console.debug("Video ID", videoId);
+    const playerUrls: PlayerUrl[] | undefined = contentCache.get(videoId);
+
+    if (playerUrls) {
+        console.debug("Player urls from cache", playerUrls);
+        injectVideoDownloadModal(playerUrls);
+
+        return;
+    }
+
+    // Fallback: fetch content components when cache miss (e.g. after reload or when cache was never filled)
+    const contentMetadata = getContentMetadata(playerWrapper);
+    if (contentMetadata.type === "unknown") {
+        console.warn("Cannot fetch download links: content type is unknown", contentMetadata);
+        showDownloadUnavailableMessage();
+
+        return;
+    }
+
+    const contentComponents = await sendGetContentComponentsMessage(contentMetadata as ContentMetadata);
+    const component = contentComponents?.find((contentComponent) => contentComponent.videoId === videoId);
+    if (component?.videoUrls?.length) {
+        setVideoContentCache(videoId, component.videoUrls);
+        console.debug("Player urls from API fallback", component.videoUrls);
+        injectVideoDownloadModal(component.videoUrls);
+
+        return;
+    }
+
+    console.warn("Video URLs not found by video ID (cache and API)", videoId);
+    showDownloadUnavailableMessage();
+}
+
+/**
+ * Show a short-lived message when video download links could not be obtained.
+ */
+function showDownloadUnavailableMessage() {
+    const message = chrome.i18n.getMessage("download_video_unavailable") || "Download links could not be loaded.";
+    document.body.insertAdjacentHTML("beforeend", downloadUnavailableToast(message));
+    const toast = document.querySelector("#mb-download-unavailable-toast");
+    if (toast) {
+        setTimeout(() => toast.remove(), 4000);
     }
 }
 
