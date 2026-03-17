@@ -71,6 +71,13 @@ export const changelogModal = () => `
 </div>
 `;
 
+export const downloadUnavailableToast = (message: string) =>
+    safeHTML`<div
+    id="mb-download-unavailable-toast"
+    class="mb-download-unavailable-toast"
+    style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:999999;max-width:90%;padding:12px 20px;background:#333;color:#fff;border-radius:8px;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,0.3);"
+>${message}</div>`;
+
 export const videoDownloadModal = (links: PlayerUrl[]) => `
 <div class="mb-modal-container fade-animate" id="mb-video-download-modal">
     <div class="mb-modal-content-container">
