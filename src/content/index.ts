@@ -17,7 +17,7 @@ import enhanceGallery from "./gallery";
 
 const TOP_MENU_AUDIO_SELECTOR = "div[class*=AppAudioPlayer-scss--module_root_]:not([data-complete=true])";
 const AUDIO_PLAYER_SELECTOR = "div[class*=AudioPlayer-scss--module_root_]:not([data-complete=true])";
-const VIDEO_PLAYER_SELECTOR = "vk-video-player .shadow-root-container:not([data-complete=true])";
+const VIDEO_PLAYER_SELECTOR = "vk-video-player .shadow-root-container:not([data-complete=true]):not([data-mb-player-observer=true])";
 
 let options: UserOptions | null = null;
 let mediaProcessingScheduled = false;
@@ -121,7 +121,6 @@ function processVideoPlayers() {
 
     for (const playerShadowRootContainer of playerShadowRootContainers) {
         injectVkPlayerChanges(playerShadowRootContainer, options as UserOptions);
-        playerShadowRootContainer.dataset.complete = "true";
     }
 }
 

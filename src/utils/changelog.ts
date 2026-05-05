@@ -284,6 +284,17 @@ const changelog: Changelog = {
             en: ["Fixed issues with video download links."]
         },
         link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.4.3"
+    },
+    "1.4.4": {
+        title: {
+            en: "Update 1.4.4",
+            ru: "Обновление 1.4.4"
+        },
+        message: {
+            ru: ["Исправлена работа с ссылками на скачивание видео."],
+            en: ["Fixed issues with video download links."]
+        },
+        link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.4.4"
     }
 };
 

@@ -27,15 +27,22 @@ export function filterVideoUrls(playerUrls: PlayerUrl[]): PlayerUrl[] {
  * @returns {(string|null|undefined)} Video ID
  */
 export function parseVideoId(previewUrl: string): string | null | undefined {
-    const urlObject = new URL(previewUrl);
+    let urlObject: URL;
+
+    try {
+        urlObject = new URL(previewUrl);
+    } catch (error) {
+        console.warn("Error parsing video ID: Invalid preview URL", previewUrl, error);
+        return undefined;
+    }
 
     if (urlObject.pathname.includes("videoPreview")) {
-        console.log(urlObject);
         return urlObject.searchParams.get("id");
     }
 
     if (urlObject.hostname.includes("images.boosty.to")) {
-        return urlObject.pathname.split("/").toReversed()[0];
+        const pathParts = urlObject.pathname.split("/").filter(Boolean);
+        return pathParts.toReversed()[0];
     }
 
     return undefined;

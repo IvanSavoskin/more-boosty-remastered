@@ -314,11 +314,28 @@ async function getVideosContentDataFromBoosty(metadata: ContentMetadata, accessT
 function filterVideos(data: Data[] | DialogData[], type: "post" | "dialog"): VideoInfo[] {
     const dataToFilter = type === "dialog" ? (data as DialogData[]).flatMap((message: DialogData) => message.data) : (data as Data[]);
 
-    return (dataToFilter.filter((block) => block.type === "ok_video") as VideoData[]).map(({ playerUrls, preview }) => {
+    return (dataToFilter.filter((block) => block.type === "ok_video") as VideoData[]).map((videoData) => {
+        const { playerUrls } = videoData;
         const videoUrls = filterVideoUrls(playerUrls);
-        const videoId = parseVideoId(preview);
-        return { videoUrls, videoId };
+        const videoIds = getVideoIds(videoData);
+        return { videoUrls, videoId: videoIds[0], videoIds };
     });
+}
+
+/**
+ * Collect all known identifiers that can be used by Boosty/VK player for the same video.
+ *
+ * @param {VideoData} videoData API video block.
+ * @returns {string[]} Unique video identifiers.
+ */
+function getVideoIds(videoData: VideoData): string[] {
+    return [
+        videoData.vid,
+        videoData.id,
+        videoData.previewId,
+        videoData.preview ? parseVideoId(videoData.preview) : undefined,
+        videoData.defaultPreview ? parseVideoId(videoData.defaultPreview) : undefined
+    ].filter((videoId, index, videoIds): videoId is string => !!videoId && videoIds.indexOf(videoId) === index);
 }
 
 /**

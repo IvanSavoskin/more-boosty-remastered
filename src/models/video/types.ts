@@ -6,4 +6,5 @@ export interface PlayerUrl {
 export interface VideoInfo {
     videoUrls: PlayerUrl[];
     videoId?: string | null;
+    videoIds?: string[];
 }
