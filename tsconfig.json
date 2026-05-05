@@ -13,17 +13,18 @@
         "module": "commonjs",
         "esModuleInterop": true,
         "isolatedModules": true,
-        "rootDir": "src",
+        "skipLibCheck": true,
+        "rootDir": ".",
         "outDir": "./dist/",
         "noEmitOnError": true,
         "typeRoots": ["node_modules/@types", "./custom_typing"],
-        "baseUrl": "src",
+        "types": ["chrome", "node"],
         "incremental": true,
         "paths": {
-            "@api/*": ["api/*"],
-            "@static/*": ["static/*"],
-            "@coreUtils/*": ["utils/*"],
-            "@models/*": ["models/*"]
+            "@api/*": ["./src/api/*"],
+            "@static/*": ["./src/static/*"],
+            "@coreUtils/*": ["./src/utils/*"],
+            "@models/*": ["./src/models/*"]
         }
     },
     "include": [

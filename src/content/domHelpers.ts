@@ -8,6 +8,7 @@ import { changelogButton, changelogModal } from "./templates";
 
 const MIN_FULL_LAYOUT_WIDTH = 65;
 const MAX_FULL_LAYOUT_WIDTH = 95;
+const VK_PLAYER_READY_SELECTOR = "div.player-wrapper div.container";
 
 /** @see {@link scrollEvent} */
 let topMenu: HTMLElement | undefined | null;
@@ -26,22 +27,57 @@ export function injectVkPlayerChanges(shadowRootContainer: HTMLElement, options:
         return;
     }
 
-    const playerWrapper = shadowRoot.querySelector("div.player-wrapper div.container");
+    const completeInjection = () => {
+        const playerWrapper = shadowRoot.querySelector(VK_PLAYER_READY_SELECTOR);
 
-    if (!playerWrapper) {
-        console.error(
-            'Error when injecting changes into vk player: Player wrapper by selector "div.player-wrapper div.container" not found'
+        if (!playerWrapper) {
+            return false;
+        }
+
+        playerWrapper.addEventListener(
+            "click",
+            (event) => {
+                prepareVideoPlayer(event as MouseEvent, options);
+            },
+            { once: true }
         );
+
+        shadowRootContainer.dataset.complete = "true";
+        delete shadowRootContainer.dataset.mbPlayerObserver;
+
+        return true;
+    };
+
+    if (completeInjection()) {
         return;
     }
 
-    playerWrapper.addEventListener(
-        "click",
-        (event) => {
-            prepareVideoPlayer(event as MouseEvent, options);
-        },
-        { once: true }
-    );
+    if (shadowRootContainer.dataset.mbPlayerObserver === "true") {
+        return;
+    }
+
+    shadowRootContainer.dataset.mbPlayerObserver = "true";
+
+    const playerReadyObserver = new MutationObserver(() => {
+        if (completeInjection()) {
+            playerReadyObserver.disconnect();
+        }
+    });
+
+    playerReadyObserver.observe(shadowRoot, {
+        childList: true,
+        subtree: true
+    });
+
+    globalThis.setTimeout(() => {
+        if (shadowRootContainer.dataset.complete === "true") {
+            return;
+        }
+
+        playerReadyObserver.disconnect();
+        delete shadowRootContainer.dataset.mbPlayerObserver;
+        console.warn(`Error when injecting changes into vk player: Player wrapper by selector "${VK_PLAYER_READY_SELECTOR}" not found`);
+    }, 10_000);
 }
 
 /**

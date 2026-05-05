@@ -170,9 +170,9 @@ export async function prepareVideoPlayer(event: MouseEvent, options: UserOptions
 
         if (contentComponents) {
             for (const component of contentComponents) {
-                if (component.videoId) {
-                    setVideoContentCache(component.videoId, component.videoUrls);
-                    cachedVideoIds.push(component.videoId);
+                for (const videoId of getVideoInfoIds(component)) {
+                    setVideoContentCache(videoId, component.videoUrls);
+                    cachedVideoIds.push(videoId);
                 }
             }
         }
@@ -432,9 +432,15 @@ async function prepareVideoDownload(playerWrapper: HTMLElement) {
     }
 
     const contentComponents = await sendGetContentComponentsMessage(contentMetadata as ContentMetadata);
-    const component = contentComponents?.find((contentComponent) => contentComponent.videoId === videoId);
+    const component =
+        contentComponents?.find((contentComponent) => getVideoInfoIds(contentComponent).includes(videoId)) ??
+        getSingleVideoComponent(contentComponents);
+
     if (component?.videoUrls?.length) {
-        setVideoContentCache(videoId, component.videoUrls);
+        for (const contentVideoId of [videoId, ...getVideoInfoIds(component)]) {
+            setVideoContentCache(contentVideoId, component.videoUrls);
+        }
+
         console.debug("Player urls from API fallback", component.videoUrls);
         injectVideoDownloadModal(component.videoUrls);
 
@@ -443,6 +449,34 @@ async function prepareVideoDownload(playerWrapper: HTMLElement) {
 
     console.warn("Video URLs not found by video ID (cache and API)", videoId);
     showDownloadUnavailableMessage();
+}
+
+/**
+ * Return all identifiers known for a video info object.
+ *
+ * @param {VideoInfo} videoInfo Video API info.
+ * @returns {string[]} Unique identifiers.
+ */
+function getVideoInfoIds(videoInfo: VideoInfo): string[] {
+    return [videoInfo.videoId, ...(videoInfo.videoIds ?? [])].filter(
+        (videoId, index, videoIds): videoId is string => !!videoId && videoIds.indexOf(videoId) === index
+    );
+}
+
+/**
+ * If a post/dialog contains exactly one downloadable video, use it as a safe fallback.
+ *
+ * @param {(VideoInfo[]|null|undefined)} contentComponents Content components from API.
+ * @returns {(VideoInfo|undefined)} Single video component.
+ */
+function getSingleVideoComponent(contentComponents: VideoInfo[] | null | undefined): VideoInfo | undefined {
+    const downloadableComponents = contentComponents?.filter((contentComponent) => contentComponent.videoUrls.length) ?? [];
+
+    if (downloadableComponents.length === 1) {
+        return downloadableComponents[0];
+    }
+
+    return undefined;
 }
 
 /**
@@ -1057,10 +1091,37 @@ function getContentMetadata(playerWrapper: HTMLElement): ContentMetadataWithUnkn
         }
     }
 
+    const postLinkMetadata = findPostLinkMetadata(playerRoot);
+    if (postLinkMetadata) {
+        return postLinkMetadata;
+    }
+
     // Other cases (maybe author bio or various blocks)
     return {
         type: "unknown"
     };
+}
+
+/**
+ * Walk up from the player and find a nearby post permalink without relying on Boosty CSS module names.
+ *
+ * @param {Element} playerRoot Player shadow host.
+ * @returns {(BlogContentMetadata|null)} Blog content metadata.
+ */
+function findPostLinkMetadata(playerRoot: Element): BlogContentMetadata | null {
+    let currentElement = playerRoot.parentElement;
+
+    while (currentElement) {
+        const postLinkElement = currentElement.querySelector('a[href*="/posts/"]') as HTMLAnchorElement | null;
+
+        if (postLinkElement) {
+            return generatePostMetadata(postLinkElement.href);
+        }
+
+        currentElement = currentElement.parentElement;
+    }
+
+    return null;
 }
 
 /**
@@ -1070,6 +1131,18 @@ function getContentMetadata(playerWrapper: HTMLElement): ContentMetadataWithUnkn
  * @returns {BlogContentMetadata} Blog content metadata
  */
 function generatePostMetadata(url: string): BlogContentMetadata {
+    const parsedUrl = new URL(url, globalThis.location.origin);
+    const pathSegments = parsedUrl.pathname.split("/").filter(Boolean);
+    const postSegmentIndex = pathSegments.indexOf("posts");
+
+    if (postSegmentIndex > 0 && pathSegments[postSegmentIndex + 1]) {
+        return {
+            type: "post",
+            id: pathSegments[postSegmentIndex + 1],
+            blogName: pathSegments[postSegmentIndex - 1]
+        };
+    }
+
     return {
         type: "post",
         id: url.split("/").toReversed()[0],
@@ -1118,8 +1191,8 @@ function getVideoId(playerWrapper: HTMLElement): string | null | undefined {
     const previewAttribute = previewContainer.style.backgroundImage;
     console.debug("Video preview attribute", previewAttribute);
 
-    const regex = /url\("(.*)"\)/gm;
-    const previewUrl = regex.exec(previewAttribute)?.[1];
+    const regex = /url\((['"]?)(.*?)\1\)/;
+    const previewUrl = regex.exec(previewAttribute)?.[2];
 
     if (!previewUrl) {
         console.error("Error getting video ID: Video preview URL not found", previewAttribute);
