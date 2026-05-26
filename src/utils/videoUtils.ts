@@ -40,7 +40,7 @@ export function parseVideoId(previewUrl: string): string | null | undefined {
         return urlObject.searchParams.get("id");
     }
 
-    if (urlObject.hostname.includes("images.boosty.to")) {
+    if (/^images\d*\.boosty\.to$/.test(urlObject.hostname)) {
         const pathParts = urlObject.pathname.split("/").filter(Boolean);
         return pathParts.toReversed()[0];
     }
