@@ -406,14 +406,13 @@ function injectVideoControls(playerWrapper: HTMLElement, canBeDownloaded: boolea
 async function prepareVideoDownload(playerWrapper: HTMLElement) {
     const videoId = getVideoId(playerWrapper);
 
-    if (!videoId) {
-        console.warn("Video ID is not defined", playerWrapper);
-        showDownloadUnavailableMessage();
-        return;
+    if (videoId) {
+        console.debug("Video ID", videoId);
+    } else {
+        console.warn("Video ID is not defined. Trying content API fallback", playerWrapper);
     }
 
-    console.debug("Video ID", videoId);
-    const playerUrls: PlayerUrl[] | undefined = contentCache.get(videoId);
+    const playerUrls: PlayerUrl[] | undefined = videoId ? contentCache.get(videoId) : undefined;
 
     if (playerUrls) {
         console.debug("Player urls from cache", playerUrls);
@@ -432,12 +431,17 @@ async function prepareVideoDownload(playerWrapper: HTMLElement) {
     }
 
     const contentComponents = await sendGetContentComponentsMessage(contentMetadata as ContentMetadata);
-    const component =
-        contentComponents?.find((contentComponent) => getVideoInfoIds(contentComponent).includes(videoId)) ??
-        getSingleVideoComponent(contentComponents);
+    const component = videoId
+        ? (contentComponents?.find((contentComponent) => getVideoInfoIds(contentComponent).includes(videoId)) ??
+          getSingleVideoComponent(contentComponents))
+        : getSingleVideoComponent(contentComponents);
 
     if (component?.videoUrls?.length) {
-        for (const contentVideoId of [videoId, ...getVideoInfoIds(component)]) {
+        const contentVideoIds = [videoId, ...getVideoInfoIds(component)].filter(
+            (contentVideoId, index, videoIds): contentVideoId is string => !!contentVideoId && videoIds.indexOf(contentVideoId) === index
+        );
+
+        for (const contentVideoId of contentVideoIds) {
             setVideoContentCache(contentVideoId, component.videoUrls);
         }
 
