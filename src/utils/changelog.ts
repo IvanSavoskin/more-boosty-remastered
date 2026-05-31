@@ -313,8 +313,8 @@ const changelog: Changelog = {
             ru: "Обновление 1.5.0"
         },
         message: {
-            ru: ["Добавлен popup с курсами валют Boosty."],
-            en: ["Added popup with Boosty currency rates."]
+            ru: ["Добавлен popup с курсами валют Boosty.", "Добавлена адаптивная верстка окна настроек для узких окон браузера."],
+            en: ["Added popup with Boosty currency rates.", "Added responsive settings window layout for narrow browser windows."]
         },
         link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.5.0"
     }
