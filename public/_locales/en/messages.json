@@ -5,6 +5,33 @@
   "options_title": {
     "message": "Options"
   },
+  "popup_title": {
+    "message": "Boosty currency rates"
+  },
+  "popup_description": {
+    "message": "RUB is used as the base currency"
+  },
+  "popup_loading": {
+    "message": "Loading rates..."
+  },
+  "popup_rate_value": {
+    "message": "$1 RUB"
+  },
+  "popup_updated_at": {
+    "message": "Updated at $1"
+  },
+  "popup_refresh": {
+    "message": "Refresh"
+  },
+  "popup_error_title": {
+    "message": "Rates are unavailable"
+  },
+  "popup_error_description": {
+    "message": "Try again in a moment."
+  },
+  "popup_retry": {
+    "message": "Retry"
+  },
   "options_restart_required": {
     "message": "Restart required"
   },
