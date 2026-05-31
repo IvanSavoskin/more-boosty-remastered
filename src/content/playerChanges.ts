@@ -895,9 +895,11 @@ function forceVideoQuality(playerWrapper: HTMLElement, videoQuality: VideoQualit
     for (const quality of itemQuality) {
         if (quality.dataset.value === videoQuality) {
             quality.click();
-            break;
+            return;
         }
+    }
 
+    if (itemQuality.length > 0) {
         itemQuality[0].click();
     }
 }
@@ -1048,10 +1050,19 @@ async function sendGetContentComponentsMessage(metadata: ContentMetadata): Promi
  */
 function getAccessToken(): string | null {
     const auth = globalThis.localStorage.getItem("auth");
-    if (auth) {
-        return JSON.parse(auth).accessToken;
+
+    if (!auth) {
+        return null;
     }
-    return null;
+
+    try {
+        const parsedAuth = JSON.parse(auth) as { accessToken?: unknown };
+
+        return typeof parsedAuth.accessToken === "string" ? parsedAuth.accessToken : null;
+    } catch (error) {
+        console.warn("Error getting access token: Failed to parse auth data from local storage", error);
+        return null;
+    }
 }
 
 /**

@@ -60,7 +60,7 @@ There are currently no plans to support Firefox.
 To monitor the quality of the code, the project provides for the connection of linters.
 
 #### ESLint
-Rules for ESLint are specified in the `/.eslintrc` file.
+Rules for ESLint are specified in the `/eslint.config.mjs` file.
 
 Code checking using ESLint starts with the command `npm run eslint`.
 

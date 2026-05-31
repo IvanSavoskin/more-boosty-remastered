@@ -144,6 +144,30 @@
   "download_video_unavailable": {
     "message": "Ссылки для скачивания не удалось получить. Попробуй снова открыть видео или обновить страницу."
   },
+  "video_quality_ultra_hd": {
+    "message": "2160p"
+  },
+  "video_quality_quad_hd": {
+    "message": "1440p"
+  },
+  "video_quality_full_hd": {
+    "message": "1080p"
+  },
+  "video_quality_high": {
+    "message": "720p"
+  },
+  "video_quality_medium": {
+    "message": "480p"
+  },
+  "video_quality_low": {
+    "message": "360p"
+  },
+  "video_quality_lowest": {
+    "message": "240p"
+  },
+  "video_quality_tiny": {
+    "message": "144p"
+  },
   "player_speed_decrease": {
     "message": "Замедлить воспроизведение"
   },

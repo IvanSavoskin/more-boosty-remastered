@@ -174,13 +174,22 @@ chrome.runtime.onMessage.addListener((message: BackgroundMessage, _, sendRespons
         case BackgroundMessageType.REQUEST_CONTENT_DATA: {
             console.debug("Send content data");
 
-            getVideosContentDataFromBoosty(message.data.metadata, message.data.accessToken).then((contentData) =>
-                sendResponse({
-                    target: [MessageTarget.CONTENT],
-                    type: ContentMessageType.CONTENT_DATA_INFO,
-                    data: { contentData }
-                } as ContentDataInfoContentMessage)
-            );
+            getVideosContentDataFromBoosty(message.data.metadata, message.data.accessToken)
+                .then((contentData) =>
+                    sendResponse({
+                        target: [MessageTarget.CONTENT],
+                        type: ContentMessageType.CONTENT_DATA_INFO,
+                        data: { contentData }
+                    } as ContentDataInfoContentMessage)
+                )
+                .catch((error) => {
+                    console.warn("Content data could not be loaded", error);
+                    sendResponse({
+                        target: [MessageTarget.CONTENT],
+                        type: ContentMessageType.CONTENT_DATA_INFO,
+                        data: { contentData: null }
+                    } as ContentDataInfoContentMessage);
+                });
 
             return true;
         }
@@ -675,7 +684,7 @@ getSyncOptionFromCache().then((sync) => {
  * Cache governor
  * Checks for expired cache items every hour
  */
-chrome.alarms.clearAll();
+chrome.alarms.clear(CACHE_GOVERNOR_ALARM);
 chrome.alarms.create(CACHE_GOVERNOR_ALARM, {
     periodInMinutes: 60
 });
