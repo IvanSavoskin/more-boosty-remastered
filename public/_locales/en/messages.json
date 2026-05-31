@@ -80,6 +80,12 @@
   "sync_button_desc": {
     "message": "synchronize local and sync caches"
   },
+  "options_show_update_notifications": {
+    "message": "Update notifications"
+  },
+  "options_show_update_notifications_desc": {
+    "message": "show release notes after extension updates"
+  },
   "options_save_last_timestamp": {
     "message": "Save where you left off video/audio"
   },
