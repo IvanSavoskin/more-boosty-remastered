@@ -6,6 +6,7 @@ export interface UserOptions {
     forceVideoQuality: boolean;
     videoQuality: VideoQualityEnum;
     saveLastTimestamp: boolean;
+    showUpdateNotifications: boolean;
     theaterMode: boolean;
     sync: boolean;
 }

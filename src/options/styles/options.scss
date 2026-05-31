@@ -1,8 +1,13 @@
 @use '../../styles/themeVariables' as themeVariables;
 
 html {
-  min-width: 720px;
   overflow: auto;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 ::-webkit-scrollbar {
@@ -32,6 +37,8 @@ body {
   font-family: Inter, sans-serif;
   font-size: 16px;
   margin: 0;
+  min-width: 0;
+  overflow-wrap: break-word;
 
   @media (prefers-color-scheme: dark) {
     background-color: themeVariables.$dark-base-background-color;
@@ -44,8 +51,10 @@ body {
   flex-direction: column;
   margin-left: auto;
   margin-right: auto;
-  padding: 20px 40px;
+  max-width: 720px;
+  padding: 20px clamp(16px, 6vw, 40px);
   row-gap: 15px;
+  width: 100%;
 }
 
 .options-form {
@@ -62,6 +71,18 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  row-gap: 5px;
+
+  label {
+    align-items: flex-start;
+    column-gap: 6px;
+    display: flex;
+  }
+
+  [type='checkbox'] {
+    flex: 0 0 auto;
+    margin-top: 3px;
+  }
 
   &-description {
     color: themeVariables.$light-secondary-text-color;
@@ -103,6 +124,7 @@ body {
     accent-color: themeVariables.$highlight-color;
     flex: 1;
     margin: 0;
+    min-width: 0;
 
     &:disabled {
       opacity: 0.4;
@@ -146,7 +168,8 @@ body {
   font-weight: 600;
   height: 40px;
   line-height: 20px;
-  min-width: 150px;
+  max-width: 100%;
+  min-width: min(150px, 100%);
   outline: none;
   overflow: hidden;
   padding: 10px 20px;
@@ -177,8 +200,10 @@ body {
   align-items: center;
   column-gap: 7px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   padding: 15px 10px;
+  row-gap: 5px;
 }
 
 .changelog-link {
@@ -193,6 +218,32 @@ body {
 
   &:visited {
     color: themeVariables.$highlight-color;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding-bottom: 16px;
+    padding-top: 16px;
+  }
+
+  .options-form {
+    row-gap: 20px;
+  }
+
+  .form-field-description {
+    text-align: left;
+  }
+
+  .range-field-control {
+    align-items: stretch;
+    flex-direction: column;
+    row-gap: 8px;
+  }
+
+  .range-field-value {
+    min-width: 0;
+    text-align: left;
   }
 }
 

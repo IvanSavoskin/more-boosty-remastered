@@ -306,6 +306,25 @@ const changelog: Changelog = {
             en: ["Fixed issues with video download links."]
         },
         link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.4.5"
+    },
+    "1.5.0": {
+        title: {
+            en: "Update 1.5.0",
+            ru: "Обновление 1.5.0"
+        },
+        message: {
+            ru: [
+                "Добавлен popup с курсами валют Boosty.",
+                "Добавлена адаптивная верстка окна настроек для узких окон браузера.",
+                "Добавлена настройка для отключения уведомлений об обновлениях."
+            ],
+            en: [
+                "Added popup with Boosty currency rates.",
+                "Added responsive settings window layout for narrow browser windows.",
+                "Added an option to disable update notifications."
+            ]
+        },
+        link: "https://github.com/IvanSavoskin/more-boosty-remaster/releases/tag/v1.5.0"
     }
 };
 

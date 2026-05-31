@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title data-locale="popup_title">Boosty currency rates</title>
+    </head>
+
+    <body>
+        <main class="popup-container">
+            <header class="popup-header">
+                <h1 class="popup-title" data-locale="popup_title">Boosty currency rates</h1>
+                <p class="popup-description" data-locale="popup_description">RUB is used as the base currency</p>
+            </header>
+
+            <section class="state" id="loading-state" aria-live="polite">
+                <div class="loading-indicator"></div>
+                <p class="popup-description" data-locale="popup_loading">Loading rates...</p>
+            </section>
+
+            <section class="state hidden" id="success-state" aria-live="polite">
+                <ul class="rates-list" id="rates-list"></ul>
+                <div class="success-footer">
+                    <p class="updated-at" id="updated-at"></p>
+                    <button class="refresh-button" id="refresh-button" type="button" data-locale="popup_refresh">Refresh</button>
+                </div>
+            </section>
+
+            <section class="state hidden" id="error-state" aria-live="polite">
+                <p class="error-title" data-locale="popup_error_title">Rates are unavailable</p>
+                <p class="error-description" data-locale="popup_error_description">Try again in a moment.</p>
+                <button class="retry-button" id="retry-button" type="button" data-locale="popup_retry">Retry</button>
+            </section>
+        </main>
+    </body>
+</html>

@@ -1,4 +1,4 @@
-import { blog, dialog } from "@api/boostyApi";
+import { blog, dialog, target } from "@api/boostyApi";
 import {
     readAllFromCache,
     readFromCache,
@@ -10,10 +10,18 @@ import {
 import changelog from "@coreUtils/changelog";
 import { filterVideoUrls, parseVideoId } from "@coreUtils/videoUtils";
 import { ContentMetadata, Data, DialogData, VideoData } from "@models/boosty/types";
-import { BackgroundMessageType, ContentMessageType, ContentOptionsMessageType, MessageTarget } from "@models/messages/enums";
+import { BoostyTargetResponse, CurrencyRate, CurrencyRatesInfo } from "@models/currency/types";
+import {
+    BackgroundMessageType,
+    ContentMessageType,
+    ContentOptionsMessageType,
+    MessageTarget,
+    PopupMessageType
+} from "@models/messages/enums";
 import {
     BackgroundMessage,
     ContentDataInfoContentMessage,
+    CurrencyRatesInfoPopupMessage,
     OptionsInfoMessage,
     PlaybackRateInfoContentMessage,
     TimestampInfoContentMessage
@@ -22,12 +30,13 @@ import { UserOptions } from "@models/options/types";
 import { VideoQualityEnum } from "@models/video/enums";
 import { VideoInfo } from "@models/video/types";
 
-const INITIAL_OPTIONS = {
+const INITIAL_OPTIONS: UserOptions = {
     videoQuality: VideoQualityEnum.Q_1080P,
     fullLayout: false,
     fullLayoutWidth: 95,
     forceVideoQuality: false,
     saveLastTimestamp: false,
+    showUpdateNotifications: true,
     theaterMode: false,
     sync: false
 };
@@ -35,9 +44,17 @@ const INITIAL_OPTIONS = {
 let SYNC = false;
 
 const CACHE_GOVERNOR_ALARM = "cache-governor";
+const CURRENCY_RATES_CACHE_KEY = "currencyRates";
+const CURRENCY_RATES_CACHE_TIMEOUT_MINUTES = 180;
+const BOOSTY_CURRENCY_TARGET_ID = "414314";
+const BOOSTY_CURRENCY_TARGET_REQUEST_CURRENCY = "USD";
+const BOOSTY_CURRENCY_BASE_CURRENCY = "RUB";
+const BOOSTY_CURRENCY_BASE_TARGET_SUM = 150_000;
 
 let latestUpdateNotificationID: string | undefined;
 let latestReleaseNotesLink: string | undefined;
+
+const t = (name: string) => chrome.i18n.getMessage(name);
 
 /**
  * Handle cache cleanup for local storage when cache governor alarm fires.
@@ -160,13 +177,22 @@ chrome.runtime.onMessage.addListener((message: BackgroundMessage, _, sendRespons
         case BackgroundMessageType.REQUEST_CONTENT_DATA: {
             console.debug("Send content data");
 
-            getVideosContentDataFromBoosty(message.data.metadata, message.data.accessToken).then((contentData) =>
-                sendResponse({
-                    target: [MessageTarget.CONTENT],
-                    type: ContentMessageType.CONTENT_DATA_INFO,
-                    data: { contentData }
-                } as ContentDataInfoContentMessage)
-            );
+            getVideosContentDataFromBoosty(message.data.metadata, message.data.accessToken)
+                .then((contentData) =>
+                    sendResponse({
+                        target: [MessageTarget.CONTENT],
+                        type: ContentMessageType.CONTENT_DATA_INFO,
+                        data: { contentData }
+                    } as ContentDataInfoContentMessage)
+                )
+                .catch((error) => {
+                    console.warn("Content data could not be loaded", error);
+                    sendResponse({
+                        target: [MessageTarget.CONTENT],
+                        type: ContentMessageType.CONTENT_DATA_INFO,
+                        data: { contentData: null }
+                    } as ContentDataInfoContentMessage);
+                });
 
             return true;
         }
@@ -180,6 +206,28 @@ chrome.runtime.onMessage.addListener((message: BackgroundMessage, _, sendRespons
                     data: { playbackRate: playbackRate ?? 1 }
                 } as PlaybackRateInfoContentMessage)
             );
+
+            return true;
+        }
+        case BackgroundMessageType.REQUEST_CURRENCY_RATES: {
+            console.debug("Send Boosty currency rates");
+
+            getCurrencyRates(message.data?.forceRefresh)
+                .then((currencyRatesInfo) =>
+                    sendResponse({
+                        target: [MessageTarget.POPUP],
+                        type: PopupMessageType.CURRENCY_RATES_INFO,
+                        data: { currencyRatesInfo, error: null }
+                    } as CurrencyRatesInfoPopupMessage)
+                )
+                .catch((error) => {
+                    console.warn("Currency rates could not be loaded", error);
+                    sendResponse({
+                        target: [MessageTarget.POPUP],
+                        type: PopupMessageType.CURRENCY_RATES_INFO,
+                        data: { currencyRatesInfo: null, error: "currencyRatesUnavailable" }
+                    } as CurrencyRatesInfoPopupMessage);
+                });
 
             return true;
         }
@@ -244,6 +292,89 @@ chrome.runtime.onMessage.addListener((message: BackgroundMessage, _, sendRespons
         }
     }
 });
+
+/**
+ * Get Boosty currency rates from cache or target API.
+ *
+ * @param {boolean} [forceRefresh=false] Whether to skip cache and request fresh rates.
+ * @returns {Promise<CurrencyRatesInfo>} Currency rates info.
+ */
+async function getCurrencyRates(forceRefresh: boolean = false): Promise<CurrencyRatesInfo> {
+    console.group("Currency rates");
+
+    try {
+        if (!forceRefresh) {
+            const cachedCurrencyRates = await readFromCache<CurrencyRatesInfo>(CURRENCY_RATES_CACHE_KEY);
+            if (cachedCurrencyRates) {
+                console.debug("✅ Retrieving from cache");
+                return cachedCurrencyRates.data;
+            }
+        }
+        console.debug("⚠️ Cache is empty, retrieving from API");
+
+        const currencyTargetData = await target(BOOSTY_CURRENCY_TARGET_ID, BOOSTY_CURRENCY_TARGET_REQUEST_CURRENCY);
+        const currencyRatesInfo = getCurrencyRatesFromTargetData(currencyTargetData);
+
+        if (currencyRatesInfo.rates.length === 0) {
+            throw new Error("Currency rates are empty");
+        }
+
+        await writeToCacheWithTimeout(CURRENCY_RATES_CACHE_KEY, currencyRatesInfo, CURRENCY_RATES_CACHE_TIMEOUT_MINUTES);
+
+        console.debug("✅ Currency rates from API", currencyRatesInfo);
+
+        return currencyRatesInfo;
+    } finally {
+        console.groupEnd();
+    }
+}
+
+/**
+ * Build currency rates info from Boosty target data.
+ *
+ * @param {BoostyTargetResponse} currencyTargetData Boosty target data.
+ * @returns {CurrencyRatesInfo} Currency rates info.
+ */
+function getCurrencyRatesFromTargetData(currencyTargetData: BoostyTargetResponse): CurrencyRatesInfo {
+    const { currencyCurrentSums, currencyTargetSums } = currencyTargetData;
+    const currencySums = currencyTargetSums ?? currencyCurrentSums;
+    const baseCurrencySum = currencySums?.[BOOSTY_CURRENCY_BASE_CURRENCY] ?? BOOSTY_CURRENCY_BASE_TARGET_SUM;
+    let rates: CurrencyRate[] = [];
+
+    if (currencySums) {
+        rates = Object.entries(currencySums)
+            .filter(([currencyCode, currencySum]) => currencyCode !== BOOSTY_CURRENCY_BASE_CURRENCY && currencySum > 0)
+            .map(([currencyCode, currencySum]) => ({
+                currency: currencyCode,
+                rubles: roundCurrencyRate(baseCurrencySum / currencySum)
+            }))
+            .toSorted((leftCurrencyRate, rightCurrencyRate) => leftCurrencyRate.currency.localeCompare(rightCurrencyRate.currency));
+    }
+
+    if (rates.length === 0 && currencyTargetData.targetSum && currencyTargetData.targetSum > 0) {
+        rates = [
+            {
+                currency: BOOSTY_CURRENCY_TARGET_REQUEST_CURRENCY,
+                rubles: roundCurrencyRate(BOOSTY_CURRENCY_BASE_TARGET_SUM / currencyTargetData.targetSum)
+            }
+        ];
+    }
+
+    return {
+        rates,
+        updatedAt: Date.now()
+    };
+}
+
+/**
+ * Round currency rate to four decimal places.
+ *
+ * @param {number} currencyRate Currency rate.
+ * @returns {number} Rounded currency rate.
+ */
+function roundCurrencyRate(currencyRate: number): number {
+    return Math.round(currencyRate * 10_000) / 10_000;
+}
 
 /**
  * Retrieve content data from Boosty API
@@ -489,6 +620,65 @@ async function getSyncOptionFromCache(): Promise<boolean> {
 }
 
 /**
+ * Check whether the extension should show a notification after updates.
+ *
+ * @returns {Promise<boolean>} Whether update notifications are enabled.
+ */
+async function shouldShowUpdateNotification(): Promise<boolean> {
+    const sync = await getSyncOptionFromCache();
+    SYNC = sync;
+    toggleSyncAlarmListener(SYNC);
+
+    const options = await getOptionsFromCache(sync);
+
+    return options?.showUpdateNotifications ?? INITIAL_OPTIONS.showUpdateNotifications;
+}
+
+/**
+ * Show release notes notification after extension updates when enabled in options.
+ *
+ * @param {string} currentVersion Current extension version.
+ */
+async function showUpdateNotification(currentVersion: string) {
+    const showUpdateNotificationOption = await shouldShowUpdateNotification();
+
+    if (!showUpdateNotificationOption) {
+        console.debug("Update notification skipped by user option");
+        return;
+    }
+
+    const uiLang = chrome.i18n.getUILanguage();
+
+    const currentVersionReleaseNotes = changelog[currentVersion];
+
+    if (currentVersionReleaseNotes) {
+        chrome.notifications.create(
+            {
+                type: "basic",
+                iconUrl: chrome.runtime.getURL("static/assets/icon.png"),
+                title: uiLang === "ru" ? currentVersionReleaseNotes.title.ru : currentVersionReleaseNotes.title.en,
+                message:
+                    uiLang === "ru" ? currentVersionReleaseNotes.message.ru.join(", ") : currentVersionReleaseNotes.message.en.join(", "),
+                buttons: [
+                    {
+                        title: t("changelog")
+                    },
+                    {
+                        title: t("git_hub")
+                    }
+                ]
+            },
+            (id) => {
+                latestUpdateNotificationID = id;
+                latestReleaseNotesLink = currentVersionReleaseNotes.link;
+            }
+        );
+    } else {
+        console.debug(`Release notes for version "${currentVersion}" not found`);
+    }
+}
+
+/**
  * Install/update listener
  */
 chrome.runtime.onInstalled.addListener((details) => {
@@ -512,38 +702,9 @@ chrome.runtime.onInstalled.addListener((details) => {
         (details.reason as chrome.runtime.OnInstalledReason) === chrome.runtime.OnInstalledReason.UPDATE &&
         currentVersion !== details.previousVersion
     ) {
-        const t = (name: string) => chrome.i18n.getMessage(name);
-        const uiLang = chrome.i18n.getUILanguage();
-
-        const currentVersionReleaseNotes = changelog[currentVersion];
-
-        if (currentVersionReleaseNotes) {
-            chrome.notifications.create(
-                {
-                    type: "basic",
-                    iconUrl: chrome.runtime.getURL("static/assets/icon.png"),
-                    title: uiLang === "ru" ? currentVersionReleaseNotes.title.ru : currentVersionReleaseNotes.title.en,
-                    message:
-                        uiLang === "ru"
-                            ? currentVersionReleaseNotes.message.ru.join(", ")
-                            : currentVersionReleaseNotes.message.en.join(", "),
-                    buttons: [
-                        {
-                            title: t("changelog")
-                        },
-                        {
-                            title: t("git_hub")
-                        }
-                    ]
-                },
-                (id) => {
-                    latestUpdateNotificationID = id;
-                    latestReleaseNotesLink = currentVersionReleaseNotes.link;
-                }
-            );
-        } else {
-            console.debug(`Release notes for version "${currentVersion}" not found`);
-        }
+        showUpdateNotification(currentVersion).catch((error) => {
+            console.warn("Update notification could not be shown", error);
+        });
     }
 });
 
@@ -556,7 +717,7 @@ getSyncOptionFromCache().then((sync) => {
  * Cache governor
  * Checks for expired cache items every hour
  */
-chrome.alarms.clearAll();
+chrome.alarms.clear(CACHE_GOVERNOR_ALARM);
 chrome.alarms.create(CACHE_GOVERNOR_ALARM, {
     periodInMinutes: 60
 });

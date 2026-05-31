@@ -1,5 +1,12 @@
 import { ContentMetadata } from "@models/boosty/types";
-import { BackgroundMessageType, ContentMessageType, ContentOptionsMessageType, MessageTarget } from "@models/messages/enums";
+import { CurrencyRatesResponseData } from "@models/currency/types";
+import {
+    BackgroundMessageType,
+    ContentMessageType,
+    ContentOptionsMessageType,
+    MessageTarget,
+    PopupMessageType
+} from "@models/messages/enums";
 import { UserOptions } from "@models/options/types";
 import { VideoInfo } from "@models/video/types";
 
@@ -37,6 +44,12 @@ export interface RequestPlaybackRateBackgroundMessage extends Message {
     target: [MessageTarget.BACKGROUND];
 }
 
+export interface RequestCurrencyRatesBackgroundMessage extends Message {
+    type: BackgroundMessageType.REQUEST_CURRENCY_RATES;
+    target: [MessageTarget.BACKGROUND];
+    data?: { forceRefresh?: boolean };
+}
+
 export interface SavePlaybackRateBackgroundMessage extends Message {
     type: BackgroundMessageType.SAVE_PLAYBACK_RATE;
     target: [MessageTarget.BACKGROUND];
@@ -72,6 +85,7 @@ export type BackgroundMessage =
     | RequestContentDataBackgroundMessage
     | RequestOptionsBackgroundMessage
     | RequestPlaybackRateBackgroundMessage
+    | RequestCurrencyRatesBackgroundMessage
     | SavePlaybackRateBackgroundMessage
     | SaveSyncOptionBackgroundMessage
     | SaveOptionsBackgroundMessage
@@ -108,3 +122,11 @@ export type ContentMessage =
     | OptionsInfoMessage;
 
 export type OptionsMessage = OptionsInfoMessage;
+
+export interface CurrencyRatesInfoPopupMessage extends Message {
+    type: PopupMessageType.CURRENCY_RATES_INFO;
+    target: [MessageTarget.POPUP];
+    data: CurrencyRatesResponseData;
+}
+
+export type PopupMessage = CurrencyRatesInfoPopupMessage;

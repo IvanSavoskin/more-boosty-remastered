@@ -134,6 +134,7 @@ function updateOptionsFromMessage(message: void | OptionsInfoMessage) {
     configureFullLayoutWidthControl(_options.fullLayoutWidth, _options.fullLayout);
     optionsForm.theaterMode.checked = _options.theaterMode;
     optionsForm.sync.checked = _options.sync;
+    optionsForm.showUpdateNotifications.checked = _options.showUpdateNotifications;
     optionsForm.saveLastTimestamp.checked = _options.saveLastTimestamp;
     optionsForm.videoQuality.value = _options.videoQuality;
 }
@@ -159,6 +160,7 @@ function optionsConfigure() {
     configureFullLayoutWidthControl(options.fullLayoutWidth, options.fullLayout);
     optionsForm.theaterMode.checked = options.theaterMode;
     optionsForm.sync.checked = options.sync;
+    optionsForm.showUpdateNotifications.checked = options.showUpdateNotifications;
     optionsForm.saveLastTimestamp.checked = options.saveLastTimestamp;
     optionsForm.videoQuality.value = options.videoQuality;
 
@@ -194,6 +196,13 @@ function optionsConfigure() {
             target: [MessageTarget.BACKGROUND],
             data: { sync: isSyncChecked }
         }).then(updateOptionsFromMessage);
+    });
+    optionsForm.showUpdateNotifications.addEventListener("change", (event: Event) => {
+        const isShowUpdateNotificationsChecked = (event.target as HTMLInputElement).checked;
+        saveOptions({
+            ...options,
+            showUpdateNotifications: isShowUpdateNotificationsChecked
+        } as UserOptions);
     });
     optionsForm.saveLastTimestamp.addEventListener("change", (event: Event) => {
         const isSaveLastTimestampChecked = (event.target as HTMLInputElement).checked;

@@ -185,8 +185,11 @@ function processTheaterMode(body: HTMLElement, isActive?: boolean) {
  * @param {MutationRecord[]} mutations Body mutation records
  * @param {HTMLElement} body Body element
  * @param {boolean} isExtensionIconInjected Is extension icon injected
+ * @returns {boolean} Current extension icon injection state
  */
-function processBodyMutations(mutations: MutationRecord[], body: HTMLElement, isExtensionIconInjected: boolean) {
+function processBodyMutations(mutations: MutationRecord[], body: HTMLElement, isExtensionIconInjected: boolean): boolean {
+    let extensionIconInjected = isExtensionIconInjected;
+
     try {
         if (mutations.some((mutation) => shouldProcessMedia(mutation))) {
             scheduleMediaProcessing();
@@ -195,13 +198,13 @@ function processBodyMutations(mutations: MutationRecord[], body: HTMLElement, is
         for (const mutation of mutations) {
             const target = mutation.target as HTMLElement;
 
-            if (target.id === "root" && isExtensionIconInjected && !target.querySelector("#mb-changelog")) {
-                injectExtensionIcon(target);
+            if (target.id === "root" && extensionIconInjected && !target.querySelector("#mb-changelog")) {
+                extensionIconInjected = injectExtensionIcon(target);
             }
 
-            if (!isExtensionIconInjected && target.id === "root") {
+            if (!extensionIconInjected && target.id === "root") {
                 console.debug("Deferred inject extension icon");
-                injectExtensionIcon(body);
+                extensionIconInjected = injectExtensionIcon(body);
             }
 
             if (target.id === "gallery") {
@@ -223,6 +226,8 @@ function processBodyMutations(mutations: MutationRecord[], body: HTMLElement, is
     } catch (error) {
         console.log("Uncaught mutation error", error);
     }
+
+    return extensionIconInjected;
 }
 
 /**
@@ -250,14 +255,16 @@ async function main() {
     console.debug("Options from cache", options);
 
     // 1. Permanent changes
-    const isExtensionIconInjected = injectExtensionIcon(body);
+    let isExtensionIconInjected = injectExtensionIcon(body);
     injectFullLayout(options, body);
     processAudioPlayers();
     processVideoPlayers();
     processTheaterMode(body);
 
     // 2. Dynamic changes
-    const observer = new MutationObserver((mutations) => processBodyMutations(mutations, body, isExtensionIconInjected));
+    const observer = new MutationObserver((mutations) => {
+        isExtensionIconInjected = processBodyMutations(mutations, body, isExtensionIconInjected);
+    });
 
     observer.observe(body, {
         childList: true,

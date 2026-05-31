@@ -1,4 +1,5 @@
 import { BlogContentMetadata, BlogResponse, Data, DialogContentMetadata, DialogData, DialogResponse } from "@models/boosty/types";
+import { BoostyTargetResponse } from "@models/currency/types";
 
 import axios, { AxiosResponse } from "axios";
 
@@ -32,6 +33,30 @@ export async function blog(metadata: BlogContentMetadata, accessToken: string): 
 export async function dialog(metadata: DialogContentMetadata, accessToken: string): Promise<DialogData[]> {
     const endpoint = `dialog/${metadata.id}/message/?limit=${DEFAULT_LIMIT}&reverse=true&offset=${DEFAULT_OFFSET}`;
     const response = await sendWithAuthorization<DialogResponse>(endpoint, accessToken);
+
+    return response.data;
+}
+
+/**
+ * Retrieve target data from Boosty API
+ *
+ * @param {string} targetId Boosty target identifier
+ * @param {string} currency Currency code for target conversion
+ * @returns {Promise<BoostyTargetResponse>} Boosty target data
+ */
+export async function target(targetId: string, currency: string): Promise<BoostyTargetResponse> {
+    return send<BoostyTargetResponse>(`target/${targetId}?currency=${currency}`);
+}
+
+/**
+ * Send request to Boosty API
+ *
+ * @template T
+ * @param {string} endpoint Endpoint for request
+ * @returns {Promise<T>} Boosty API response
+ */
+async function send<T>(endpoint: string): Promise<T> {
+    const response: AxiosResponse<T> = await axios.get<T>(`${API_URL}${endpoint}`);
 
     return response.data;
 }
