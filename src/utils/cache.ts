@@ -1,4 +1,4 @@
-import { CacheData, TimeoutCacheData } from "@models/cache/types";
+import { Cache, TimeoutCacheData } from "@models/cache/types";
 
 import { DateTime } from "luxon";
 
@@ -62,9 +62,9 @@ export async function writeToCacheWithTimeout<T>(key: string, data: T, timeout: 
  * @param {boolean} [sync=false] Whether to use sync storage
  * @returns {Promise<TimeoutCacheData<T>|CacheData<T>|null|undefined>} Data from cache
  */
-export async function readFromCache<T>(key: string, sync: boolean = false): Promise<TimeoutCacheData<T> | CacheData<T> | null | undefined> {
-    const cachedData: { [key]: TimeoutCacheData<T> | CacheData<T> | undefined | null } = await getStorage(sync).get(key);
-    const data: TimeoutCacheData<T> | CacheData<T> | undefined | null = cachedData[key];
+export async function readFromCache<T>(key: string, sync: boolean = false): Promise<Cache<T>> {
+    const cachedData: { [key]: Cache<T> } = await getStorage(sync).get(key);
+    const data: Cache<T> = cachedData[key];
 
     console.group(`Cache read for ${key} (${sync ? "sync" : "local"})`);
 
@@ -90,7 +90,7 @@ export async function readFromCache<T>(key: string, sync: boolean = false): Prom
         return null;
     }
 
-    if (data && data.data !== undefined) {
+    if (data?.data !== undefined) {
         console.debug("Data:", data.data);
         console.groupEnd();
         return data;
@@ -154,7 +154,7 @@ export async function removeExpiredItemsFromCache(sync: boolean = false) {
  * @returns boolean Is data exists and not expired
  */
 function existsAndNotExpired(data: TimeoutCacheData | null | undefined): boolean {
-    return data && data.timeout && data.data && DateTime.now() <= DateTime.fromMillis(data.timeout);
+    return !!data && data.timeout !== undefined && data.data !== undefined && DateTime.now() <= DateTime.fromMillis(data.timeout);
 }
 
 /**
