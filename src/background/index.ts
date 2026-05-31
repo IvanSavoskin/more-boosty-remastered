@@ -30,12 +30,13 @@ import { UserOptions } from "@models/options/types";
 import { VideoQualityEnum } from "@models/video/enums";
 import { VideoInfo } from "@models/video/types";
 
-const INITIAL_OPTIONS = {
+const INITIAL_OPTIONS: UserOptions = {
     videoQuality: VideoQualityEnum.Q_1080P,
     fullLayout: false,
     fullLayoutWidth: 95,
     forceVideoQuality: false,
     saveLastTimestamp: false,
+    showUpdateNotifications: true,
     theaterMode: false,
     sync: false
 };
@@ -52,6 +53,8 @@ const BOOSTY_CURRENCY_BASE_TARGET_SUM = 150_000;
 
 let latestUpdateNotificationID: string | undefined;
 let latestReleaseNotesLink: string | undefined;
+
+const t = (name: string) => chrome.i18n.getMessage(name);
 
 /**
  * Handle cache cleanup for local storage when cache governor alarm fires.
@@ -617,6 +620,65 @@ async function getSyncOptionFromCache(): Promise<boolean> {
 }
 
 /**
+ * Check whether the extension should show a notification after updates.
+ *
+ * @returns {Promise<boolean>} Whether update notifications are enabled.
+ */
+async function shouldShowUpdateNotification(): Promise<boolean> {
+    const sync = await getSyncOptionFromCache();
+    SYNC = sync;
+    toggleSyncAlarmListener(SYNC);
+
+    const options = await getOptionsFromCache(sync);
+
+    return options?.showUpdateNotifications ?? INITIAL_OPTIONS.showUpdateNotifications;
+}
+
+/**
+ * Show release notes notification after extension updates when enabled in options.
+ *
+ * @param {string} currentVersion Current extension version.
+ */
+async function showUpdateNotification(currentVersion: string) {
+    const showUpdateNotificationOption = await shouldShowUpdateNotification();
+
+    if (!showUpdateNotificationOption) {
+        console.debug("Update notification skipped by user option");
+        return;
+    }
+
+    const uiLang = chrome.i18n.getUILanguage();
+
+    const currentVersionReleaseNotes = changelog[currentVersion];
+
+    if (currentVersionReleaseNotes) {
+        chrome.notifications.create(
+            {
+                type: "basic",
+                iconUrl: chrome.runtime.getURL("static/assets/icon.png"),
+                title: uiLang === "ru" ? currentVersionReleaseNotes.title.ru : currentVersionReleaseNotes.title.en,
+                message:
+                    uiLang === "ru" ? currentVersionReleaseNotes.message.ru.join(", ") : currentVersionReleaseNotes.message.en.join(", "),
+                buttons: [
+                    {
+                        title: t("changelog")
+                    },
+                    {
+                        title: t("git_hub")
+                    }
+                ]
+            },
+            (id) => {
+                latestUpdateNotificationID = id;
+                latestReleaseNotesLink = currentVersionReleaseNotes.link;
+            }
+        );
+    } else {
+        console.debug(`Release notes for version "${currentVersion}" not found`);
+    }
+}
+
+/**
  * Install/update listener
  */
 chrome.runtime.onInstalled.addListener((details) => {
@@ -640,38 +702,9 @@ chrome.runtime.onInstalled.addListener((details) => {
         (details.reason as chrome.runtime.OnInstalledReason) === chrome.runtime.OnInstalledReason.UPDATE &&
         currentVersion !== details.previousVersion
     ) {
-        const t = (name: string) => chrome.i18n.getMessage(name);
-        const uiLang = chrome.i18n.getUILanguage();
-
-        const currentVersionReleaseNotes = changelog[currentVersion];
-
-        if (currentVersionReleaseNotes) {
-            chrome.notifications.create(
-                {
-                    type: "basic",
-                    iconUrl: chrome.runtime.getURL("static/assets/icon.png"),
-                    title: uiLang === "ru" ? currentVersionReleaseNotes.title.ru : currentVersionReleaseNotes.title.en,
-                    message:
-                        uiLang === "ru"
-                            ? currentVersionReleaseNotes.message.ru.join(", ")
-                            : currentVersionReleaseNotes.message.en.join(", "),
-                    buttons: [
-                        {
-                            title: t("changelog")
-                        },
-                        {
-                            title: t("git_hub")
-                        }
-                    ]
-                },
-                (id) => {
-                    latestUpdateNotificationID = id;
-                    latestReleaseNotesLink = currentVersionReleaseNotes.link;
-                }
-            );
-        } else {
-            console.debug(`Release notes for version "${currentVersion}" not found`);
-        }
+        showUpdateNotification(currentVersion).catch((error) => {
+            console.warn("Update notification could not be shown", error);
+        });
     }
 });
 
