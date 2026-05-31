@@ -1,7 +1,8 @@
 export enum MessageTarget {
     BACKGROUND = "background",
     CONTENT = "content",
-    OPTIONS = "options"
+    OPTIONS = "options",
+    POPUP = "popup"
 }
 
 export enum BackgroundMessageType {
@@ -10,11 +11,16 @@ export enum BackgroundMessageType {
     SAVE_TIMESTAMP = "saveTimestamp",
     REQUEST_CONTENT_DATA = "requestContentData",
     REQUEST_PLAYBACK_RATE = "requestPlaybackRate",
+    REQUEST_CURRENCY_RATES = "requestCurrencyRates",
     SAVE_PLAYBACK_RATE = "savePlaybackRate",
     REQUEST_OPTIONS = "requestOptions",
     SAVE_OPTIONS = "saveOptions",
     SAVE_SYNC_OPTION = "saveSyncOption",
     SYNC_OPTIONS = "syncOptions"
+}
+
+export enum PopupMessageType {
+    CURRENCY_RATES_INFO = "currencyRatesInfo"
 }
 
 export enum ContentMessageType {

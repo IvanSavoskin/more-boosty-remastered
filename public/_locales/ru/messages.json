@@ -5,6 +5,33 @@
   "options_title": {
     "message": "Параметры"
   },
+  "popup_title": {
+    "message": "Курсы валют Boosty"
+  },
+  "popup_description": {
+    "message": "RUB используется как базовая валюта"
+  },
+  "popup_loading": {
+    "message": "Загружаем курсы..."
+  },
+  "popup_rate_value": {
+    "message": "$1 RUB"
+  },
+  "popup_updated_at": {
+    "message": "Обновлено: $1"
+  },
+  "popup_refresh": {
+    "message": "Обновить"
+  },
+  "popup_error_title": {
+    "message": "Курсы недоступны"
+  },
+  "popup_error_description": {
+    "message": "Попробуйте повторить через пару секунд."
+  },
+  "popup_retry": {
+    "message": "Повторить"
+  },
   "options_restart_required": {
     "message": "Необходима перезагрузка"
   },

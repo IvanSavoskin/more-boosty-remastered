@@ -1,5 +1,5 @@
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
-import path from "path";
+import path from "node:path";
 
 import rspack from "@rspack/core";
 import { TsCheckerRspackPlugin } from "ts-checker-rspack-plugin";
@@ -7,6 +7,7 @@ import { TsCheckerRspackPlugin } from "ts-checker-rspack-plugin";
 const PATHS = {
     src: path.join(__dirname, "./src"),
     srcOptions: path.join(__dirname, "./src/options"),
+    srcPopup: path.join(__dirname, "./src/popup"),
     srcContent: path.join(__dirname, "./src/content"),
     srcBackground: path.join(__dirname, "./src/background"),
     staticImages: path.join(__dirname, "./src/static/images"),
@@ -32,7 +33,8 @@ const rspack_ = (_: any, argv: any) => {
         entry: {
             content: path.join(PATHS.srcContent, "index.ts"),
             background: path.join(PATHS.srcBackground, "index.ts"),
-            options: path.join(PATHS.srcOptions, "index.ts")
+            options: path.join(PATHS.srcOptions, "index.ts"),
+            popup: path.join(PATHS.srcPopup, "index.ts")
         },
         output: {
             path: PATHS.distJs,
@@ -133,7 +135,12 @@ const rspack_ = (_: any, argv: any) => {
             new rspack.HtmlRspackPlugin({
                 template: `${PATHS.publicHtml}/options.html`,
                 filename: "../options.html",
-                excludeChunks: ["content", "background"]
+                excludeChunks: ["content", "background", "popup"]
+            }),
+            new rspack.HtmlRspackPlugin({
+                template: `${PATHS.publicHtml}/popup.html`,
+                filename: "../popup.html",
+                excludeChunks: ["content", "background", "options"]
             }),
             new rspack.CssExtractRspackPlugin({
                 filename: "../css/[name].css",

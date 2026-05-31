@@ -12,6 +12,7 @@
 * Download video *(for Boosty player)*
 * Save where you left off video/audio *(for Boosty players)*
 * Theater mode for streams
+* Popup with Boosty currency rates
 
 > Screenshots - *see Installation page*
 

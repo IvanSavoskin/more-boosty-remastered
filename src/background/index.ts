@@ -1,4 +1,4 @@
-import { blog, dialog } from "@api/boostyApi";
+import { blog, dialog, target } from "@api/boostyApi";
 import {
     readAllFromCache,
     readFromCache,
@@ -10,10 +10,18 @@ import {
 import changelog from "@coreUtils/changelog";
 import { filterVideoUrls, parseVideoId } from "@coreUtils/videoUtils";
 import { ContentMetadata, Data, DialogData, VideoData } from "@models/boosty/types";
-import { BackgroundMessageType, ContentMessageType, ContentOptionsMessageType, MessageTarget } from "@models/messages/enums";
+import { BoostyTargetResponse, CurrencyRate, CurrencyRatesInfo } from "@models/currency/types";
+import {
+    BackgroundMessageType,
+    ContentMessageType,
+    ContentOptionsMessageType,
+    MessageTarget,
+    PopupMessageType
+} from "@models/messages/enums";
 import {
     BackgroundMessage,
     ContentDataInfoContentMessage,
+    CurrencyRatesInfoPopupMessage,
     OptionsInfoMessage,
     PlaybackRateInfoContentMessage,
     TimestampInfoContentMessage
@@ -35,6 +43,12 @@ const INITIAL_OPTIONS = {
 let SYNC = false;
 
 const CACHE_GOVERNOR_ALARM = "cache-governor";
+const CURRENCY_RATES_CACHE_KEY = "currencyRates";
+const CURRENCY_RATES_CACHE_TIMEOUT_MINUTES = 180;
+const BOOSTY_CURRENCY_TARGET_ID = "414314";
+const BOOSTY_CURRENCY_TARGET_REQUEST_CURRENCY = "USD";
+const BOOSTY_CURRENCY_BASE_CURRENCY = "RUB";
+const BOOSTY_CURRENCY_BASE_TARGET_SUM = 150_000;
 
 let latestUpdateNotificationID: string | undefined;
 let latestReleaseNotesLink: string | undefined;
@@ -183,6 +197,28 @@ chrome.runtime.onMessage.addListener((message: BackgroundMessage, _, sendRespons
 
             return true;
         }
+        case BackgroundMessageType.REQUEST_CURRENCY_RATES: {
+            console.debug("Send Boosty currency rates");
+
+            getCurrencyRates(message.data?.forceRefresh)
+                .then((currencyRatesInfo) =>
+                    sendResponse({
+                        target: [MessageTarget.POPUP],
+                        type: PopupMessageType.CURRENCY_RATES_INFO,
+                        data: { currencyRatesInfo, error: null }
+                    } as CurrencyRatesInfoPopupMessage)
+                )
+                .catch((error) => {
+                    console.warn("Currency rates could not be loaded", error);
+                    sendResponse({
+                        target: [MessageTarget.POPUP],
+                        type: PopupMessageType.CURRENCY_RATES_INFO,
+                        data: { currencyRatesInfo: null, error: "currencyRatesUnavailable" }
+                    } as CurrencyRatesInfoPopupMessage);
+                });
+
+            return true;
+        }
         case BackgroundMessageType.SAVE_PLAYBACK_RATE: {
             console.debug(`Save playback rate ${message.data.playbackRate}`);
 
@@ -244,6 +280,89 @@ chrome.runtime.onMessage.addListener((message: BackgroundMessage, _, sendRespons
         }
     }
 });
+
+/**
+ * Get Boosty currency rates from cache or target API.
+ *
+ * @param {boolean} [forceRefresh=false] Whether to skip cache and request fresh rates.
+ * @returns {Promise<CurrencyRatesInfo>} Currency rates info.
+ */
+async function getCurrencyRates(forceRefresh: boolean = false): Promise<CurrencyRatesInfo> {
+    console.group("Currency rates");
+
+    try {
+        if (!forceRefresh) {
+            const cachedCurrencyRates = await readFromCache<CurrencyRatesInfo>(CURRENCY_RATES_CACHE_KEY);
+            if (cachedCurrencyRates) {
+                console.debug("✅ Retrieving from cache");
+                return cachedCurrencyRates.data;
+            }
+        }
+        console.debug("⚠️ Cache is empty, retrieving from API");
+
+        const currencyTargetData = await target(BOOSTY_CURRENCY_TARGET_ID, BOOSTY_CURRENCY_TARGET_REQUEST_CURRENCY);
+        const currencyRatesInfo = getCurrencyRatesFromTargetData(currencyTargetData);
+
+        if (currencyRatesInfo.rates.length === 0) {
+            throw new Error("Currency rates are empty");
+        }
+
+        await writeToCacheWithTimeout(CURRENCY_RATES_CACHE_KEY, currencyRatesInfo, CURRENCY_RATES_CACHE_TIMEOUT_MINUTES);
+
+        console.debug("✅ Currency rates from API", currencyRatesInfo);
+
+        return currencyRatesInfo;
+    } finally {
+        console.groupEnd();
+    }
+}
+
+/**
+ * Build currency rates info from Boosty target data.
+ *
+ * @param {BoostyTargetResponse} currencyTargetData Boosty target data.
+ * @returns {CurrencyRatesInfo} Currency rates info.
+ */
+function getCurrencyRatesFromTargetData(currencyTargetData: BoostyTargetResponse): CurrencyRatesInfo {
+    const { currencyCurrentSums, currencyTargetSums } = currencyTargetData;
+    const currencySums = currencyTargetSums ?? currencyCurrentSums;
+    const baseCurrencySum = currencySums?.[BOOSTY_CURRENCY_BASE_CURRENCY] ?? BOOSTY_CURRENCY_BASE_TARGET_SUM;
+    let rates: CurrencyRate[] = [];
+
+    if (currencySums) {
+        rates = Object.entries(currencySums)
+            .filter(([currencyCode, currencySum]) => currencyCode !== BOOSTY_CURRENCY_BASE_CURRENCY && currencySum > 0)
+            .map(([currencyCode, currencySum]) => ({
+                currency: currencyCode,
+                rubles: roundCurrencyRate(baseCurrencySum / currencySum)
+            }))
+            .toSorted((leftCurrencyRate, rightCurrencyRate) => leftCurrencyRate.currency.localeCompare(rightCurrencyRate.currency));
+    }
+
+    if (rates.length === 0 && currencyTargetData.targetSum && currencyTargetData.targetSum > 0) {
+        rates = [
+            {
+                currency: BOOSTY_CURRENCY_TARGET_REQUEST_CURRENCY,
+                rubles: roundCurrencyRate(BOOSTY_CURRENCY_BASE_TARGET_SUM / currencyTargetData.targetSum)
+            }
+        ];
+    }
+
+    return {
+        rates,
+        updatedAt: Date.now()
+    };
+}
+
+/**
+ * Round currency rate to four decimal places.
+ *
+ * @param {number} currencyRate Currency rate.
+ * @returns {number} Rounded currency rate.
+ */
+function roundCurrencyRate(currencyRate: number): number {
+    return Math.round(currencyRate * 10_000) / 10_000;
+}
 
 /**
  * Retrieve content data from Boosty API

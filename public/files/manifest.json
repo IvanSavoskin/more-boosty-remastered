@@ -9,6 +9,14 @@
     "128": "icons/icon.png",
     "24": "icons/icon24.png"
   },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "__MSG_popup_title__",
+    "default_icon": {
+      "128": "icons/icon.png",
+      "24": "icons/icon24.png"
+    }
+  },
   "permissions": [
     "storage",
     "notifications",
