@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "version_name": "0.0.0",
   "manifest_version": 3,
-  "minimum_chrome_version": "100",
+  "minimum_chrome_version": "110",
   "default_locale": "en",
   "icons": {
     "128": "icons/icon.png",
