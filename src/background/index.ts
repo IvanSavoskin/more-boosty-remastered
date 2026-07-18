@@ -380,10 +380,10 @@ function roundCurrencyRate(currencyRate: number): number {
  * Retrieve content data from Boosty API
  *
  * @param {ContentMetadata} metadata Metadata with information for retrieving content from Boosty
- * @param {string} accessToken Access token for Boosty API
+ * @param {string} [accessToken] Access token for protected Boosty content
  * @returns {Promise<VideoInfo[]|null>} Videos content data
  */
-async function getVideosContentDataFromBoosty(metadata: ContentMetadata, accessToken: string): Promise<VideoInfo[] | null> {
+async function getVideosContentDataFromBoosty(metadata: ContentMetadata, accessToken?: string): Promise<VideoInfo[] | null> {
     let key: string;
 
     console.group(`Content data for ${metadata.id}`);
@@ -426,8 +426,11 @@ async function getVideosContentDataFromBoosty(metadata: ContentMetadata, accessT
     // We need videos only (localStorage is not that big)
     const videos = filterVideos(data, metadata.type);
 
-    // 5 minutes is enough (in case the post was edited)
-    await writeToCacheWithTimeout(key, videos, 5);
+    // 5 minutes is enough (in case the post was edited). Do not cache an empty
+    // anonymous/protected response: a valid token can become available later.
+    if (videos.length > 0) {
+        await writeToCacheWithTimeout(key, videos, 5);
+    }
 
     console.debug(`✅ ${metadata.id} from API`, videos);
     console.groupEnd();
@@ -449,7 +452,7 @@ function filterVideos(data: Data[] | DialogData[], type: "post" | "dialog"): Vid
         const { playerUrls } = videoData;
         const videoUrls = filterVideoUrls(playerUrls);
         const videoIds = getVideoIds(videoData);
-        return { videoUrls, videoId: videoIds[0], videoIds };
+        return { duration: videoData.duration, videoUrls, videoId: videoIds[0], videoIds };
     });
 }
 

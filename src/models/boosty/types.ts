@@ -6,6 +6,7 @@ export interface BaseData {
 
 export interface VideoData extends BaseData {
     type: "ok_video";
+    duration?: number;
     id?: string;
     playerUrls: PlayerUrl[];
     preview?: string;

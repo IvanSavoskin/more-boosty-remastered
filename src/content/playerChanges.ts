@@ -414,7 +414,7 @@ async function prepareVideoDownload(playerWrapper: HTMLElement) {
 
     const playerUrls: PlayerUrl[] | undefined = videoId ? contentCache.get(videoId) : undefined;
 
-    if (playerUrls) {
+    if (playerUrls?.length) {
         console.debug("Player urls from cache", playerUrls);
         injectVideoDownloadModal(playerUrls);
 
@@ -431,10 +431,7 @@ async function prepareVideoDownload(playerWrapper: HTMLElement) {
     }
 
     const contentComponents = await sendGetContentComponentsMessage(contentMetadata as ContentMetadata);
-    const component = videoId
-        ? (contentComponents?.find((contentComponent) => getVideoInfoIds(contentComponent).includes(videoId)) ??
-          getSingleVideoComponent(contentComponents))
-        : getSingleVideoComponent(contentComponents);
+    const component = findVideoComponent(contentComponents, videoId, playerWrapper);
 
     if (component?.videoUrls?.length) {
         const contentVideoIds = [videoId, ...getVideoInfoIds(component)].filter(
@@ -465,6 +462,52 @@ function getVideoInfoIds(videoInfo: VideoInfo): string[] {
     return [videoInfo.videoId, ...(videoInfo.videoIds ?? [])].filter(
         (videoId, index, videoIds): videoId is string => !!videoId && videoIds.indexOf(videoId) === index
     );
+}
+
+/**
+ * Find the API video that belongs to the current player.
+ * Prefer stable identifiers and use duration only when it identifies exactly one video.
+ *
+ * @param {(VideoInfo[]|null|undefined)} contentComponents Content components from API.
+ * @param {(string|null|undefined)} videoId Identifier extracted from the player preview.
+ * @param {HTMLElement} playerWrapper Player wrapper element.
+ * @returns {(VideoInfo|undefined)} Matching video component.
+ */
+function findVideoComponent(
+    contentComponents: VideoInfo[] | null | undefined,
+    videoId: string | null | undefined,
+    playerWrapper: HTMLElement
+): VideoInfo | undefined {
+    if (videoId) {
+        const componentById = contentComponents?.find((contentComponent) => getVideoInfoIds(contentComponent).includes(videoId));
+        if (componentById?.videoUrls.length) {
+            return componentById;
+        }
+    }
+
+    const singleComponent = getSingleVideoComponent(contentComponents);
+    if (singleComponent) {
+        return singleComponent;
+    }
+
+    const playerDuration = playerWrapper.querySelector("video")?.duration;
+    if (!Number.isFinite(playerDuration)) {
+        return undefined;
+    }
+
+    const matchingComponents = contentComponents?.filter(
+        (contentComponent) =>
+            contentComponent.videoUrls.length > 0 &&
+            Number.isFinite(contentComponent.duration) &&
+            Math.abs((contentComponent.duration as number) - (playerDuration as number)) < 1
+    );
+
+    if (matchingComponents?.length === 1) {
+        console.debug("Video component matched by duration", playerDuration, matchingComponents[0]);
+        return matchingComponents[0];
+    }
+
+    return undefined;
 }
 
 /**
@@ -1027,19 +1070,16 @@ async function changePlaybackRate(playbackRate: number) {
  */
 async function sendGetContentComponentsMessage(metadata: ContentMetadata): Promise<VideoInfo[] | null> {
     const accessToken = getAccessToken();
-    if (accessToken) {
-        const response = await sendMessage<RequestContentDataBackgroundMessage, ContentDataInfoContentMessage>({
-            target: [MessageTarget.BACKGROUND],
-            type: BackgroundMessageType.REQUEST_CONTENT_DATA,
-            data: { metadata, accessToken }
-        });
+    const response = await sendMessage<RequestContentDataBackgroundMessage, ContentDataInfoContentMessage>({
+        target: [MessageTarget.BACKGROUND],
+        type: BackgroundMessageType.REQUEST_CONTENT_DATA,
+        data: { metadata, accessToken: accessToken ?? undefined }
+    });
 
-        if (response) {
-            return response.data.contentData;
-        }
-
-        return null;
+    if (response) {
+        return response.data.contentData;
     }
+
     return null;
 }
 
