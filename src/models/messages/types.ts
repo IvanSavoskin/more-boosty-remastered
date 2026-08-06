@@ -36,7 +36,7 @@ export interface SaveTimestampBackgroundMessage extends Message {
 export interface RequestContentDataBackgroundMessage extends Message {
     type: BackgroundMessageType.REQUEST_CONTENT_DATA;
     target: [MessageTarget.BACKGROUND];
-    data: { metadata: ContentMetadata; accessToken: string };
+    data: { metadata: ContentMetadata; accessToken?: string };
 }
 
 export interface RequestPlaybackRateBackgroundMessage extends Message {
